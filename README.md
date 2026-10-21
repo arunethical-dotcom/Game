@@ -53,6 +53,30 @@ joystick and buttons appear automatically.
 - Soft shadows under everything come from `scripts/shadow.gd`.
 - Interface frames and buttons: `art/ui_*.png`.
 
+## Kael's animations
+
+Kael is drawn from AI-generated sheets kept in `source_art/kael/` (magenta background).
+`tools/import_kael.py` turns them into the game sheets `art/kael_idle.png`, `kael_walk.png`,
+`kael_attack.png`, `kael_roll.png` and `kael_hurt.png`: it removes the background, cuts the
+grid, lines up the feet, shrinks every sheet to the same height (64 px) and keeps the pixel
+edges crisp. Frames are 96x96 with the feet at y = 88; rows face down, up and right
+(left is mirrored in game). To update Kael, replace a source sheet with the same layout and run
+`cd tools && python3 import_kael.py`.
+
+| Sheet | Layout |
+|---|---|
+| idle | 3 rows x 4 frames |
+| walk | 3 rows x 6 frames |
+| attack | 3 rows x 6: ready, wind-up, swing, impact, follow-through, recover |
+| roll | 3 rows x 6 |
+| hurt | 1 row x 7 (facing right): hurt x2, fall, lie x2, get up, stand |
+
+## Sunlight
+
+`scripts/grade.gdshader` adds sun shafts falling from the upper left (fixed to the world, so you
+walk through them), a golden glow from the sun's corner and dust drifting in the beams.
+Strength is set by `shaft_strength` and `glow_strength` at the top of the file.
+
 ## Art
 
 All graphics are pixel-art PNG sprite sheets in the `art/` folder, drawn 1:1 in game

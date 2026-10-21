@@ -8,8 +8,11 @@ var main
 var locked := false
 
 const SPEED := 210.0
-const DODGE_SPEED := 560.0
-const DODGE_TIME := 0.24
+const DODGE_SPEED := 420.0
+const DODGE_TIME := 0.36
+const ATTACK_TIME := 0.36      # 6 frames
+const ATTACK_HIT := 0.13       # the swing frame, when the blade connects
+const DOWN_TIME := 1.7         # knocked down: fall, lie, get up
 
 var max_hp := 100.0
 var hp := 100.0
@@ -78,12 +81,12 @@ func _physics_process(delta: float) -> void:
 					_try_dodge(input)
 		"attack":
 			velocity = facing * 40.0
-			if not hit_done and state_t >= 0.09:
+			if not hit_done and state_t >= ATTACK_HIT:
 				hit_done = true
 				_do_hit(false)
-			if state_t > 0.14 and not locked and Input.is_action_just_pressed("dodge"):
+			if state_t > ATTACK_HIT + 0.05 and not locked and Input.is_action_just_pressed("dodge"):
 				_try_dodge(input)
-			elif state_t >= 0.32:
+			elif state_t >= ATTACK_TIME:
 				_start("move")
 		"heavy":
 			velocity = Vector2.ZERO
@@ -101,6 +104,11 @@ func _physics_process(delta: float) -> void:
 			knock = knock.move_toward(Vector2.ZERO, 1400.0 * delta)
 			if state_t >= 0.25:
 				_start("move")
+		"down":
+			velocity = knock
+			knock = knock.move_toward(Vector2.ZERO, 900.0 * delta)
+			if state_t >= DOWN_TIME:
+				main.on_player_down()
 
 	if locked and state == "move":
 		velocity = Vector2.ZERO
@@ -115,8 +123,8 @@ func _try_dodge(input: Vector2) -> void:
 	dodge_dir = input.normalized() if input.length() > 0.1 else facing
 	facing = dodge_dir
 	_start("dodge")
-	invuln = 0.32
-	dodge_cd = 0.55
+	invuln = DODGE_TIME + 0.06
+	dodge_cd = 0.6
 	main.spawn_fx("dust", global_position)
 
 
@@ -147,24 +155,38 @@ func _do_hit(heavy: bool) -> void:
 
 
 func take_damage(amount: float, from: Vector2) -> void:
-	if invuln > 0.0 or state == "dodge" or locked:
+	if invuln > 0.0 or state == "dodge" or state == "down" or locked:
 		return
 	hp -= amount
 	hurt_flash = 0.3
 	invuln = 0.7
 	knock = (global_position - from).normalized() * 380.0
-	_start("hurt")
 	main.shake(6.0)
 	main.spawn_fx("spark", global_position + Vector2(0, -16), Color(1, 0.4, 0.3))
+	if absf(knock.x) > 1.0:
+		facing = Vector2(-signf(knock.x), 0)   # turn toward whatever hit us
 	if hp <= 0.0:
-		main.on_player_down()
+		hp = 0.0
+		_start("down")
+	else:
+		_start("hurt")
 	main.hud.update_hud()
 
 
 # ---------------------------------------------------------------- Drawing
+# Kael's sheets (art/kael_*.png): 96x96 frames, feet at y = 88.
+# Rows: 0 facing down, 1 facing up, 2 facing right (left = flipped).
 
-const SHEET = preload("res://art/char_kael.png")
-const ITEMS = preload("res://art/items.png")
+const FW := 96
+const FEET := 88
+const ANIM := {
+	"idle": preload("res://art/kael_idle.png"),
+	"walk": preload("res://art/kael_walk.png"),
+	"attack": preload("res://art/kael_attack.png"),
+	"roll": preload("res://art/kael_roll.png"),
+	"hurt": preload("res://art/kael_hurt.png"),
+}
+var idle_t := 0.0
 
 
 func _row() -> int:
@@ -173,62 +195,56 @@ func _row() -> int:
 	return 1 if facing.y < 0.0 else 0
 
 
+## Which sheet and frame to show right now.
+func _pick() -> Array:
+	match state:
+		"attack":
+			return ["attack", _row(), mini(int(state_t / ATTACK_TIME * 6.0), 5)]
+		"heavy":
+			# wind up and hold, then a fast swing that lands with the slam
+			var f := 1
+			if state_t >= 0.30:
+				f = mini(2 + int((state_t - 0.30) / 0.05), 4)
+			if state_t >= 0.5:
+				f = 5
+			return ["attack", _row(), f]
+		"dodge":
+			return ["roll", _row(), mini(int(state_t / DODGE_TIME * 6.0), 5)]
+		"hurt":
+			return ["hurt", 0, mini(int(state_t / 0.125), 1)]
+		"down":
+			# fall, lie still, get up, crouch, stand
+			var seq := [2, 3, 3, 3, 3, 4, 5, 6]
+			return ["hurt", 0, seq[mini(int(state_t / DOWN_TIME * seq.size()), seq.size() - 1)]]
+	if velocity.length() > 10.0:
+		return ["walk", _row(), int(walk_t * 0.8) % 6]
+	return ["idle", _row(), int(idle_t * 5.0) % 4]
+
+
+func _process(delta: float) -> void:
+	idle_t += delta
+
+
 func _draw() -> void:
 	var alpha := 1.0
-	if invuln > 0.0 and state != "dodge" and int(invuln * 20.0) % 2 == 0:
-		alpha = 0.45
+	if invuln > 0.0 and state != "dodge" and state != "down" and int(invuln * 20.0) % 2 == 0:
+		alpha = 0.5
 	var tint := Color(1, 1, 1, alpha)
 	if hurt_flash > 0.0:
-		tint = Color(1, 0.45, 0.45, alpha)
+		tint = Color(1.4, 0.6, 0.6, alpha)
 
-	Shadow.soft(self, Vector2(1, 0), 14.0, 5.5, 0.5)
+	var pick := _pick()
+	var sheet_name: String = pick[0]
+	var shadow_w := 22.0 if state == "down" or state == "dodge" else 15.0
+	Shadow.soft(self, Vector2(1, 0), shadow_w, 5.5, 0.5)
 
-	var row := _row()
-	var frame := int(walk_t * 0.75) % 4 if velocity.length() > 10.0 and state == "move" else 0
-	var flip := row == 2 and facing.x < 0.0
-
-	if state == "dodge":
-		var spin := state_t / DODGE_TIME * TAU * (-1.0 if facing.x < 0.0 else 1.0)
-		draw_set_transform(Vector2(0, -28), spin, Vector2(-1 if flip else 1, 1))
-		draw_texture_rect_region(SHEET, Rect2(-20, -30, 40, 60), Rect2(0, row * 60, 40, 60), tint)
-		draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
-		return
-
-	var weapon_behind := row == 1
-	if weapon_behind:
-		_draw_weapon(alpha)
+	var tex: Texture2D = ANIM[sheet_name]
+	var flip: bool = facing.x < 0.0 and (pick[1] == 2 or sheet_name == "hurt")
 	draw_set_transform(Vector2.ZERO, 0, Vector2(-1 if flip else 1, 1))
-	draw_texture_rect_region(SHEET, Rect2(-20, -58, 40, 60), Rect2(frame * 40, row * 60, 40, 60), tint)
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
-	if not weapon_behind:
-		_draw_weapon(alpha)
-
-
-func _weapon_at(hand: Vector2, angle: float, alpha: float) -> void:
-	# weapon sprites point up; rotate so they point along `angle`
-	draw_set_transform(hand, angle + PI * 0.5, Vector2(2, 2))
-	if has_sword:
-		draw_texture_rect_region(ITEMS, Rect2(-3.5, -20, 7, 23), Rect2(0, 0, 14, 46), Color(1, 1, 1, alpha))
-	else:
-		draw_texture_rect_region(ITEMS, Rect2(-4, -20, 8, 22), Rect2(20, 0, 16, 44), Color(1, 1, 1, alpha))
+	draw_texture_rect_region(tex, Rect2(-FW / 2, -FEET, FW, FW), Rect2(pick[2] * FW, pick[1] * FW, FW, FW), tint)
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 
-
-func _draw_weapon(alpha: float) -> void:
-	var hand := Vector2(0, -24) + facing * 10.0
-	var ang := facing.angle()
-	if state == "attack":
-		var p := clampf(state_t / 0.18, 0.0, 1.0)
-		var a := ang - 1.3 + p * 2.6
-		if p < 1.0:
-			draw_arc(hand, 40.0, ang - 1.3, a, 14, Color(1, 1, 1, 0.5 * (1.0 - p)), 4.0)
-		_weapon_at(hand, a, alpha)
-	elif state == "heavy":
-		var p := clampf(state_t / 0.38, 0.0, 1.0)
-		var a := lerp_angle(-PI * 0.5, ang, p * p)
-		_weapon_at(hand, a, alpha)
-		if state_t >= 0.38 and state_t < 0.55:
-			var r := (state_t - 0.38) / 0.17
-			draw_arc(Vector2(0, -4) + facing * 44.0, 20 + r * 60, 0, TAU, 32, Color(1, 0.85, 0.5, 1.0 - r), 4.0)
-	else:
-		_weapon_at(hand + Vector2(0, 6), ang + 0.9, alpha)
+	# heavy slam: a ring of force where the blade hits the ground
+	if state == "heavy" and state_t >= 0.38 and state_t < 0.55:
+		var r := (state_t - 0.38) / 0.17
+		draw_arc(Vector2(0, -4) + facing * 44.0, 20 + r * 60, 0, TAU, 32, Color(1, 0.85, 0.5, 1.0 - r), 3.0)
