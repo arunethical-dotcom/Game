@@ -74,6 +74,10 @@ func _ready() -> void:
 	# The game renders at 540 px tall and is scaled up by a whole number (2x on a
 	# 1080p phone), so every art pixel stays a crisp square.
 	camera.zoom = Vector2(1.0, 1.0)
+	# On a computer the window opens maximised and may not be an exact multiple of
+	# 540 px tall, so let it scale smoothly there (phones keep exact 2x pixels).
+	if not (OS.has_feature("mobile") or DisplayServer.is_touchscreen_available()):
+		get_tree().root.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 7.0
 	player.add_child(camera)
@@ -159,6 +163,12 @@ func _place_people() -> void:
 	for i in 8:
 		var a := -PI / 2.0 + PI / 8.0 + i * PI / 4.0
 		_npc("villager", Vector2.from_angle(a) * Geo.RING_ROAD, "", Story.VILLAGER_LINES[i % Story.VILLAGER_LINES.size()])
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Esc closes the game on a computer
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and not OS.has_feature("mobile"):
+		get_tree().quit()
 
 
 func _process(delta: float) -> void:

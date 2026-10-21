@@ -76,7 +76,7 @@ func _ready() -> void:
 
 	if not touch_mode:
 		help_label = _make_label(10, Color(0.95, 0.95, 0.95, 0.85))
-		help_label.text = "WASD move   J / Space attack   L slam   K / Shift dodge   E talk"
+		help_label.text = "WASD move   J / Space attack   L slam   K / Shift dodge   E talk   Esc quit"
 		help_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		_place(help_label, Vector2(1.0, 1.0), Vector2(-500, -22), Vector2(488, 16))
 		root.add_child(help_label)
