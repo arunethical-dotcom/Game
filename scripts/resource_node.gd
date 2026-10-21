@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## An iron ore rock (hit it three times to mine it) or a tree (scenery that blocks the way).
 
 const TREES = preload("res://art/trees.png")
@@ -46,9 +47,10 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var off := Vector2(roundf(sin(shake_t * 70.0) * 2.0) * 2.0, 0) if shake_t > 0.0 else Vector2.ZERO
-	draw_set_transform(Vector2(0, 2), 0, Vector2(1, 0.4))
-	draw_circle(Vector2.ZERO, 26.0 if kind == "tree" else 22.0, Color(0, 0, 0, 0.22))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	if kind == "tree":
+		Shadow.soft(self, Vector2(4, 0), 30.0, 11.0, 0.42)
+	else:
+		Shadow.soft(self, Vector2(2, 0), 24.0, 8.0, 0.35)
 	if kind == "tree":
 		draw_texture_rect_region(TREES, Rect2(off + Vector2(-32, -84), Vector2(64, 88)), Rect2(variant * 64, 0, 64, 88))
 	else:

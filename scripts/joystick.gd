@@ -3,7 +3,8 @@ extends Control
 
 var touch_index := -1
 var knob := Vector2.ZERO
-const MAX_R := 80.0
+const MAX_R := 40.0
+const TEX = preload("res://art/ui_joystick.png")
 
 
 func _ready() -> void:
@@ -54,6 +55,6 @@ func _set_axis(neg: String, pos: String, value: float) -> void:
 
 func _draw() -> void:
 	var c := _center()
-	draw_circle(c, MAX_R + 20, Color(0, 0, 0, 0.25))
-	draw_arc(c, MAX_R + 20, 0, TAU, 48, Color(1, 1, 1, 0.35), 3.0)
-	draw_circle(c + knob, 38, Color(1, 0.9, 0.7, 0.5 if touch_index != -1 else 0.3))
+	draw_texture_rect_region(TEX, Rect2(c - Vector2(48, 48), Vector2(96, 96)), Rect2(0, 0, 96, 96))
+	var k := (c + knob).round()
+	draw_texture_rect_region(TEX, Rect2(k - Vector2(18, 18), Vector2(36, 36)), Rect2(98, 0, 36, 36), Color(1, 1, 1, 1.0 if touch_index != -1 else 0.8))

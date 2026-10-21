@@ -1,4 +1,5 @@
 extends CharacterBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## Kael, the main character.
 ## Real-time combat: quick attack, heavy slam (cracks the ground), and a dodge roll
 ## that makes you briefly invincible.
@@ -180,9 +181,7 @@ func _draw() -> void:
 	if hurt_flash > 0.0:
 		tint = Color(1, 0.45, 0.45, alpha)
 
-	draw_set_transform(Vector2.ZERO, 0, Vector2(1, 0.4))
-	draw_circle(Vector2.ZERO, 14, Color(0, 0, 0, 0.3))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	Shadow.soft(self, Vector2(1, 0), 14.0, 5.5, 0.5)
 
 	var row := _row()
 	var frame := int(walk_t * 0.75) % 4 if velocity.length() > 10.0 and state == "move" else 0

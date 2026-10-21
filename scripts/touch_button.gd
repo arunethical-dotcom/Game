@@ -5,6 +5,8 @@ var action := "attack"
 var label := ""
 var radius := 50.0
 var touch_index := -1
+const BIG = preload("res://art/ui_button_32.png")
+const SMALL = preload("res://art/ui_button_24.png")
 
 
 func _ready() -> void:
@@ -25,9 +27,12 @@ func _input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	var c := size / 2.0
+	var r := int(radius)
+	var tex: Texture2D = BIG if r > 28 else SMALL
 	var pressed := touch_index != -1
-	draw_circle(c, radius, Color(0.1, 0.06, 0.04, 0.7 if pressed else 0.45))
-	draw_arc(c, radius, 0, TAU, 48, Color(1, 0.82, 0.5, 0.9 if pressed else 0.6), 3.0)
+	var c := size / 2.0
+	draw_texture_rect_region(tex, Rect2(c - Vector2(r, r), Vector2(r * 2, r * 2)), Rect2((r * 2) if pressed else 0, 0, r * 2, r * 2))
 	var font := get_theme_default_font()
-	draw_string(font, Vector2(0, c.y + 7), label, HORIZONTAL_ALIGNMENT_CENTER, size.x, 20, Color(1, 0.95, 0.85))
+	var fs := 13 if r > 28 else 10
+	draw_string_outline(font, Vector2(0, c.y + fs * 0.35), label, HORIZONTAL_ALIGNMENT_CENTER, size.x, fs, 3, Color(0, 0, 0, 0.8))
+	draw_string(font, Vector2(0, c.y + fs * 0.35), label, HORIZONTAL_ALIGNMENT_CENTER, size.x, fs, Color(1, 0.93, 0.78))

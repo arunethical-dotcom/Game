@@ -116,7 +116,9 @@ static func biome(p: Vector2) -> String:
 		return "plateau"
 	if absf(p.y - (-3750.0 + sin(p.x / 480.0) * 160.0)) < 36.0:
 		return "stream"
-	if p.x < -300.0 and p.y < 1800.0:
+	var wob := sin(p.y / 230.0) * 120.0 + sin(p.y / 97.0 + 1.3) * 50.0
+	var wob2 := sin(p.x / 210.0) * 110.0 + sin(p.x / 83.0) * 45.0
+	if p.x < -300.0 + wob and p.y < 1800.0 + wob2:
 		return "elder"
 	if r < 2800.0 and p.y < 400.0 and p.x > -300.0:
 		return "foothills"

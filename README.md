@@ -42,6 +42,17 @@ joystick and buttons appear automatically.
 | `scripts/forge_panel.gd` | Forging mini-game |
 | `scripts/hud.gd` | Health, quest text, dialogue box, phone controls |
 
+## Look and display
+
+- The game renders at 960x540 and is scaled up by a whole number (2x on a 1080p phone),
+  so every art pixel stays a crisp square. The desktop window opens at 1920x1080.
+- Roads, the market square, fields, the castle courtyard and the cliff are drawn as smooth
+  textured shapes by `scripts/paving.gd` (textures: `art/tex_*.png`).
+- A warm colour grade (`scripts/grade.gdshader`) sits between the world and the interface.
+- Bushes, flowers, grass tufts, ferns, mushrooms and pebbles (`art/flora.png`) are scattered by `scripts/world.gd`.
+- Soft shadows under everything come from `scripts/shadow.gd`.
+- Interface frames and buttons: `art/ui_*.png`.
+
 ## Art
 
 All graphics are pixel-art PNG sprite sheets in the `art/` folder, drawn 1:1 in game

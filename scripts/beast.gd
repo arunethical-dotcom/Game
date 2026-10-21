@@ -1,4 +1,5 @@
 extends CharacterBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## Terrak, the ancient beast. Wanders, chases the player, roars (telegraph), then lunges.
 ## The roar is the player's cue to dodge.
 
@@ -142,9 +143,7 @@ func _draw() -> void:
 	var tex: Texture2D = LEADER if leader else YOUNG
 	var fw := tex.get_width() / 7
 	var fh := tex.get_height()
-	draw_set_transform(Vector2(0, 2), 0, Vector2(1, 0.35))
-	draw_circle(Vector2.ZERO, fw * 0.4, Color(0, 0, 0, 0.3))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	Shadow.soft(self, Vector2(2, 0), fw * 0.38, fw * 0.11, 0.5)
 
 	var frame := 0
 	match state:

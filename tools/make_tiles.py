@@ -1,11 +1,107 @@
-"""Ground tiles: 16x16 pixel tiles, 4 variants per row. Drawn at 2x in game."""
+"""Ground tiles: 32x32 pixel tiles, 4 variants per row. Drawn 1:1 in game."""
 import random
 from PIL import Image
 from pixel import hexc, new, mix
 
 T = 32
 ROWS = ["grass", "grass_dark", "grass_light", "path", "cobble", "plaza", "yard", "field",
-        "rocky", "cliff_top", "cliff_face", "water", "mountain", "fringe"]
+        "rocky", "cliff_top", "cliff_face", "water", "mountain", "fringe", "brick", "brick_edge"]
+
+BAYER = [[0, 2], [3, 1]]
+
+
+def wrap_noise(rng, cells):
+    """Tileable value noise over the tile: returns f(x, y) -> 0..1."""
+    g = [[rng.random() for _ in range(cells)] for _ in range(cells)]
+    step = T / cells
+    def f(x, y):
+        gx, gy = x / step, y / step
+        x0, y0 = int(gx) % cells, int(gy) % cells
+        x1, y1 = (x0 + 1) % cells, (y0 + 1) % cells
+        tx, ty = gx - int(gx), gy - int(gy)
+        tx = tx * tx * (3 - 2 * tx); ty = ty * ty * (3 - 2 * ty)
+        a = g[y0][x0] * (1 - tx) + g[y0][x1] * tx
+        b = g[y1][x0] * (1 - tx) + g[y1][x1] * tx
+        return a * (1 - ty) + b * ty
+    return f
+
+
+def soft_grass(rng, v, shades, tuft_dark, tuft_light, flower_n=0):
+    """Calm mottled grass: big soft patches, dithered edges, a few tufts."""
+    img = new(T, T)
+    p = img.load()
+    shared = random.Random(hash(tuple(shades)) & 0xffff)
+    big = wrap_noise(shared, 2)
+    mid = wrap_noise(shared, 4)
+    n = len(shades)
+    for y in range(T):
+        for x in range(T):
+            t = big(x, y) * 0.65 + mid(x, y) * 0.35
+            t += (BAYER[y % 2][x % 2] - 1.5) * 0.025
+            p[x, y] = shades[max(0, min(n - 1, int(t * n)))]
+    for _ in range(6):  # little V-shaped tufts
+        x, y = rng.randrange(1, T - 1), rng.randrange(2, T)
+        dark = rng.random() < 0.6
+        c = tuft_dark if dark else tuft_light
+        p[x, y] = c; p[x - 1, y - 1] = c; p[x + 1, y - 1] = c
+        if not dark:
+            p[x, y - 1] = c
+    if flower_n:
+        flowers(img, rng, flower_n)
+    return img
+
+
+def brick(rng, v):
+    """Warm red brick paving in running bond."""
+    img = new(T, T)
+    p = img.load()
+    mortar = hexc('7a3f2c')
+    cols = ['b5603f', 'a95638', 'c06a46', 'b05a3a', '9e4f34', 'c4744e']
+    bw, bh = 8, 5
+    for y in range(T):
+        for x in range(T):
+            p[x, y] = mortar
+    rows = T // bh + 1
+    for r in range(rows):
+        off = (r % 2) * (bw // 2)
+        for k in range(-1, T // bw + 1):
+            x0 = k * bw + off
+            c = hexc(rng.choice(cols))
+            if rng.random() < 0.06:
+                c = hexc('8a8478')  # odd grey stone
+            for yy in range(r * bh, r * bh + bh - 1):
+                for xx in range(x0, x0 + bw - 1):
+                    if 0 <= xx < T and 0 <= yy < T:
+                        t = 0.0
+                        if yy == r * bh: t = 0.16
+                        elif yy == r * bh + bh - 2: t = -0.16
+                        if xx == x0 + bw - 2: t -= 0.08
+                        cc = mix(c, (255, 235, 200, 255), t) if t > 0 else mix(c, (40, 15, 10, 255), -t)
+                        if rng.random() < 0.05: cc = mix(cc, (40, 15, 10, 255), 0.12)
+                        p[xx, yy] = cc
+    for _ in range(3):  # moss in the cracks
+        x, y = rng.randrange(T), rng.randrange(T)
+        if p[x, y] == mortar:
+            p[x, y] = hexc('5e8a3a')
+    return img
+
+
+def brick_edge(rng, v):
+    """A border of pale kerb stones along the top edge (rotated in game)."""
+    img = new(T, T)
+    p = img.load()
+    x = 0
+    while x < T:
+        w = rng.randrange(4, 7)
+        c = hexc(rng.choice(['b8b0a0', 'aaa292', 'c4bcac']))
+        for yy in range(0, 4):
+            for xx in range(x, min(T, x + w - 1)):
+                t = 0.15 if yy == 0 else (-0.2 if yy == 3 else 0)
+                p[xx, yy] = mix(c, (255, 255, 255, 255), t) if t > 0 else mix(c, (0, 0, 0, 255), -t)
+        x += w
+    for xx in range(T):
+        p[xx, 4] = hexc('5a3a26')
+    return img
 
 def speckle(img, rng, base, others, weights):
     p = img.load()
@@ -54,9 +150,15 @@ def grass(rng, v, base, dark, light, extra_flowers=0):
 
 def path(rng, v):
     img = new(T, T)
-    speckle(img, rng, hexc('dcbf82'), [hexc('ccac6c'), hexc('e8d29c'), hexc('bf9d5f')], [0.25, 0.15, 0.06])
+    f = wrap_noise(random.Random(55), 4)
+    pp = img.load()
+    shades = [hexc('a8784a'), hexc('b48450'), hexc('c09058'), hexc('c99c62')]
+    for y in range(T):
+        for x in range(T):
+            t = f(x, y) + (BAYER[y % 2][x % 2] - 1.5) * 0.07
+            pp[x, y] = shades[max(0, min(3, int(t * 4)))]
     p = img.load()
-    for _ in range(6 + v * 2):
+    for _ in range(1 + v):
         x, y = rng.randrange(1, T - 2), rng.randrange(1, T - 2)
         p[x, y] = hexc('a39a8c'); p[x + 1, y] = hexc('c9c2b4'); p[x, y + 1] = hexc('8a8174'); p[x + 1, y + 1] = hexc('a39a8c')
     return img
@@ -167,13 +269,13 @@ def fringe(rng, v):
     """Grass blades hanging over the top edge of a path tile (rotated in game)."""
     img = new(T, T)
     p = img.load()
-    cols = [hexc('5ea83a'), hexc('4c932e'), hexc('74bf48')]
+    cols = [hexc('5c9a3c'), hexc('528f36'), hexc('64a442')]
     for x in range(T):
-        depth = 3 + rng.randrange(0, 5)
+        depth = 2 + rng.randrange(0, 4) + (2 if (x // 3) % 3 == 0 else 0)
         for y in range(depth):
-            p[x, y] = rng.choice(cols)
-        if rng.random() < 0.4:
-            p[x, depth] = hexc('3f7f26')
+            p[x, y] = cols[(x + y) % 3] if y < depth - 1 else hexc('3f7428')
+        if rng.random() < 0.3:
+            p[x, depth] = (0, 0, 0, 60)
     return img
 
 def build():
@@ -182,11 +284,16 @@ def build():
         for v in range(4):
             rng = random.Random(r * 100 + v)
             if name == "grass":
-                img = grass(rng, v, '5ea83a', '4c932e', '74bf48')
+                img = soft_grass(rng, v, [hexc('4f8c34'), hexc('568f37'), hexc('5c9a3c'), hexc('64a442'), hexc('6dab47')],
+                                 hexc('437a2c'), hexc('86bf58'), flower_n=[0, 0, 2, 4][v])
             elif name == "grass_dark":
-                img = grass(rng, v, '3f8a34', '2f7329', '52a043')
+                img = soft_grass(rng, v, [hexc('2f5e2a'), hexc('35682e'), hexc('3b7232'), hexc('427b36'), hexc('4a843a')],
+                                 hexc('284f24'), hexc('5a9444'), flower_n=[0, 0, 1, 2][v])
             elif name == "grass_light":
-                img = grass(rng, v, '72bd48', '5ea83a', '8fd35e', extra_flowers=1 if v == 2 else 0)
+                img = soft_grass(rng, v, [hexc('62a040'), hexc('6aa845'), hexc('72b04a'), hexc('7cb851'), hexc('86c058')],
+                                 hexc('558f38'), hexc('9cd06a'), flower_n=[1, 2, 4, 6][v])
+            elif name == "brick": img = brick(rng, v)
+            elif name == "brick_edge": img = brick_edge(rng, v)
             elif name == "path": img = path(rng, v)
             elif name == "cobble": img = stones(rng, v, ['9aa0a8', '8a9098', 'a8aeb6', '7f8a96'], '5e646c', size=8)
             elif name == "plaza": img = stones(rng, v, ['d6c6a4', 'cbb994', 'e0d2b2'], 'a8987a', size=11)

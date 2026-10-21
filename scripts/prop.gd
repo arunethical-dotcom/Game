@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## A sprite prop: market stall, well, or garden plot (from market.png).
 ## Stalls and wells block movement, gardens don't.
 
@@ -24,7 +25,7 @@ func _ready() -> void:
 func _draw() -> void:
 	match kind:
 		"stall":
-			draw_rect(Rect2(-28, -4, 56, 8), Color(0, 0, 0, 0.18))
+			Shadow.soft(self, Vector2(3, -1), 30.0, 8.0, 0.38)
 			draw_texture_rect_region(MARKET, Rect2(-30, -58, 60, 60), Rect2(variant * 60, 0, 60, 60))
 		"well":
 			draw_texture_rect_region(MARKET, Rect2(-22, -54, 44, 56), Rect2(240, 4, 44, 56))

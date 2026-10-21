@@ -1,4 +1,5 @@
 extends Node2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## A person in the world. Roles:
 ##   haldor   - the old blacksmith
 ##   guard    - Kingdom B soldier with a spear
@@ -87,9 +88,7 @@ func _move_to(dest: Vector2, delta: float, speed: float) -> void:
 
 
 func _draw() -> void:
-	draw_set_transform(Vector2.ZERO, 0, Vector2(1, 0.4))
-	draw_circle(Vector2.ZERO, 14, Color(0, 0, 0, 0.28))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	Shadow.soft(self, Vector2(1, 0), 14.0, 5.5, 0.5)
 	var dir := look_dir
 	if look_at_pos != Vector2.INF:
 		dir = (look_at_pos - global_position).normalized()

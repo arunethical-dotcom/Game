@@ -5,10 +5,13 @@ const ForgeScript = preload("res://scripts/forge_panel.gd")
 const JoystickScript = preload("res://scripts/joystick.gd")
 const TouchButtonScript = preload("res://scripts/touch_button.gd")
 const MinimapScript = preload("res://scripts/minimap.gd")
+const UI_PANEL = preload("res://art/ui_panel.png")
+const UI_FRAME = preload("res://art/ui_frame.png")
+const UI_SMALL = preload("res://art/ui_small.png")
 
 var main
 var root: Control
-var hp_bar: ProgressBar
+var hp_bar
 var quest_label: Label
 var inv_label: Label
 var hint_label: Label
@@ -30,67 +33,104 @@ var touch_mode := false
 
 func _ready() -> void:
 	layer = 10
-	touch_mode = OS.has_feature("mobile") or DisplayServer.is_touchscreen_available()
+	touch_mode = OS.has_feature("mobile") or DisplayServer.is_touchscreen_available() or OS.get_environment("FORCE_TOUCH") == "1"
 
 	root = Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
 
-	# Health
-	var hp_box := VBoxContainer.new()
-	hp_box.position = Vector2(24, 20)
-	hp_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root.add_child(hp_box)
-	hp_bar = ProgressBar.new()
-	hp_bar.custom_minimum_size = Vector2(260, 20)
-	hp_bar.show_percentage = false
-	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color(0.1, 0.06, 0.05, 0.85)
-	bg.set_corner_radius_all(4)
-	bg.set_border_width_all(2)
-	bg.border_color = Color(0.85, 0.7, 0.45)
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = Color(0.78, 0.2, 0.18)
-	fill.set_corner_radius_all(3)
-	hp_bar.add_theme_stylebox_override("background", bg)
-	hp_bar.add_theme_stylebox_override("fill", fill)
-	hp_box.add_child(hp_bar)
+	# Health: heart icon and a wooden-framed bar
+	var top := Control.new()
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.position = Vector2(12, 10)
+	root.add_child(top)
+	var heart := TextureRect.new()
+	heart.texture = _region(UI_SMALL, Rect2(0, 0, 16, 16))
+	heart.position = Vector2(0, 0)
+	heart.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_child(heart)
+	var bar_frame := Panel.new()
+	bar_frame.add_theme_stylebox_override("panel", _nine(UI_FRAME, 7))
+	bar_frame.position = Vector2(18, -2)
+	bar_frame.size = Vector2(150, 20)
+	bar_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_child(bar_frame)
+	hp_bar = preload("res://scripts/hp_bar.gd").new()
+	hp_bar.position = Vector2(25, 5)
+	hp_bar.size = Vector2(136, 6)
+	hp_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_child(hp_bar)
 
-	quest_label = _make_label(19, Color(1, 0.88, 0.6))
-	hp_box.add_child(quest_label)
-	inv_label = _make_label(16, Color(0.92, 0.9, 0.85))
-	hp_box.add_child(inv_label)
+	quest_label = _make_label(12, Color(1, 0.86, 0.5))
+	quest_label.position = Vector2(0, 22)
+	top.add_child(quest_label)
+	inv_label = _make_label(10, Color(0.95, 0.93, 0.88))
+	inv_label.position = Vector2(0, 38)
+	top.add_child(inv_label)
 
-	hint_label = _make_label(20, Color(1, 0.95, 0.75))
+	hint_label = _make_label(13, Color(1, 0.95, 0.75))
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_place(hint_label, Vector2(0.5, 1.0), Vector2(-250, -250 if touch_mode else -90), Vector2(500, 30))
+	_place(hint_label, Vector2(0.5, 1.0), Vector2(-200, -168 if touch_mode else -48), Vector2(400, 22))
 	root.add_child(hint_label)
 
 	if not touch_mode:
-		help_label = _make_label(14, Color(0.9, 0.9, 0.9, 0.8))
-		help_label.text = "WASD move   J / Space attack   L heavy slam   K / Shift dodge   E talk"
+		help_label = _make_label(10, Color(0.95, 0.95, 0.95, 0.85))
+		help_label.text = "WASD move   J / Space attack   L slam   K / Shift dodge   E talk"
 		help_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		_place(help_label, Vector2(1.0, 0.0), Vector2(-680, 20), Vector2(660, 24))
+		_place(help_label, Vector2(1.0, 1.0), Vector2(-500, -22), Vector2(488, 16))
 		root.add_child(help_label)
 
+	# Minimap in a wooden frame
+	var mm_frame := Panel.new()
+	mm_frame.add_theme_stylebox_override("panel", _nine(UI_FRAME, 7))
+	mm_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_place(mm_frame, Vector2(1.0, 0.0), Vector2(-128, 8), Vector2(120, 120))
+	root.add_child(mm_frame)
 	var minimap = MinimapScript.new()
 	minimap.main = main
-	_place(minimap, Vector2(1.0, 0.0), Vector2(-206, 52 if not touch_mode else 20), Vector2(186, 186))
+	_place(minimap, Vector2(1.0, 0.0), Vector2(-121, 15), Vector2(106, 106))
 	root.add_child(minimap)
+	root.move_child(mm_frame, root.get_child_count() - 1)
 
 	_build_dialog()
 
 	forge = ForgeScript.new()
 	forge.main = main
 	forge.visible = false
-	_place(forge, Vector2(0.5, 0.5), Vector2(-300, -170), Vector2(600, 270))
+	_place(forge, Vector2(0.5, 0.5), Vector2(-240, -125), Vector2(600, 270))
+	forge.scale = Vector2(0.8, 0.8)
 	root.add_child(forge)
 
 	if touch_mode:
 		_build_touch_controls()
 
 	update_hud()
+
+
+func _region(tex: Texture2D, r: Rect2) -> AtlasTexture:
+	var a := AtlasTexture.new()
+	a.atlas = tex
+	a.region = r
+	return a
+
+
+func _nine(tex: Texture2D, margin: int) -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.texture_margin_left = margin
+	sb.texture_margin_right = margin
+	sb.texture_margin_top = margin
+	sb.texture_margin_bottom = margin
+	return sb
+
+
+func _flat_tex(r: Rect2) -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = _region(UI_SMALL, r)
+	sb.texture_margin_top = 2
+	sb.texture_margin_bottom = 2
+	return sb
 
 
 func _place(c: Control, anchor: Vector2, pos: Vector2, sz: Vector2) -> void:
@@ -109,26 +149,27 @@ func _make_label(font_size: int, color: Color) -> Label:
 	l.add_theme_font_size_override("font_size", font_size)
 	l.add_theme_color_override("font_color", color)
 	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
-	l.add_theme_constant_override("outline_size", 6)
+	l.add_theme_constant_override("outline_size", 4)
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return l
 
 
 func _build_dialog() -> void:
 	dialog_panel = PanelContainer.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.1, 0.07, 0.05, 0.92)
-	sb.set_border_width_all(3)
-	sb.border_color = Color(0.72, 0.52, 0.28)
-	sb.set_corner_radius_all(8)
-	sb.set_content_margin_all(18)
+	var sb := _nine(UI_PANEL, 9)
+	sb.content_margin_left = 16
+	sb.content_margin_right = 16
+	sb.content_margin_top = 10
+	sb.content_margin_bottom = 8
 	dialog_panel.add_theme_stylebox_override("panel", sb)
-	dialog_panel.anchor_left = 0.12
-	dialog_panel.anchor_right = 0.88
+	dialog_panel.anchor_left = 0.5
+	dialog_panel.anchor_right = 0.5
 	dialog_panel.anchor_top = 1.0
 	dialog_panel.anchor_bottom = 1.0
-	dialog_panel.offset_top = -200
-	dialog_panel.offset_bottom = -28
+	dialog_panel.offset_left = -300
+	dialog_panel.offset_right = 300
+	dialog_panel.offset_top = -124
+	dialog_panel.offset_bottom = -12
 	dialog_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	dialog_panel.gui_input.connect(_on_dialog_input)
 	root.add_child(dialog_panel)
@@ -136,13 +177,13 @@ func _build_dialog() -> void:
 	var vb := VBoxContainer.new()
 	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dialog_panel.add_child(vb)
-	dialog_name = _make_label(20, Color(1, 0.78, 0.4))
+	dialog_name = _make_label(13, Color(1, 0.8, 0.4))
 	vb.add_child(dialog_name)
-	dialog_text = _make_label(21, Color(0.97, 0.95, 0.9))
+	dialog_text = _make_label(14, Color(0.97, 0.95, 0.9))
 	dialog_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	dialog_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vb.add_child(dialog_text)
-	dialog_more = _make_label(14, Color(0.8, 0.75, 0.65))
+	dialog_more = _make_label(10, Color(0.85, 0.75, 0.55))
 	dialog_more.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	dialog_more.text = "Tap to continue" if touch_mode else "E / Space to continue"
 	vb.add_child(dialog_more)
@@ -151,15 +192,15 @@ func _build_dialog() -> void:
 
 func _build_touch_controls() -> void:
 	var stick = JoystickScript.new()
-	_place(stick, Vector2(0.0, 1.0), Vector2(40, -270), Vector2(230, 230))
+	_place(stick, Vector2(0.0, 1.0), Vector2(22, -142), Vector2(120, 120))
 	root.add_child(stick)
 
 	# [action, label, offset from bottom-right corner, radius]
 	var buttons := [
-		["attack", "Attack", Vector2(-150, -150), 66.0],
-		["dodge", "Dodge", Vector2(-290, -90), 48.0],
-		["heavy", "Slam", Vector2(-120, -300), 48.0],
-		["interact", "Talk", Vector2(-260, -230), 42.0],
+		["attack", "Attack", Vector2(-62, -62), 32.0],
+		["dodge", "Dodge", Vector2(-136, -40), 24.0],
+		["heavy", "Slam", Vector2(-44, -140), 24.0],
+		["interact", "Talk", Vector2(-118, -112), 24.0],
 	]
 	for b in buttons:
 		var tb = TouchButtonScript.new()
@@ -181,7 +222,7 @@ func update_hud() -> void:
 		return
 	hp_bar.max_value = main.player.max_hp
 	hp_bar.value = main.player.hp
-	quest_label.text = main.objective_text()
+	quest_label.text = "Quest: " + main.objective_text()
 	var weapon: String = "Sword (power %d)" % int(main.player.sword_damage) if main.player.has_sword else "Old hammer"
 	inv_label.text = "Iron ore %d    Moonsteel %d    %s" % [main.inv["ore"], main.inv["moonsteel"], weapon]
 
@@ -190,7 +231,7 @@ func set_hint(text: String) -> void:
 	if text == "":
 		hint_label.text = ""
 	else:
-		hint_label.text = ("Tap Talk: " if touch_mode else "E: ") + text
+		hint_label.text = text if touch_mode else "E: " + text
 
 
 func show_dialog(lines: Array, on_done = null) -> void:

@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## Village buildings drawn from pixel-art sprites.
 ## Houses: pick `style` (size 0-3) and `roof` (0 red, 1 brown, 2 blue, 3 teal, 4 slate).
 ## The forge has an animated furnace glow and chimney smoke.
@@ -43,13 +44,13 @@ func _draw() -> void:
 		_draw_forge()
 		return
 	var w: int = HOUSE_W[style]
-	draw_rect(Rect2(-w + 2, -6, w * 2 - 4, 10), Color(0, 0, 0, 0.18))
+	Shadow.soft(self, Vector2(6, -2), w * 1.05, 12.0, 0.4)
 	# each cell in houses.png is 56x40, sprite bottom-centred in the cell
 	draw_texture_rect_region(HOUSES, Rect2(-56, -78, 112, 80), Rect2(style * 112, roof * 80, 112, 80))
 
 
 func _draw_forge() -> void:
-	draw_rect(Rect2(-70, -6, 140, 10), Color(0, 0, 0, 0.2))
+	Shadow.soft(self, Vector2(6, -2), 80.0, 14.0, 0.42)
 	# forge sprite is 72x62, drawn at 2x with its base on the origin
 	draw_texture_rect_region(FORGE, Rect2(-72, -120, 144, 124), Rect2(0, 0, 144, 124))
 	# anvil in front

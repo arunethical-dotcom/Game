@@ -6,6 +6,25 @@ extends Node2D
 const Geo = preload("res://scripts/geo.gd")
 const ChunkScript = preload("res://scripts/chunk.gd")
 const ResourceScript = preload("res://scripts/resource_node.gd")
+const BushScript = preload("res://scripts/bush.gd")
+
+# flora.png cells
+const F_BUSH := [0, 1, 2]
+const F_FLOWERS := [3, 4, 5, 6]
+const F_TUFT := 7
+const F_TUFT_TALL := 8
+const F_FERN := 9
+const F_MUSHROOM := 10
+const F_PEBBLES := 11
+const PAVED := ["street", "road", "market", "castle", "yard", "field", "cliff", "stream", "mountain"]
+## [flower patches, tufts, bushes, ferns, mushrooms, pebbles] per chunk
+const FLORA_DENSITY := {
+	"town": [3, 4, 1, 0, 0, 0],
+	"plateau": [4, 7, 2, 0, 0, 1],
+	"lowlands": [8, 6, 2, 0, 0, 1],
+	"elder": [2, 4, 4, 7, 3, 0],
+	"foothills": [0, 3, 0, 0, 0, 7],
+}
 
 const TILE := 32
 const CHUNK_TILES := 16
@@ -57,19 +76,28 @@ func _load_chunk(c: Vector2i) -> void:
 	var tiles := PackedInt32Array()
 	tiles.resize(CHUNK_TILES * CHUNK_TILES)
 	var fringes := []
+	var kerbs := []
+	var tints := PackedColorArray()
+	tints.resize(CHUNK_TILES * CHUNK_TILES)
 	for ty in CHUNK_TILES:
 		for tx in CHUNK_TILES:
 			var i := ty * CHUNK_TILES + tx
 			var wp := origin + Vector2(tx * TILE + TILE * 0.5, ty * TILE + TILE * 0.5)
 			var b: String = grid[(ty + 1) * n + tx + 1]
 			tiles[i] = _tile_id(b, wp, c.x * CHUNK_TILES + tx, c.y * CHUNK_TILES + ty)
+			tints[i] = _tint(wp, b)
 			if b in PATHLIKE:
 				var nb := [grid[ty * n + tx + 1], grid[(ty + 1) * n + tx + 2], grid[(ty + 2) * n + tx + 1], grid[(ty + 1) * n + tx]]
 				for side in 4:
+					if b == "street" and not nb[side] in PATHLIKE and nb[side] != "castle":
+						kerbs.append([i, side])
 					if nb[side] in GRASSLIKE:
 						fringes.append([i, side])
 	ground.tiles = tiles
 	ground.fringes = fringes
+	ground.kerbs = kerbs
+	ground.tints = tints
+	ground.flora = _flora_for(origin, rng)
 	add_child(ground)
 
 	# Trees and ore rocks, only outside the city walls
@@ -108,6 +136,7 @@ func _load_chunk(c: Vector2i) -> void:
 		main.entity_layer.add_child(node)
 		props.append(node)
 
+	_spawn_bushes(c, origin, rng, props)
 	chunks[c] = {"ground": ground, "props": props}
 
 
@@ -125,6 +154,61 @@ static func _tree_variant(b: String, rng: RandomNumberGenerator) -> int:
 			return rng.randi() % 4
 
 
+func _free_spot(wp: Vector2) -> bool:
+	return not Geo.biome(wp) in PAVED and not Geo.reserved(wp, 20.0) and Geo.road_dist(wp) > 50.0
+
+
+## Flat flowers, grass, ferns and pebbles (drawn with the ground) and upright bushes.
+func _flora_for(origin: Vector2, rng: RandomNumberGenerator) -> Array:
+	var out := []
+	var b := Geo.biome(origin + Vector2(CHUNK_PX, CHUNK_PX) * 0.5)
+	if not FLORA_DENSITY.has(b):
+		return out
+	var dens: Array = FLORA_DENSITY[b]
+	var pick := func() -> Vector2:
+		return Vector2(rng.randf_range(20, CHUNK_PX - 20), rng.randf_range(30, CHUNK_PX - 10)).round()
+	for i in dens[0]:  # flower patches: a few clumps of one colour together
+		var c := pick.call() as Vector2
+		var col: int = F_FLOWERS[rng.randi() % F_FLOWERS.size()]
+		for k in rng.randi_range(1, 3):
+			var lp := c + Vector2(rng.randf_range(-26, 26), rng.randf_range(-14, 14)).round()
+			if _free_spot(origin + lp):
+				out.append([lp, col])
+	for i in dens[1]:
+		var lp := pick.call() as Vector2
+		if _free_spot(origin + lp):
+			out.append([lp, F_TUFT_TALL if rng.randf() < 0.35 else F_TUFT])
+	for i in dens[3]:
+		var lp := pick.call() as Vector2
+		if _free_spot(origin + lp):
+			out.append([lp, F_FERN])
+	for i in dens[4]:
+		var lp := pick.call() as Vector2
+		if _free_spot(origin + lp):
+			out.append([lp, F_MUSHROOM])
+	for i in dens[5]:
+		var lp := pick.call() as Vector2
+		if _free_spot(origin + lp):
+			out.append([lp, F_PEBBLES])
+	out.sort_custom(func(a, c): return a[0].y < c[0].y)
+	return out
+
+
+func _spawn_bushes(c: Vector2i, origin: Vector2, rng: RandomNumberGenerator, props: Array) -> void:
+	var b := Geo.biome(origin + Vector2(CHUNK_PX, CHUNK_PX) * 0.5)
+	if not FLORA_DENSITY.has(b):
+		return
+	for i in FLORA_DENSITY[b][2]:
+		var wp := origin + Vector2(rng.randf_range(20, CHUNK_PX - 20), rng.randf_range(20, CHUNK_PX - 20)).round()
+		if not _free_spot(wp) or (b == "town" and (Geo.spoke_dist(wp) < 60.0 or absf(wp.length() - Geo.RING_ROAD) < 60.0)):
+			continue
+		var bush = BushScript.new()
+		bush.cell = F_BUSH[rng.randi() % F_BUSH.size()]
+		bush.position = wp
+		main.entity_layer.add_child(bush)
+		props.append(bush)
+
+
 func _unload_chunk(c: Vector2i) -> void:
 	var data: Dictionary = chunks[c]
 	data["ground"].queue_free()
@@ -135,8 +219,9 @@ func _unload_chunk(c: Vector2i) -> void:
 
 
 const ROW := {"grass": 0, "grass_dark": 1, "grass_light": 2, "path": 3, "cobble": 4, "plaza": 5,
-	"yard": 6, "field": 7, "rocky": 8, "cliff_top": 9, "cliff_face": 10, "water": 11, "mountain": 12}
-const PATHLIKE := ["street", "road", "yard", "market"]
+	"yard": 6, "field": 7, "rocky": 8, "cliff_top": 9, "cliff_face": 10, "water": 11, "mountain": 12,
+	"brick": 14}
+const PATHLIKE := ["yard"]
 const GRASSLIKE := ["town", "plateau", "lowlands", "elder", "field"]
 
 
@@ -147,18 +232,28 @@ func _tile_id(b: String, wp: Vector2, gx: int, gy: int) -> int:
 	match b:
 		"mountain": row = "mountain"
 		"castle": row = "cobble"
-		"street", "road": row = "path"
+		"street", "road", "market": row = "grass"   # drawn smoothly by paving.gd
 		"yard": row = "yard"
-		"market": row = "plaza"
-		"field": row = "field"
+		"field": row = "grass"
 		"town", "plateau": row = "grass"
 		"elder": row = "grass_dark"
 		"lowlands": row = "grass_light"
 		"foothills": row = "rocky"
 		"stream": row = "water"
 		"cliff":
-			row = "cliff_top" if wp.length() < Geo.R_CLIFF - 10.0 else "cliff_face"
+			row = "grass"   # the cliff itself is drawn smoothly by paving.gd
 	return ROW[row] * 4 + v
+
+
+## Gentle large-scale light and colour variation so big areas never look tiled.
+func _tint(wp: Vector2, b: String) -> Color:
+	var n := noise.get_noise_2d(wp.x / TILE * 0.12, wp.y / TILE * 0.12)
+	var n2 := noise.get_noise_2d(wp.x / TILE * 0.04 + 300.0, wp.y / TILE * 0.04)
+	if b in ["street", "castle", "market", "yard"]:
+		return Color(1.0 + n * 0.04, 1.0 + n * 0.04, 1.0 + n * 0.04)
+	# brighter, warmer sunlit patches and slightly cooler shaded ones
+	var l := 1.0 + n * 0.07
+	return Color(l + n2 * 0.04, l + n2 * 0.02, l - n2 * 0.03)
 
 
 func clamp_to_world(p: Vector2) -> Vector2:

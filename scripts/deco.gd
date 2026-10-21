@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## A single sprite from art/x_<name>.png, drawn with its bottom-centre on this node.
 ## `solid` adds a collision box across the base so the player walks around it.
 
@@ -28,7 +29,5 @@ func _ready() -> void:
 func _draw() -> void:
 	var w := tex.get_width()
 	var h := tex.get_height()
-	draw_set_transform(Vector2(0, 2), 0, Vector2(1, 0.3))
-	draw_circle(Vector2.ZERO, w * 0.5, Color(0, 0, 0, 0.2))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	Shadow.soft(self, Vector2(3, 0), w * 0.5, maxf(6.0, w * 0.14), 0.38)
 	draw_texture(tex, Vector2(-w / 2, -h + 2))

@@ -60,6 +60,7 @@ func _ready() -> void:
 	world = WorldScript.new()
 	world.main = self
 	ground_layer.add_child(world)
+	ground_layer.add_child(preload("res://scripts/paving.gd").new())
 
 	City.build(self)
 	_place_people()
@@ -70,6 +71,8 @@ func _ready() -> void:
 	entity_layer.add_child(player)
 
 	camera = Camera2D.new()
+	# The game renders at 540 px tall and is scaled up by a whole number (2x on a
+	# 1080p phone), so every art pixel stays a crisp square.
 	camera.zoom = Vector2(1.0, 1.0)
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 7.0
@@ -79,6 +82,8 @@ func _ready() -> void:
 	arrow = ArrowScript.new()
 	arrow.main = self
 	overlay_layer.add_child(arrow)
+
+	add_child(preload("res://scripts/grade.gd").new())
 
 	hud = HudScript.new()
 	hud.main = self

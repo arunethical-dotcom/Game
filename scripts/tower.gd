@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## Round stone tower: city wall style, or castle style with a pointed blue roof.
 
 const TOWERS = preload("res://art/towers.png")
@@ -19,9 +20,7 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	draw_set_transform(Vector2(0, 2), 0, Vector2(1, 0.4))
-	draw_circle(Vector2.ZERO, 36, Color(0, 0, 0, 0.22))
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	Shadow.soft(self, Vector2(4, 0), 38.0, 12.0, 0.42)
 	if cone:
 		draw_texture_rect_region(TOWERS, Rect2(-26, -152, 52, 156), Rect2(60, 0, 52, 156))
 	else:

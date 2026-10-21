@@ -48,4 +48,3 @@ func _draw() -> void:
 	var c := size / 2.0
 	var f: Vector2 = main.player.facing
 	draw_colored_polygon(PackedVector2Array([c + f * 7.0, c + f.orthogonal() * 5.0 - f * 4.0, c - f.orthogonal() * 5.0 - f * 4.0]), Color(1, 1, 1))
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0.72, 0.52, 0.28), false, 3.0)

@@ -1,4 +1,5 @@
 extends StaticBody2D
+const Shadow = preload("res://scripts/shadow.gd")
 ## The royal castle of Akropolis Aigidos, home of the king and his family.
 
 const CASTLE = preload("res://art/castle.png")
@@ -16,5 +17,5 @@ func _ready() -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(-200, -10, 400, 16), Color(0, 0, 0, 0.2))
+	Shadow.soft(self, Vector2(10, -4), 215.0, 22.0, 0.45)
 	draw_texture_rect_region(CASTLE, Rect2(-220, -396, 440, 400), Rect2(0, 0, 440, 400))
