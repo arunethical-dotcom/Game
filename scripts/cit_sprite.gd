@@ -10,6 +10,7 @@ var flame := Vector2.INF      # where a fire burns, relative to the feet
 var shadow := true
 var flip := false
 var water := false            # fountain: sparkle on the water
+var lift := 0                 # draw this many pixels above the feet (things hung on a wall)
 var tex: Texture2D
 var t := 0.0
 
@@ -40,7 +41,7 @@ func _draw() -> void:
 	if shadow:
 		Shadow.soft(self, Vector2(2, 0), maxf(8.0, w * 0.45), maxf(4.0, w * 0.12), 0.38)
 	draw_set_transform(Vector2.ZERO, 0, Vector2(-1 if flip else 1, 1))
-	draw_texture(tex, Vector2(-(w / 2), -h + 1))
+	draw_texture(tex, Vector2(-(w / 2), -h + 1 - lift))
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 	if flame != Vector2.INF:
 		_draw_flame(flame)

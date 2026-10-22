@@ -53,24 +53,55 @@ joystick and buttons appear automatically.
 - Soft shadows under everything come from `scripts/shadow.gd`.
 - Interface frames and buttons: `art/ui_*.png`.
 
-## The Royal Citadel (main floor)
+## The Royal Citadel
 
-Built by `scripts/citadel.gd` at the centre of the city, following the Royal Citadel blueprint:
+Built by `scripts/citadel.gd` at the centre of the city, following the Royal Citadel blueprint.
+Every door is open for now (conditions and gameplay can be added later).
 
+**Main floor**
 - curtain wall with towers, a moat and the main gatehouse with its bridge (south)
-- the Royal Courtyard with the battle arena, statues, braziers and the red carpet
-- the Grand Throne Hall: walk in and its roof fades away; marble floor, pillars, the throne
-  on its dais, and stairs to the other floors (marked, coming next)
-- the West and East Gardens with fountains, hedges, topiaries and flower beds
-- the Chapel (walk-in), the West Wing (military, training yard) and the East Wing
-  (royal family residences, service yard), both closed for now
-- guards, courtiers, a gardener and Sister Maren in the chapel, all with dialogue
+- the Royal Courtyard: flagstones in four layouts so the ground never repeats, a cobbled
+  avenue with dark kerbs, the battle arena with a rope fence (open on four sides),
+  irregular planting beds, statues, braziers and the red carpet up the grand steps
+- the Grand Throne Hall: the roof fades away when you walk in and a low cut-down front wall
+  appears (Kael walks behind it); checkered marble nave with inlaid borders, rugs, pillars,
+  statues and armour in the side aisles, wall torches, window light, the throne under a
+  velvet canopy, stairs up and stairs down
+- the West Wing (barracks and armory) and East Wing (banquet hall), both walk-in
+- the West and East Gardens and the Chapel (walk-in)
 
-Pieces: `cit_wall.gd` (curtain walls), `cit_building.gd` (buildings with fading roofs),
-`cit_interior.gd` (floors and inner walls), `cit_ground.gd` (courtyard, gardens, arena),
-`cit_moat.gd`, `cit_hedge.gd`, `cit_sprite.gd`. Art comes from `tools/make_citadel.py`
-(`art/cit_*.png`). Everything sits on whole pixels and the camera snaps to whole pixels,
-so walls and buildings never shimmer while Kael moves.
+**Royal Residence (stairs up)**: a long corridor with the King and Queen's chamber, the
+princes' room, the princess's room, the king's sister's rooms and the Royal Library.
+
+**Service Floor (stairs down)**: a service hall with the kitchen, storeroom and servants' quarters.
+
+Walking onto a staircase fades the screen out and in (about half a second, no loading
+screen). The other floors are built far away in the same world (`citadel_floors.gd`,
+`floor_plan.gd`), so moving between them is instant.
+
+Layers: ground (`cit_ground.gd`, `cit_interior.gd`, `floor_plan.gd`) is drawn under
+everything; buildings, furniture, people and Kael are y-sorted by their feet; collision
+boxes are separate from the art, so decorations never block doors, stairs or paths.
+
+## Imported castle art (from an AI sheet)
+
+`tools/import_castle.py` turns `source_art/castle/sheet1.png` (objects on magenta) into
+game sprites: it removes the magenta and its pink fringe, cuts each object out, scales
+everything by the same factor (so pixels match Kael), and writes them in groups:
+
+| Folder | Contents | Pivot |
+|--------|----------|-------|
+| `art/castle/tiles/` + `tiles.png` atlas | floor tiles, exactly 32x32 | top-left |
+| `art/castle/rugs/` | rugs and runners | bottom-centre |
+| `art/castle/furniture/` | beds, tables, chairs, chests, shelves | bottom-centre (feet) |
+| `art/castle/decor/` | banners, statues, armour, plants, candelabras, throne | bottom-centre |
+| `art/castle/walls/` | wall pieces, doors, arches, stairs | bottom-centre |
+| `art/castle/kitchen/` | hearth, oven, stove, barrels, sacks | bottom-centre |
+
+`art/castle/manifest.json` lists every sprite's size, pivot and collision footprint.
+To add another sheet: put it in `source_art/castle/`, add its names to the script, run it.
+Rules for new sheets: pure magenta background (#FF00FF), one group per sheet, a clear gap
+between objects, the same 3/4 view and the same scale as this one.
 
 ## Kael's animations
 

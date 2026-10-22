@@ -257,5 +257,7 @@ func _tint(wp: Vector2, b: String) -> Color:
 
 
 func clamp_to_world(p: Vector2) -> Vector2:
+	if main != null and main.floor_name != "":
+		return p   # indoor floors sit outside the open world
 	var lim := Geo.WORLD_HALF - 300.0
 	return Vector2(clampf(p.x, -lim, lim), clampf(p.y, -lim, lim))

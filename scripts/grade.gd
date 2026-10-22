@@ -23,3 +23,7 @@ func _process(_delta: float) -> void:
 	var size := get_viewport().get_visible_rect().size / cam.zoom
 	mat.set_shader_parameter("view_size", size)
 	mat.set_shader_parameter("cam_pos", cam.get_screen_center_position() - size * 0.5)
+	# no sky indoors: turn the sun shafts and dust off on the citadel's other floors
+	var main = get_parent()
+	var indoors: bool = main != null and main.get("floor_name") != null and main.floor_name != ""
+	mat.set_shader_parameter("shaft_strength", 0.0 if indoors else 0.30)

@@ -4,12 +4,16 @@ extends Node2D
 ## steps in front of the throne hall, and the stone bridge over the moat.
 
 const Geo = preload("res://scripts/geo.gd")
+const Tiles = preload("res://scripts/tiles.gd")
 
 var areas := []      # [Rect2, texture name, tint]
 var circles := []    # [centre, radius, texture name]
 var rings := []      # [centre, inner radius, outer radius, texture name]
 var steps := []      # Rect2: a flight of steps (drawn as lit stone treads)
 var carpets := []    # Rect2
+var cobbles := []    # Rect2: cobbled avenue with dark kerbs along its sides
+var kerbs := []      # Rect2: dark stone border bands
+var beds := []       # [centre, radii]: irregular planting beds with a stone edge
 var tex := {}
 
 
@@ -38,14 +42,45 @@ func _circle_pts(c: Vector2, r: float, n := 48) -> PackedVector2Array:
 	return pts
 
 
+## An irregular rounded outline, so planting beds never look like boxes.
+func _blob(c: Vector2, r: Vector2) -> PackedVector2Array:
+	var pts := PackedVector2Array()
+	var n := 28
+	for i in n:
+		var a := TAU * i / n
+		var wob := 1.0 + 0.12 * sin(a * 3.0 + c.x * 0.01) + 0.07 * sin(a * 5.0 + c.y * 0.02)
+		pts.append((c + Vector2(cos(a) * r.x, sin(a) * r.y) * wob).round())
+	return pts
+
+
 func _draw() -> void:
-	# courtyard flagstones under the whole citadel
-	_tile(tex["flag"], Geo.CIT_WALL)
+	# courtyard flagstones under the whole citadel, each tile one of four layouts
+	Tiles.fill(self, Geo.CIT_WALL, Tiles.FLAG, [0, 0, 1, 1, 2, 2, 3])
 	for a in areas:
 		_tile(tex[a[1]], a[0], a[2])
-		# a thin kerb so lawns and paths read clearly
+	# a limestone kerb around every lawn so the edges read clearly
+	for a in areas:
 		if a[1] == "lawn":
-			draw_rect(a[0], Color(0.3, 0.26, 0.2, 0.55), false, 2.0)
+			var r: Rect2 = a[0]
+			for k in [Rect2(r.position.x, r.position.y, r.size.x, 6), Rect2(r.position.x, r.end.y - 6, r.size.x, 6),
+					Rect2(r.position.x, r.position.y, 6, r.size.y), Rect2(r.end.x - 6, r.position.y, 6, r.size.y)]:
+				Tiles.band(self, k, Tiles.FLAG)
+				draw_rect(k, Color(0.15, 0.12, 0.08, 0.5), false, 1.0)
+	for c in cobbles:
+		Tiles.fill(self, c, Tiles.COBBLE)
+	for k in kerbs:
+		Tiles.band(self, k, Tiles.BORDER)
+		draw_rect(k, Color(0.12, 0.1, 0.08, 0.6), false, 1.0)
+	for b in beds:
+		var pts := _blob(b[0], b[1])
+		var rim := PackedVector2Array()
+		for p in pts:
+			rim.append(b[0] + (p - b[0]) * 1.0)
+		_poly(pts, tex["lawn"])
+		draw_colored_polygon(pts, Color(0.2, 0.13, 0.06, 0.35))
+		rim.append(rim[0])
+		draw_polyline(rim, Color(0.76, 0.71, 0.62), 4.0)
+		draw_polyline(rim, Color(0.3, 0.25, 0.2, 0.7), 1.0)
 	for c in circles:
 		_poly(_circle_pts(c[0], c[1]), tex[c[2]])
 	for r in rings:

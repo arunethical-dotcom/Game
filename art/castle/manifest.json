@@ -1,0 +1,1864 @@
+{
+ "decor/armour_a": {
+  "footprint": [
+   18,
+   16
+  ],
+  "pivot": [
+   11,
+   55
+  ],
+  "size": [
+   22,
+   55
+  ]
+ },
+ "decor/armour_b": {
+  "footprint": [
+   18,
+   16
+  ],
+  "pivot": [
+   11,
+   55
+  ],
+  "size": [
+   22,
+   55
+  ]
+ },
+ "decor/banner_fleur_blue": {
+  "footprint": [
+   27,
+   20
+  ],
+  "pivot": [
+   17,
+   67
+  ],
+  "size": [
+   34,
+   67
+  ]
+ },
+ "decor/banner_fleur_framed": {
+  "footprint": [
+   22,
+   20
+  ],
+  "pivot": [
+   13,
+   68
+  ],
+  "size": [
+   27,
+   68
+  ]
+ },
+ "decor/banner_fleur_red": {
+  "footprint": [
+   21,
+   21
+  ],
+  "pivot": [
+   13,
+   71
+  ],
+  "size": [
+   26,
+   71
+  ]
+ },
+ "decor/banner_fleur_red_b": {
+  "footprint": [
+   27,
+   20
+  ],
+  "pivot": [
+   17,
+   68
+  ],
+  "size": [
+   34,
+   68
+  ]
+ },
+ "decor/banner_fleur_wide": {
+  "footprint": [
+   31,
+   19
+  ],
+  "pivot": [
+   19,
+   62
+  ],
+  "size": [
+   39,
+   62
+  ]
+ },
+ "decor/banner_lion_blue": {
+  "footprint": [
+   27,
+   22
+  ],
+  "pivot": [
+   17,
+   74
+  ],
+  "size": [
+   34,
+   74
+  ]
+ },
+ "decor/banner_lion_blue_b": {
+  "footprint": [
+   30,
+   20
+  ],
+  "pivot": [
+   18,
+   66
+  ],
+  "size": [
+   37,
+   66
+  ]
+ },
+ "decor/banner_lion_red": {
+  "footprint": [
+   28,
+   19
+  ],
+  "pivot": [
+   17,
+   64
+  ],
+  "size": [
+   35,
+   64
+  ]
+ },
+ "decor/candelabra_a": {
+  "footprint": [
+   14,
+   11
+  ],
+  "pivot": [
+   9,
+   38
+  ],
+  "size": [
+   18,
+   38
+  ]
+ },
+ "decor/candelabra_b": {
+  "footprint": [
+   11,
+   13
+  ],
+  "pivot": [
+   7,
+   44
+  ],
+  "size": [
+   14,
+   44
+  ]
+ },
+ "decor/coat_stand": {
+  "footprint": [
+   9,
+   15
+  ],
+  "pivot": [
+   5,
+   50
+  ],
+  "size": [
+   11,
+   50
+  ]
+ },
+ "decor/curtain_blue": {
+  "footprint": [
+   41,
+   17
+  ],
+  "pivot": [
+   25,
+   58
+  ],
+  "size": [
+   51,
+   58
+  ]
+ },
+ "decor/fire_bowl": {
+  "footprint": [
+   18,
+   11
+  ],
+  "pivot": [
+   11,
+   37
+  ],
+  "size": [
+   23,
+   37
+  ]
+ },
+ "decor/flower_planter": {
+  "footprint": [
+   41,
+   11
+  ],
+  "pivot": [
+   25,
+   36
+  ],
+  "size": [
+   51,
+   36
+  ]
+ },
+ "decor/halberd_stand": {
+  "footprint": [
+   14,
+   11
+  ],
+  "pivot": [
+   9,
+   36
+  ],
+  "size": [
+   18,
+   36
+  ]
+ },
+ "decor/painting_castle": {
+  "footprint": [
+   24,
+   9
+  ],
+  "pivot": [
+   15,
+   29
+  ],
+  "size": [
+   30,
+   29
+  ]
+ },
+ "decor/pedestal": {
+  "footprint": [
+   17,
+   11
+  ],
+  "pivot": [
+   10,
+   38
+  ],
+  "size": [
+   21,
+   38
+  ]
+ },
+ "decor/pedestal_small": {
+  "footprint": [
+   13,
+   8
+  ],
+  "pivot": [
+   8,
+   27
+  ],
+  "size": [
+   16,
+   27
+  ]
+ },
+ "decor/pillar_banner": {
+  "footprint": [
+   17,
+   19
+  ],
+  "pivot": [
+   10,
+   63
+  ],
+  "size": [
+   21,
+   63
+  ]
+ },
+ "decor/pillar_banner_tall": {
+  "footprint": [
+   18,
+   24
+  ],
+  "pivot": [
+   11,
+   80
+  ],
+  "size": [
+   23,
+   80
+  ]
+ },
+ "decor/pillar_stub": {
+  "footprint": [
+   15,
+   14
+  ],
+  "pivot": [
+   9,
+   48
+  ],
+  "size": [
+   19,
+   48
+  ]
+ },
+ "decor/pillar_white": {
+  "footprint": [
+   15,
+   20
+  ],
+  "pivot": [
+   9,
+   68
+  ],
+  "size": [
+   19,
+   68
+  ]
+ },
+ "decor/plant_pot": {
+  "footprint": [
+   22,
+   16
+  ],
+  "pivot": [
+   14,
+   52
+  ],
+  "size": [
+   28,
+   52
+  ]
+ },
+ "decor/plant_urn": {
+  "footprint": [
+   22,
+   17
+  ],
+  "pivot": [
+   13,
+   56
+  ],
+  "size": [
+   27,
+   56
+  ]
+ },
+ "decor/portrait_king": {
+  "footprint": [
+   18,
+   10
+  ],
+  "pivot": [
+   11,
+   32
+  ],
+  "size": [
+   22,
+   32
+  ]
+ },
+ "decor/portrait_lady": {
+  "footprint": [
+   28,
+   13
+  ],
+  "pivot": [
+   17,
+   42
+  ],
+  "size": [
+   35,
+   42
+  ]
+ },
+ "decor/shield_stand": {
+  "footprint": [
+   26,
+   10
+  ],
+  "pivot": [
+   16,
+   35
+  ],
+  "size": [
+   32,
+   35
+  ]
+ },
+ "decor/statue_queen": {
+  "footprint": [
+   22,
+   17
+  ],
+  "pivot": [
+   13,
+   57
+  ],
+  "size": [
+   27,
+   57
+  ]
+ },
+ "decor/statue_saint": {
+  "footprint": [
+   18,
+   17
+  ],
+  "pivot": [
+   11,
+   56
+  ],
+  "size": [
+   23,
+   56
+  ]
+ },
+ "decor/throne_dais": {
+  "footprint": [
+   76,
+   24
+  ],
+  "pivot": [
+   47,
+   88
+  ],
+  "size": [
+   95,
+   88
+  ]
+ },
+ "decor/torch_pole": {
+  "footprint": [
+   9,
+   20
+  ],
+  "pivot": [
+   5,
+   67
+  ],
+  "size": [
+   11,
+   67
+  ]
+ },
+ "decor/vase_blue": {
+  "footprint": [
+   14,
+   14
+  ],
+  "pivot": [
+   9,
+   48
+  ],
+  "size": [
+   18,
+   48
+  ]
+ },
+ "decor/weapon_rack": {
+  "footprint": [
+   29,
+   13
+  ],
+  "pivot": [
+   18,
+   44
+  ],
+  "size": [
+   36,
+   44
+  ]
+ },
+ "furniture/alchemy_table": {
+  "footprint": [
+   31,
+   13
+  ],
+  "pivot": [
+   19,
+   42
+  ],
+  "size": [
+   39,
+   42
+  ]
+ },
+ "furniture/armchair": {
+  "footprint": [
+   19,
+   13
+  ],
+  "pivot": [
+   12,
+   42
+  ],
+  "size": [
+   24,
+   42
+  ]
+ },
+ "furniture/bath": {
+  "footprint": [
+   36,
+   14
+  ],
+  "pivot": [
+   22,
+   45
+  ],
+  "size": [
+   45,
+   45
+  ]
+ },
+ "furniture/bed_blue": {
+  "footprint": [
+   40,
+   22
+  ],
+  "pivot": [
+   25,
+   75
+  ],
+  "size": [
+   50,
+   75
+  ]
+ },
+ "furniture/bed_canopy": {
+  "footprint": [
+   57,
+   24
+  ],
+  "pivot": [
+   35,
+   104
+  ],
+  "size": [
+   71,
+   104
+  ]
+ },
+ "furniture/bed_simple": {
+  "footprint": [
+   29,
+   20
+  ],
+  "pivot": [
+   18,
+   67
+  ],
+  "size": [
+   36,
+   67
+  ]
+ },
+ "furniture/bench_red": {
+  "footprint": [
+   35,
+   7
+  ],
+  "pivot": [
+   22,
+   22
+  ],
+  "size": [
+   44,
+   22
+  ]
+ },
+ "furniture/bookshelf_a": {
+  "footprint": [
+   26,
+   18
+  ],
+  "pivot": [
+   16,
+   59
+  ],
+  "size": [
+   33,
+   59
+  ]
+ },
+ "furniture/bookshelf_b": {
+  "footprint": [
+   27,
+   19
+  ],
+  "pivot": [
+   17,
+   62
+  ],
+  "size": [
+   34,
+   62
+  ]
+ },
+ "furniture/cabinet_bottles": {
+  "footprint": [
+   34,
+   11
+  ],
+  "pivot": [
+   21,
+   38
+  ],
+  "size": [
+   42,
+   38
+  ]
+ },
+ "furniture/chair_blue": {
+  "footprint": [
+   12,
+   9
+  ],
+  "pivot": [
+   7,
+   30
+  ],
+  "size": [
+   15,
+   30
+  ]
+ },
+ "furniture/chair_blue_b": {
+  "footprint": [
+   12,
+   9
+  ],
+  "pivot": [
+   7,
+   30
+  ],
+  "size": [
+   15,
+   30
+  ]
+ },
+ "furniture/chair_blue_side": {
+  "footprint": [
+   10,
+   9
+  ],
+  "pivot": [
+   6,
+   30
+  ],
+  "size": [
+   12,
+   30
+  ]
+ },
+ "furniture/chair_blue_small": {
+  "footprint": [
+   11,
+   9
+  ],
+  "pivot": [
+   7,
+   30
+  ],
+  "size": [
+   14,
+   30
+  ]
+ },
+ "furniture/chair_red": {
+  "footprint": [
+   12,
+   9
+  ],
+  "pivot": [
+   7,
+   30
+  ],
+  "size": [
+   15,
+   30
+  ]
+ },
+ "furniture/chair_red_b": {
+  "footprint": [
+   12,
+   9
+  ],
+  "pivot": [
+   7,
+   31
+  ],
+  "size": [
+   15,
+   31
+  ]
+ },
+ "furniture/chest_blue": {
+  "footprint": [
+   33,
+   10
+  ],
+  "pivot": [
+   20,
+   35
+  ],
+  "size": [
+   41,
+   35
+  ]
+ },
+ "furniture/chest_gold": {
+  "footprint": [
+   34,
+   11
+  ],
+  "pivot": [
+   21,
+   37
+  ],
+  "size": [
+   42,
+   37
+  ]
+ },
+ "furniture/chest_wood": {
+  "footprint": [
+   27,
+   10
+  ],
+  "pivot": [
+   17,
+   32
+  ],
+  "size": [
+   34,
+   32
+  ]
+ },
+ "furniture/desk": {
+  "footprint": [
+   52,
+   15
+  ],
+  "pivot": [
+   32,
+   49
+  ],
+  "size": [
+   65,
+   49
+  ]
+ },
+ "furniture/dining_table": {
+  "footprint": [
+   82,
+   19
+  ],
+  "pivot": [
+   51,
+   62
+  ],
+  "size": [
+   103,
+   62
+  ]
+ },
+ "furniture/dresser": {
+  "footprint": [
+   34,
+   13
+  ],
+  "pivot": [
+   21,
+   43
+  ],
+  "size": [
+   43,
+   43
+  ]
+ },
+ "furniture/food_shelf": {
+  "footprint": [
+   50,
+   18
+  ],
+  "pivot": [
+   31,
+   59
+  ],
+  "size": [
+   62,
+   59
+  ]
+ },
+ "furniture/footstool": {
+  "footprint": [
+   12,
+   6
+  ],
+  "pivot": [
+   7,
+   17
+  ],
+  "size": [
+   15,
+   17
+  ]
+ },
+ "furniture/high_chair": {
+  "footprint": [
+   18,
+   12
+  ],
+  "pivot": [
+   11,
+   39
+  ],
+  "size": [
+   22,
+   39
+  ]
+ },
+ "furniture/jewel_box": {
+  "footprint": [
+   25,
+   8
+  ],
+  "pivot": [
+   15,
+   25
+  ],
+  "size": [
+   31,
+   25
+  ]
+ },
+ "furniture/kitchen_table": {
+  "footprint": [
+   67,
+   9
+  ],
+  "pivot": [
+   42,
+   31
+  ],
+  "size": [
+   84,
+   31
+  ]
+ },
+ "furniture/low_table": {
+  "footprint": [
+   33,
+   8
+  ],
+  "pivot": [
+   20,
+   26
+  ],
+  "size": [
+   41,
+   26
+  ]
+ },
+ "furniture/nightstand": {
+  "footprint": [
+   18,
+   10
+  ],
+  "pivot": [
+   11,
+   34
+  ],
+  "size": [
+   22,
+   34
+  ]
+ },
+ "furniture/pail": {
+  "footprint": [
+   11,
+   7
+  ],
+  "pivot": [
+   7,
+   22
+  ],
+  "size": [
+   14,
+   22
+  ]
+ },
+ "furniture/royal_chair": {
+  "footprint": [
+   34,
+   15
+  ],
+  "pivot": [
+   21,
+   49
+  ],
+  "size": [
+   42,
+   49
+  ]
+ },
+ "furniture/screen": {
+  "footprint": [
+   47,
+   22
+  ],
+  "pivot": [
+   29,
+   72
+  ],
+  "size": [
+   59,
+   72
+  ]
+ },
+ "furniture/side_table": {
+  "footprint": [
+   26,
+   9
+  ],
+  "pivot": [
+   16,
+   30
+  ],
+  "size": [
+   32,
+   30
+  ]
+ },
+ "furniture/sofa_blue": {
+  "footprint": [
+   30,
+   8
+  ],
+  "pivot": [
+   19,
+   25
+  ],
+  "size": [
+   38,
+   25
+  ]
+ },
+ "furniture/stand_bottles": {
+  "footprint": [
+   22,
+   9
+  ],
+  "pivot": [
+   13,
+   29
+  ],
+  "size": [
+   27,
+   29
+  ]
+ },
+ "furniture/stool": {
+  "footprint": [
+   14,
+   7
+  ],
+  "pivot": [
+   8,
+   23
+  ],
+  "size": [
+   17,
+   23
+  ]
+ },
+ "furniture/stool_box": {
+  "footprint": [
+   19,
+   7
+  ],
+  "pivot": [
+   12,
+   24
+  ],
+  "size": [
+   24,
+   24
+  ]
+ },
+ "furniture/washstand": {
+  "footprint": [
+   22,
+   15
+  ],
+  "pivot": [
+   14,
+   49
+  ],
+  "size": [
+   28,
+   49
+  ]
+ },
+ "kitchen/barrel_sack": {
+  "footprint": [
+   34,
+   11
+  ],
+  "pivot": [
+   21,
+   37
+  ],
+  "size": [
+   43,
+   37
+  ]
+ },
+ "kitchen/barrel_small": {
+  "footprint": [
+   16,
+   9
+  ],
+  "pivot": [
+   10,
+   29
+  ],
+  "size": [
+   20,
+   29
+  ]
+ },
+ "kitchen/barrels_stack": {
+  "footprint": [
+   26,
+   11
+  ],
+  "pivot": [
+   16,
+   38
+  ],
+  "size": [
+   33,
+   38
+  ]
+ },
+ "kitchen/bread_basket": {
+  "footprint": [
+   26,
+   9
+  ],
+  "pivot": [
+   16,
+   30
+  ],
+  "size": [
+   33,
+   30
+  ]
+ },
+ "kitchen/bucket": {
+  "footprint": [
+   14,
+   6
+  ],
+  "pivot": [
+   9,
+   20
+  ],
+  "size": [
+   18,
+   20
+  ]
+ },
+ "kitchen/bucket_b": {
+  "footprint": [
+   14,
+   6
+  ],
+  "pivot": [
+   8,
+   20
+  ],
+  "size": [
+   17,
+   20
+  ]
+ },
+ "kitchen/fireplace": {
+  "footprint": [
+   44,
+   14
+  ],
+  "pivot": [
+   27,
+   47
+  ],
+  "size": [
+   55,
+   47
+  ]
+ },
+ "kitchen/jug": {
+  "footprint": [
+   11,
+   8
+  ],
+  "pivot": [
+   7,
+   26
+  ],
+  "size": [
+   14,
+   26
+  ]
+ },
+ "kitchen/oven": {
+  "footprint": [
+   28,
+   16
+  ],
+  "pivot": [
+   17,
+   53
+  ],
+  "size": [
+   35,
+   53
+  ]
+ },
+ "kitchen/pans_rack": {
+  "footprint": [
+   34,
+   12
+  ],
+  "pivot": [
+   21,
+   39
+  ],
+  "size": [
+   42,
+   39
+  ]
+ },
+ "kitchen/sack_basket": {
+  "footprint": [
+   25,
+   12
+  ],
+  "pivot": [
+   15,
+   41
+  ],
+  "size": [
+   31,
+   41
+  ]
+ },
+ "kitchen/stove": {
+  "footprint": [
+   38,
+   14
+  ],
+  "pivot": [
+   24,
+   48
+  ],
+  "size": [
+   48,
+   48
+  ]
+ },
+ "kitchen/tub": {
+  "footprint": [
+   18,
+   9
+  ],
+  "pivot": [
+   11,
+   30
+  ],
+  "size": [
+   22,
+   30
+  ]
+ },
+ "kitchen/washtub_stand": {
+  "footprint": [
+   18,
+   10
+  ],
+  "pivot": [
+   11,
+   32
+  ],
+  "size": [
+   23,
+   32
+  ]
+ },
+ "rugs/rug_blue_diamond": {
+  "footprint": null,
+  "pivot": [
+   21,
+   91
+  ],
+  "size": [
+   42,
+   91
+  ]
+ },
+ "rugs/rug_blue_small": {
+  "footprint": null,
+  "pivot": [
+   17,
+   32
+  ],
+  "size": [
+   34,
+   32
+  ]
+ },
+ "rugs/rug_red": {
+  "footprint": null,
+  "pivot": [
+   19,
+   59
+  ],
+  "size": [
+   39,
+   59
+  ]
+ },
+ "rugs/rug_red_corner": {
+  "footprint": null,
+  "pivot": [
+   26,
+   52
+  ],
+  "size": [
+   53,
+   52
+  ]
+ },
+ "rugs/rug_red_medallion": {
+  "footprint": null,
+  "pivot": [
+   23,
+   90
+  ],
+  "size": [
+   47,
+   90
+  ]
+ },
+ "rugs/rug_red_mini": {
+  "footprint": null,
+  "pivot": [
+   11,
+   27
+  ],
+  "size": [
+   23,
+   27
+  ]
+ },
+ "rugs/rug_red_small": {
+  "footprint": null,
+  "pivot": [
+   13,
+   33
+  ],
+  "size": [
+   27,
+   33
+  ]
+ },
+ "rugs/rug_red_tall": {
+  "footprint": null,
+  "pivot": [
+   13,
+   51
+  ],
+  "size": [
+   27,
+   51
+  ]
+ },
+ "rugs/runner_blue": {
+  "footprint": null,
+  "pivot": [
+   17,
+   90
+  ],
+  "size": [
+   35,
+   90
+  ]
+ },
+ "rugs/runner_blue_plain": {
+  "footprint": null,
+  "pivot": [
+   15,
+   91
+  ],
+  "size": [
+   30,
+   91
+  ]
+ },
+ "rugs/runner_blue_thin": {
+  "footprint": null,
+  "pivot": [
+   10,
+   91
+  ],
+  "size": [
+   20,
+   91
+  ]
+ },
+ "rugs/runner_red": {
+  "footprint": null,
+  "pivot": [
+   13,
+   90
+  ],
+  "size": [
+   27,
+   90
+  ]
+ },
+ "tiles/blue_gold": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/bluestone": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/darkstone": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_a": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_b": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_c": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_cross": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_frame": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_frame_b": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/limestone_inlay": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/marble_cross": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/marble_diamond": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/marble_medallion": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/wood_chevron": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/wood_parquet": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "tiles/wood_planks": {
+  "footprint": null,
+  "pivot": [
+   0,
+   0
+  ],
+  "size": [
+   32,
+   32
+  ]
+ },
+ "walls/archway": {
+  "footprint": [
+   107,
+   20
+  ],
+  "pivot": [
+   53,
+   66
+  ],
+  "size": [
+   107,
+   66
+  ]
+ },
+ "walls/door_arch": {
+  "footprint": [
+   53,
+   20
+  ],
+  "pivot": [
+   26,
+   54
+  ],
+  "size": [
+   53,
+   54
+  ]
+ },
+ "walls/door_arch_open": {
+  "footprint": [
+   40,
+   20
+  ],
+  "pivot": [
+   20,
+   49
+  ],
+  "size": [
+   40,
+   49
+  ]
+ },
+ "walls/door_royal": {
+  "footprint": [
+   58,
+   20
+  ],
+  "pivot": [
+   29,
+   65
+  ],
+  "size": [
+   58,
+   65
+  ]
+ },
+ "walls/door_small": {
+  "footprint": [
+   31,
+   20
+  ],
+  "pivot": [
+   15,
+   36
+  ],
+  "size": [
+   31,
+   36
+  ]
+ },
+ "walls/pier_banner": {
+  "footprint": [
+   24,
+   20
+  ],
+  "pivot": [
+   12,
+   60
+  ],
+  "size": [
+   24,
+   60
+  ]
+ },
+ "walls/pier_banner_b": {
+  "footprint": [
+   29,
+   20
+  ],
+  "pivot": [
+   14,
+   69
+  ],
+  "size": [
+   29,
+   69
+  ]
+ },
+ "walls/stairs_banners": {
+  "footprint": [
+   71,
+   20
+  ],
+  "pivot": [
+   35,
+   90
+  ],
+  "size": [
+   71,
+   90
+  ]
+ },
+ "walls/stairs_grand": {
+  "footprint": [
+   85,
+   20
+  ],
+  "pivot": [
+   42,
+   94
+  ],
+  "size": [
+   85,
+   94
+  ]
+ },
+ "walls/stairs_worn": {
+  "footprint": [
+   81,
+   20
+  ],
+  "pivot": [
+   40,
+   90
+  ],
+  "size": [
+   81,
+   90
+  ]
+ },
+ "walls/wall_bookshelf": {
+  "footprint": [
+   37,
+   20
+  ],
+  "pivot": [
+   18,
+   58
+  ],
+  "size": [
+   37,
+   58
+  ]
+ },
+ "walls/wall_breach": {
+  "footprint": [
+   50,
+   20
+  ],
+  "pivot": [
+   25,
+   47
+  ],
+  "size": [
+   50,
+   47
+  ]
+ },
+ "walls/wall_broken": {
+  "footprint": [
+   41,
+   20
+  ],
+  "pivot": [
+   20,
+   54
+  ],
+  "size": [
+   41,
+   54
+  ]
+ },
+ "walls/wall_cell": {
+  "footprint": [
+   48,
+   20
+  ],
+  "pivot": [
+   24,
+   51
+  ],
+  "size": [
+   48,
+   51
+  ]
+ },
+ "walls/wall_column": {
+  "footprint": [
+   34,
+   20
+  ],
+  "pivot": [
+   17,
+   91
+  ],
+  "size": [
+   34,
+   91
+  ]
+ },
+ "walls/wall_door": {
+  "footprint": [
+   41,
+   20
+  ],
+  "pivot": [
+   20,
+   53
+  ],
+  "size": [
+   41,
+   53
+  ]
+ },
+ "walls/wall_door_narrow": {
+  "footprint": [
+   33,
+   20
+  ],
+  "pivot": [
+   16,
+   56
+  ],
+  "size": [
+   33,
+   56
+  ]
+ },
+ "walls/wall_grate": {
+  "footprint": [
+   34,
+   20
+  ],
+  "pivot": [
+   17,
+   49
+  ],
+  "size": [
+   34,
+   49
+  ]
+ },
+ "walls/wall_hatch": {
+  "footprint": [
+   38,
+   20
+  ],
+  "pivot": [
+   19,
+   50
+  ],
+  "size": [
+   38,
+   50
+  ]
+ },
+ "walls/wall_ledge": {
+  "footprint": [
+   48,
+   20
+  ],
+  "pivot": [
+   24,
+   107
+  ],
+  "size": [
+   48,
+   107
+  ]
+ },
+ "walls/wall_ring": {
+  "footprint": [
+   37,
+   20
+  ],
+  "pivot": [
+   18,
+   57
+  ],
+  "size": [
+   37,
+   57
+  ]
+ },
+ "walls/wall_rubble": {
+  "footprint": [
+   38,
+   20
+  ],
+  "pivot": [
+   19,
+   41
+  ],
+  "size": [
+   38,
+   41
+  ]
+ },
+ "walls/wall_slit": {
+  "footprint": [
+   37,
+   20
+  ],
+  "pivot": [
+   18,
+   53
+  ],
+  "size": [
+   37,
+   53
+  ]
+ },
+ "walls/wall_window_bars": {
+  "footprint": [
+   51,
+   20
+  ],
+  "pivot": [
+   25,
+   51
+  ],
+  "size": [
+   51,
+   51
+  ]
+ }
+}

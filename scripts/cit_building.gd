@@ -3,8 +3,8 @@ extends StaticBody2D
 ## Seen in 3/4 view: the roof sits above the footprint, raised by the wall height.
 ##
 ## Enterable buildings have an interior (floor, back wall, carpet...) drawn on the ground
-## underneath. When Kael steps inside, the roof and front fade away so you see the room;
-## the walls still block him except at the door.
+## underneath. When Kael steps inside, the roof and tall front fade away so you see the
+## room, and a low cut-down front wall (cit_cutaway.gd) takes their place.
 ##
 ## Position = middle of the front (south) wall's base, so y-sorting works.
 
@@ -31,6 +31,7 @@ var enterable := false
 var keep_spire := false     # a tall tower rising from the middle of the roof
 var banners := true
 var interior: Node2D        # the floor node, created by the builder
+var cutaway: Node2D         # low front wall shown while Kael is inside
 var fade := 1.0
 
 
@@ -53,6 +54,14 @@ func _ready() -> void:
 		for i in range(0, xs.size(), 2):
 			if xs[i + 1] > xs[i]:
 				_box(Rect2(xs[i], f.end.y - WALL, xs[i + 1] - xs[i], WALL))
+		cutaway = preload("res://scripts/cit_cutaway.gd").new()
+		cutaway.x0 = f.position.x
+		cutaway.x1 = f.end.x
+		for d in doors:
+			cutaway.gaps.append([d - position.x - gap / 2.0, d - position.x + gap / 2.0])
+		cutaway.position = position
+		cutaway.visible = false
+		get_parent().add_child.call_deferred(cutaway)
 	else:
 		_box(f)
 
@@ -78,7 +87,8 @@ func _process(delta: float) -> void:
 	if absf(fade - target) > 0.001:
 		fade = move_toward(fade, target, delta * 4.0)
 		modulate.a = fade
-		queue_redraw()
+		cutaway.visible = fade < 0.999
+		cutaway.modulate.a = 1.0 - fade
 
 
 func _tile(tex: Texture2D, rect: Rect2, tint := Color.WHITE) -> void:

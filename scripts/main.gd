@@ -41,6 +41,13 @@ var moonsteel_drop := Vector2.INF
 var shake_amount := 0.0
 var cam_pos := Vector2.ZERO
 
+# indoor floors reached by stairs (see citadel_floors.gd)
+var floor_name := ""          # "" = the open world and the citadel's main floor
+var stairs := []              # [trigger Rect2, destination, floor it leads to, floor it is on, place name]
+var traveling := false
+var _stairs_armed := true
+var fade_rect: ColorRect
+
 
 func _ready() -> void:
 	randomize()
@@ -98,6 +105,16 @@ func _ready() -> void:
 	hud = HudScript.new()
 	hud.main = self
 	add_child(hud)
+
+	# a black screen used for the quick fade when taking the stairs
+	var fade_layer := CanvasLayer.new()
+	fade_layer.layer = 8
+	add_child(fade_layer)
+	fade_rect = ColorRect.new()
+	fade_rect.color = Color(0, 0, 0, 0)
+	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	fade_layer.add_child(fade_rect)
 
 	world.update_chunks(player.global_position)
 	_refresh_hud()
@@ -176,9 +193,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-	var busy: bool = hud.is_busy()
+	var busy: bool = hud.is_busy() or traveling
 	player.locked = busy
-	world.update_chunks(player.global_position)
+	if floor_name == "":
+		world.update_chunks(player.global_position)
+	_check_stairs()
 
 	# Find someone to talk to
 	var nearest = null
@@ -214,6 +233,46 @@ func _update_camera(delta: float) -> void:
 		shake_amount = move_toward(shake_amount, 0.0, 40.0 * delta)
 	camera.global_position = (cam_pos + shake).round()
 	camera.offset = Vector2.ZERO
+
+
+# ---------------------------------------------------------------- Stairs between floors
+
+func add_stairs(trigger: Rect2, dest: Vector2, to_floor: String, on_floor: String, place: String) -> void:
+	stairs.append([trigger, dest, to_floor, on_floor, place])
+
+
+func _check_stairs() -> void:
+	if traveling:
+		return
+	var p: Vector2 = player.global_position
+	for s in stairs:
+		if s[0].has_point(p):
+			if _stairs_armed:
+				travel(s[1], s[2], s[4])
+			return
+	# Kael must step off the stairs before they work again
+	_stairs_armed = true
+
+
+## Move Kael to another floor behind a quick fade (no loading screen: every floor is
+## already built, just far apart in the world).
+func travel(dest: Vector2, to_floor: String, place: String) -> void:
+	traveling = true
+	_stairs_armed = false
+	var tw := create_tween()
+	tw.tween_property(fade_rect, "color:a", 1.0, 0.16)
+	tw.tween_callback(func():
+		floor_name = to_floor
+		player.global_position = dest
+		player.reset_state()
+		cam_pos = dest
+		camera.global_position = dest.round()
+		if to_floor == "":
+			world.update_chunks(dest)
+		float_text(place, dest + Vector2(0, -80), Color(1.0, 0.9, 0.6)))
+	tw.tween_interval(0.06)
+	tw.tween_property(fade_rect, "color:a", 0.0, 0.22)
+	tw.tween_callback(func(): traveling = false)
 
 
 func is_world_paused() -> bool:
@@ -372,6 +431,11 @@ func objective_target() -> Vector2:
 	var goal := objective_goal()
 	if goal == Vector2.INF:
 		return goal
+	if floor_name != "":
+		# indoors on another floor: point back to the stairs
+		for s in stairs:
+			if s[3] == floor_name and s[2] == "":
+				return s[0].get_center()
 	return Geo.next_waypoint(player.global_position, goal)
 
 
@@ -388,6 +452,7 @@ func _nearest_rock() -> Vector2:
 
 
 func on_player_down() -> void:
+	floor_name = ""
 	player.hp = player.max_hp
 	player.global_position = Geo.HALDOR_POS + Vector2(-60, 50)
 	player.reset_state()

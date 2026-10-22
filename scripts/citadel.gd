@@ -23,6 +23,9 @@ const Interior = preload("res://scripts/cit_interior.gd")
 const Ground = preload("res://scripts/cit_ground.gd")
 const Moat = preload("res://scripts/cit_moat.gd")
 const Deco = preload("res://scripts/deco.gd")
+const Tiles = preload("res://scripts/tiles.gd")
+const Fence = preload("res://scripts/cit_fence.gd")
+const Floors = preload("res://scripts/citadel_floors.gd")
 
 const PIECE := 32   # vertical walls are built from pieces this long
 
@@ -42,12 +45,14 @@ static func build(main) -> void:
 	_courtyard()
 	_yards()
 	_people(main)
+	Floors.build(main)
 
 
 # ---------------------------------------------------------------- helpers
 
-static func _spr(name: String, p: Vector2, solid := Vector2.ZERO, flame := Vector2.INF, shadow := true) -> Node2D:
+static func _spr(name: String, p: Vector2, solid := Vector2.ZERO, flame := Vector2.INF, shadow := true, lift := 0) -> Node2D:
 	var s = Spr.new()
+	s.lift = lift
 	s.sprite = name
 	s.position = p.round()
 	s.solid = solid
@@ -132,6 +137,17 @@ static func _grounds(main) -> void:
 	# grand steps and the red carpet up to the throne hall
 	g.steps.append(Rect2(-130, 100, 260, 60))
 	g.carpets.append(Rect2(-36, 100, 72, 232))
+	# cobbled avenue from the gate to the arena and from the arena to the steps
+	g.cobbles.append(Rect2(-56, 788, 112, 132))
+	g.cobbles.append(Rect2(-56, 160, 112, 172))
+	for r in [Rect2(-64, 788, 8, 132), Rect2(56, 788, 8, 132), Rect2(-64, 160, 8, 172), Rect2(56, 160, 8, 172),
+			# plinths along the fronts of the wings and the throne hall
+			Rect2(-1060, 560, 600, 10), Rect2(460, 560, 600, 10), Rect2(-340, 100, 210, 10), Rect2(130, 100, 210, 10)]:
+		g.kerbs.append(r)
+	# irregular planting beds in the courtyard
+	for side in [-1, 1]:
+		g.beds.append([Vector2(side * 420, 470), Vector2(34, 84)])
+		g.beds.append([Vector2(side * 190, 852), Vector2(64, 24)])
 	main.ground_layer.add_child(g)
 
 
@@ -183,9 +199,18 @@ static func _throne_hall(main) -> void:
 	inside.footprint = fp
 	inside.wall_h = 128
 	inside.floor_tex = load("res://art/cit_tex_marble.png")
+	# cream marble, a checkered nave between the pillars, inlaid borders along it
+	inside.tile_row = Tiles.MARBLE
+	inside.tile_vars = [0, 1]
+	inside.nave = Rect2(-204, -752, 408, 852)
+	inside.nave_alt = [2, 3]
+	inside.bands = [[Rect2(-236, -752, 32, 852), Tiles.MARBLE_BORDER_V], [Rect2(204, -752, 32, 852), Tiles.MARBLE_BORDER_V],
+			[Rect2(-236, -752, 472, 32), Tiles.MARBLE_BORDER]]
+	inside.rugs = [[load("res://art/dec_rug_throne.png"), Vector2(0, -430)], [load("res://art/dec_rug_blue.png"), Vector2(0, -110)]]
+	inside.pools = [[Vector2(-113, -860), 44.0], [Vector2(113, -860), 44.0]]
 	inside.carpet = Rect2(-40, -764, 80, 864)
 	inside.dais = Rect2(-180, -862, 360, 96)
-	inside.stairs = [[Vector2(-326, -866), "up"], [Vector2(254, -866), "down"]]
+	inside.stairs = [[Vector2(-318, -902), load("res://art/castle/walls/stairs_grand.png")], [Vector2(226, -876), load("res://art/dec_stairs_down.png")]]
 	main.ground_layer.add_child(inside)
 	var b = _building(main, fp, 128, [0], true)
 	b.big_door = true
@@ -194,16 +219,35 @@ static func _throne_hall(main) -> void:
 	# turrets at the front corners of the hall
 	for x in [-344, 344]:
 		_spr("cit_tower_small", Vector2(x, 106), Vector2(46, 18))
-	# inside: the throne on its dais, rows of pillars, braziers along the carpet
-	_spr("cit_throne", Vector2(0, -786), Vector2(64, 18))
+	# the throne on its dais, under a velvet canopy, between candelabras
+	_spr("dec_canopy", Vector2(0, -840), Vector2.ZERO, Vector2.INF, false)
+	_spr("castle/decor/throne_dais", Vector2(0, -776), Vector2(84, 30))
+	for x in [-150, 150]:
+		_spr("castle/decor/candelabra_b", Vector2(x, -800), Vector2(12, 8))
+	# torches on the back wall
+	for x in [-113, 113]:
+		_spr("dec_sconce", Vector2(x, -880), Vector2.ZERO, Vector2(0, -72), false, 46)
+	# rows of pillars and fire bowls along the carpet
 	for y in [-700, -520, -340, -160, 20]:
 		for x in [-220, 220]:
 			_spr("cit_pillar", Vector2(x, y), Vector2(26, 14))
 	for y in [-620, -300, 20]:
 		for x in [-110, 110]:
 			_spr("cit_brazier", Vector2(x, y), Vector2(20, 10), Vector2(0, -37))
-	_sign(main, Vector2(-290, -812), "Stairs up", Story.STAIRS_UP)
-	_sign(main, Vector2(290, -812), "Stairs down", Story.STAIRS_DOWN)
+	# statues and suits of armour in the side aisles, keeping the aisles walkable
+	for side in [-1, 1]:
+		_spr("castle/decor/statue_queen" if side < 0 else "castle/decor/statue_saint", Vector2(side * 296, -610), Vector2(26, 12))
+		_spr("castle/decor/armour_a", Vector2(side * 298, -430), Vector2(20, 10))
+		_spr("castle/decor/statue_saint" if side < 0 else "castle/decor/statue_queen", Vector2(side * 296, -250), Vector2(26, 12))
+		_spr("castle/decor/armour_b", Vector2(side * 298, -70), Vector2(20, 10))
+		_spr("castle/decor/plant_urn", Vector2(side * 296, 60), Vector2(24, 10))
+	# the stairs: up to the Royal Residence, down to the Service Floor
+	_block(Rect2(-318, -880, 12, 74))
+	_block(Rect2(-242, -880, 12, 74))
+	_block(Rect2(226, -876, 10, 96))
+	_block(Rect2(312, -876, 10, 96))
+	main.add_stairs(Rect2(-306, -880, 64, 36), Floors.UP_ARRIVE, "up", "", "Royal Residence")
+	main.add_stairs(Rect2(244, -866, 60, 44), Floors.DOWN_ARRIVE, "down", "", "Service Floor")
 
 
 static func _chapel(main) -> void:
@@ -224,9 +268,46 @@ static func _chapel(main) -> void:
 		_spr("cit_pew", Vector2(1014, y), Vector2(72, 10))
 
 
+static func _wing(main, fp: Rect2, door: float, row: int) -> void:
+	var inside = Interior.new()
+	inside.footprint = fp
+	inside.wall_h = 112
+	inside.tile_row = row
+	main.ground_layer.add_child(inside)
+	layer.add_child(_building(main, fp, 112, [door], true))
+
+
 static func _wings(main) -> void:
-	layer.add_child(_building(main, Rect2(-1060, 230, 600, 330), 112, [-760], false))
-	layer.add_child(_building(main, Rect2(460, 230, 600, 330), 112, [760], false))
+	# west: barracks and armory
+	_wing(main, Rect2(-1060, 230, 600, 330), -760, Tiles.FLAG)
+	for x in [-1010, -960, -910, -610, -560, -510]:
+		_spr("castle/furniture/bed_simple", Vector2(x, 316), Vector2(34, 40))
+		_spr("castle/furniture/chest_wood", Vector2(x, 352), Vector2(34, 12))
+	_spr("castle/furniture/kitchen_table", Vector2(-900, 470), Vector2(84, 14))
+	_spr("castle/furniture/stool", Vector2(-924, 444), Vector2(14, 8))
+	_spr("castle/furniture/stool", Vector2(-876, 444), Vector2(14, 8))
+	_spr("castle/decor/weapon_rack", Vector2(-1010, 538), Vector2(34, 10))
+	_spr("castle/decor/halberd_stand", Vector2(-960, 538), Vector2(16, 8))
+	_spr("castle/decor/weapon_rack", Vector2(-910, 538), Vector2(34, 10))
+	_spr("castle/decor/shield_stand", Vector2(-620, 538), Vector2(30, 10))
+	_spr("castle/decor/armour_a", Vector2(-560, 538), Vector2(20, 10))
+	_spr("castle/decor/armour_b", Vector2(-510, 538), Vector2(20, 10))
+	main._npc("guard", Vector2(-660, 430), "Soldier", Story.BARRACKS_GUARD)
+	# east: the royal banquet hall
+	_wing(main, Rect2(460, 230, 600, 330), 760, Tiles.WOOD)
+	for x in [500, 540, 980, 1020]:
+		_spr("castle/furniture/bookshelf_a" if x % 40 == 20 else "castle/furniture/bookshelf_b", Vector2(x, 292), Vector2(32, 16))
+	for x in [600, 920]:
+		_spr("castle/furniture/dining_table", Vector2(x, 440), Vector2(100, 20))
+		for dx in [-30, 0, 30]:
+			_spr("castle/furniture/chair_blue" if dx != 0 else "castle/furniture/chair_red", Vector2(x + dx, 388), Vector2(14, 8))
+	for x in [690, 830]:
+		_spr("castle/decor/candelabra_a", Vector2(x, 292), Vector2(12, 8))
+	for x in [500, 1020]:
+		_spr("castle/decor/plant_urn", Vector2(x, 536), Vector2(24, 10))
+	_spr("castle/decor/vase_blue", Vector2(640, 288), Vector2(16, 8))
+	_spr("castle/decor/vase_blue", Vector2(880, 288), Vector2(16, 8))
+	main._npc("court", Vector2(840, 330), "Steward", Story.STEWARD).variant = 2
 
 
 # ---------------------------------------------------------------- gardens and courtyard
@@ -262,6 +343,35 @@ static func _gardens() -> void:
 
 
 static func _courtyard() -> void:
+	# a rope fence around the arena, open towards the hall, the gate and both wings
+	var c := Vector2(0, 560)
+	var n := 32
+	for i in n:
+		if i in [7, 8, 23, 24, 15, 16, 31, 0]:
+			continue
+		var p0 := (c + Vector2.from_angle(TAU * i / n) * 238.0).round()
+		var p1 := (c + Vector2.from_angle(TAU * (i + 1) / n) * 238.0).round()
+		var f = Fence.new()
+		f.position = p0 if p0.y > p1.y else p1
+		f.a = p0 - f.position
+		f.b = p1 - f.position
+		layer.add_child(f)
+	# planting beds: roses, lavender, shrubs and wildflowers
+	for side in [-1, 1]:
+		var x: float = side * 420
+		_spr("dec_roses", Vector2(x, 418), Vector2(24, 8))
+		_spr("dec_shrub", Vector2(x - side * 6, 466), Vector2(22, 8))
+		_spr("dec_lavender", Vector2(x + side * 8, 506), Vector2(18, 6))
+		_spr("dec_roses", Vector2(x - side * 4, 546), Vector2(24, 8))
+		_spr("dec_flowers", Vector2(x + 12, 440), Vector2.ZERO, Vector2.INF, false)
+		_spr("dec_flowers", Vector2(x - 14, 490), Vector2.ZERO, Vector2.INF, false)
+		_spr("dec_flowers", Vector2(x + 10, 528), Vector2.ZERO, Vector2.INF, false)
+		var bx: float = side * 190
+		_spr("dec_lavender", Vector2(bx - 36, 852), Vector2(18, 6))
+		_spr("dec_shrub", Vector2(bx, 858), Vector2(22, 8))
+		_spr("dec_lavender", Vector2(bx + 36, 852), Vector2(18, 6))
+		_spr("dec_flowers", Vector2(bx - 14, 842), Vector2.ZERO, Vector2.INF, false)
+		_spr("dec_flowers", Vector2(bx + 20, 866), Vector2.ZERO, Vector2.INF, false)
 	# statues and fire bowls at the foot of the grand steps
 	for side in [-1, 1]:
 		_spr("cit_statue", Vector2(side * 200, 176), Vector2(34, 14))
@@ -302,7 +412,7 @@ static func _people(main) -> void:
 	main._npc("guard", Vector2(-90, -700), "Royal guard", Story.GUARD_HALL)
 	main._npc("guard", Vector2(90, -700), "Royal guard", Story.GUARD_HALL)
 	main._npc("guard", Vector2(-700, 596), "Guard", Story.GUARD_WEST_WING)
-	main._npc("guard", Vector2(820, 596), "Guard", Story.GUARD_EAST_WING)
+	main._npc("guard", Vector2(700, 596), "Guard", Story.GUARD_EAST_WING)
 	for p in [[Vector2(960, -735), "Sister Maren", Story.PRIEST, 2], [Vector2(-600, -200), "Gardener", Story.GARDENER, 1],
 			[Vector2(560, -300), "Lady of the court", Story.COURT_LADY, 0], [Vector2(820, 780), "Servant", Story.SERVANT, 3]]:
 		var n = main._npc("court", p[0], p[1], p[2])

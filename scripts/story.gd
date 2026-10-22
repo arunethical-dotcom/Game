@@ -128,11 +128,20 @@ const GUARD_HALL := [
 ]
 
 const GUARD_WEST_WING := [
-	["Guard", "The Military Wing: barracks and armory. No one enters without the captain's leave."],
+	["Guard", "The Military Wing: barracks and armory. The captain says Haldor's boy may look around."],
+	["Guard", "Touch the blades if you like. You'll be making them soon enough."],
 ]
 
 const GUARD_EAST_WING := [
-	["Guard", "The East Wing is where the royal family lives. Turn around, boy."],
+	["Guard", "The East Wing: the royal banquet hall. Go in, but mind the silver."],
+]
+
+const BARRACKS_GUARD := [
+	["Soldier", "Bunks, chests and a cold floor. Better than a ditch outside Kingdom A's border, I'll tell you that."],
+]
+
+const STEWARD := [
+	["Steward", "On feast days the whole court dines here. The king at the head, his sister at his right hand."],
 ]
 
 const PRIEST := [
@@ -152,14 +161,34 @@ const SERVANT := [
 	["Servant", "Kitchens are below us, on the service floor. Busy day, the king's nephew is hosting a hunt."],
 ]
 
-const STAIRS_UP := [
-	["", "Stairs up to the Royal Residential Floor, where the king's family and his sister's family live."],
-	["", "(This floor comes in the next update.)"],
+const RESIDENCE_GUARD := [
+	["Royal guard", "The royal family's chambers. Look all you like today, apprentice. Tomorrow you might not be so welcome."],
 ]
 
-const STAIRS_DOWN := [
-	["", "Stairs down to the Service Floor: kitchens, dining hall and servants' quarters."],
-	["", "(This floor comes in the next update.)"],
+const ROYAL_MAID := [
+	["Royal maid", "The queen likes the blue rug straight. Exactly straight. Don't step on it."],
+]
+
+const SCRIBE := [
+	["Royal scribe", "Every treaty, every map, every name of every soldier who fell. It's all on these shelves."],
+	["Royal scribe", "Kingdom A's histories too. The victors keep the books, boy."],
+]
+
+const SIGN_KING := [["", "The King and Queen's chamber."]]
+const SIGN_PRINCES := [["", "The chamber of the king's two sons."]]
+const SIGN_PRINCESS := [["", "The princess's chamber."]]
+const SIGN_SISTER := [["", "The rooms of the king's sister, her son and her daughter."]]
+const SIGN_LIBRARY := [["", "The Royal Library."]]
+const SIGN_KITCHEN := [["", "The kitchen."]]
+const SIGN_STORE := [["", "The storeroom."]]
+const SIGN_QUARTERS := [["", "The servants' quarters."]]
+
+const SERVANT_BELOW := [
+	["Servant", "The Service Floor. Kitchen, stores and our bunks. Nobody upstairs ever comes down here."],
+]
+
+const COOK := [
+	["Cook", "Out of my kitchen unless you can carry a pot! ...Fine. One bread roll. Then out."],
 ]
 
 const VILLAGER_LINES := [

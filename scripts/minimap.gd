@@ -23,6 +23,12 @@ func _w2m(p: Vector2) -> Vector2:
 func _draw() -> void:
 	if main == null or main.player == null:
 		return
+	if main.floor_name != "":
+		# indoors on another floor of the citadel: show a simple marker instead
+		draw_rect(Rect2(Vector2.ZERO, size), Color(0.12, 0.1, 0.09))
+		draw_rect(Rect2(size / 2.0 - Vector2(18, 10), Vector2(36, 20)), Color(0.5, 0.42, 0.3), false, 2.0)
+		draw_circle(size / 2.0, 3.0, Color(1.0, 0.9, 0.5))
+		return
 	var s := size.x / VIEW
 	draw_rect(Rect2(Vector2.ZERO, size), Color(0.36, 0.48, 0.28))
 	# Forest of Elders

@@ -52,7 +52,7 @@ void fragment() {
 	vec2 mote = cell * 36.0 + vec2(hash2(cell + 1.0), hash2(cell + 2.0)) * 30.0 + drift;
 	float dust = has * step(length(world - mote), 1.1) * (0.5 + 0.5 * sin(TIME * 2.0 + hash2(cell) * 20.0));
 
-	vec3 light = sun_color * (shaft * shaft_strength + glow * glow_strength) + sun_color * dust * shaft * 0.9;
+	vec3 light = sun_color * (shaft * shaft_strength + glow * glow_strength) + sun_color * dust * shaft * 0.9 * step(0.01, shaft_strength);
 	c = c + light * (1.0 - c);   // screen blend: brightens without blowing out
 
 	// --- colour grade
