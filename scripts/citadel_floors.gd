@@ -66,7 +66,7 @@ static func _sconce(fp, p: Vector2) -> void:
 	s.flame = Vector2(0, -66)
 	s.shadow = false
 	layer.add_child(s)
-	fp.pools.append([p + Vector2(0, 30), 46.0])
+	main_ref.lights.add(o + p - Vector2(0, 64), "torch")
 
 
 static func _deco(name: String, p: Vector2, base := Vector2.ZERO) -> void:
@@ -155,9 +155,9 @@ static func _residence(main) -> void:
 	_put("castle/furniture/desk", Vector2(-395, -190), Vector2(62, 14))
 	_put("castle/furniture/chair_red", Vector2(-395, -218), Vector2(14, 8))
 	_put("castle/decor/candelabra_a", Vector2(-620, -150), Vector2(12, 8))
+	main_ref.lights.add(o + Vector2(-620, -150 - 34), "candle")
 	_put("castle/decor/plant_pot", Vector2(-350, -134), Vector2(20, 10))
 	_person("court", Vector2(-470, -320), "Royal maid", Story.ROYAL_MAID, 3)
-	fp.pools.append([Vector2(-620, -170), 40.0])
 
 	# the two princes share a room
 	_room_windows(fp, princes, 96, "castle/decor/painting_castle")
@@ -190,6 +190,7 @@ static func _residence(main) -> void:
 	_put("castle/furniture/sofa_blue", Vector2(320, -168), Vector2(36, 10))
 	_put("castle/furniture/side_table", Vector2(372, -170), Vector2(28, 10))
 	_put("castle/decor/candelabra_b", Vector2(620, -150), Vector2(12, 8))
+	main_ref.lights.add(o + Vector2(620, -150 - 34), "candle")
 	_put("castle/decor/vase_blue", Vector2(254, -136), Vector2(16, 8))
 	_put("castle/furniture/screen", Vector2(560, -150), Vector2(50, 10))
 
@@ -202,15 +203,23 @@ static func _residence(main) -> void:
 	_put("castle/furniture/desk", Vector2(120, 430), Vector2(62, 14))
 	_put("castle/furniture/royal_chair", Vector2(120, 404), Vector2(30, 8))
 	_put("castle/decor/candelabra_a", Vector2(-210, 470), Vector2(12, 8))
+	main_ref.lights.add(o + Vector2(-210, 470 - 34), "candle")
 	_put("castle/decor/candelabra_b", Vector2(210, 470), Vector2(12, 8))
+	main_ref.lights.add(o + Vector2(210, 470 - 34), "candle")
 	_put("castle/decor/statue_saint", Vector2(0, 470), Vector2(22, 10))
 	_person("court", Vector2(40, 380), "Royal scribe", Story.SCRIBE, 2)
-	fp.pools.append([Vector2(-210, 450), 40.0])
-	fp.pools.append([Vector2(210, 450), 40.0])
 
 	# camera zones: each room (with its back wall) frames itself, the corridors scroll
 	for rm in fp.rooms:
 		var r: Rect2 = rm["rect"]
+		var env := "bedroom" if o == UP_O else "kitchen"
+		if r.size.y < 200.0:
+			env = "throne" if o == UP_O else "stone"      # corridors / service hall
+		if o == UP_O and r.position.y > 200.0:
+			env = "library"
+		if o == DOWN_O and r.position.x > -120.0:
+			env = "stone"                                # storeroom and servants' quarters
+		main.add_env_zone(Rect2(o + r.position, r.size), env)
 		main.add_camera_zone(Rect2(o + r.position - Vector2(24, rm["h"] + 30), r.size + Vector2(48, rm["h"] + 60)), main.INTERIOR_ZOOM)
 	main.add_child(fp)
 
@@ -247,6 +256,7 @@ static func _service(main) -> void:
 
 	# kitchen: hearth, oven and stove along the back wall, tables and stores
 	_put("castle/kitchen/fireplace", Vector2(-420, -386), Vector2(54, 16), true, Vector2(0, -16))
+	main.lights.add(o + Vector2(-420, -400), "fire")
 	_put("castle/kitchen/oven", Vector2(-340, -384), Vector2(34, 16))
 	_put("castle/kitchen/stove", Vector2(-180, -384), Vector2(48, 16))
 	_put("castle/kitchen/pans_rack", Vector2(-260, -394), Vector2(40, 8))
@@ -257,7 +267,6 @@ static func _service(main) -> void:
 	_put("castle/kitchen/bread_basket", Vector2(-200, -136), Vector2(24, 10))
 	_put("castle/kitchen/bucket", Vector2(-400, -186), Vector2(22, 8))
 	_person("court", Vector2(-250, -300), "Cook", Story.COOK, 0)
-	fp.pools.append([Vector2(-420, -370), 70.0])
 
 	# storeroom
 	_put("castle/kitchen/barrels_stack", Vector2(-60, -350), Vector2(32, 12))
@@ -281,6 +290,14 @@ static func _service(main) -> void:
 	# camera zones: each room (with its back wall) frames itself, the corridors scroll
 	for rm in fp.rooms:
 		var r: Rect2 = rm["rect"]
+		var env := "bedroom" if o == UP_O else "kitchen"
+		if r.size.y < 200.0:
+			env = "throne" if o == UP_O else "stone"      # corridors / service hall
+		if o == UP_O and r.position.y > 200.0:
+			env = "library"
+		if o == DOWN_O and r.position.x > -120.0:
+			env = "stone"                                # storeroom and servants' quarters
+		main.add_env_zone(Rect2(o + r.position, r.size), env)
 		main.add_camera_zone(Rect2(o + r.position - Vector2(24, rm["h"] + 30), r.size + Vector2(48, rm["h"] + 60)), main.INTERIOR_ZOOM)
 	main.add_child(fp)
 

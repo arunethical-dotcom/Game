@@ -34,7 +34,7 @@ func add(pos: Vector2, kind := "candle") -> void:
 		"torch":
 			r = 72.0
 		"brazier":
-			r = 86.0
+			r = 64.0
 			c = Color(1.0, 0.62, 0.26)
 		"fire":
 			r = 110.0
@@ -60,6 +60,18 @@ func _flick(seed: float) -> float:
 	return 0.9 + 0.1 * sin(t * 9.0 + seed) * sin(t * 5.3 + seed * 1.7)
 
 
+## Flames read stronger when the ambient light is low (sunset, night).
+func _boost() -> float:
+	if main == null:
+		return 1.0
+	match main.time_of_day:
+		"sunset":
+			return 1.35
+		"night":
+			return 1.8
+	return 1.0
+
+
 func _draw() -> void:
 	var view := _visible_rect()
 	for l in lights:
@@ -71,7 +83,7 @@ func _draw() -> void:
 		# three stepped rings: brightest at the centre
 		for k in 3:
 			var rr := roundf(r * (1.0 - k * 0.3))
-			draw_circle(l[0] + Vector2(0, 8), rr, Color(c.r, c.g, c.b, 0.07 + k * 0.025))
+			draw_circle(l[0] + Vector2(0, 8), rr, Color(c.r, c.g, c.b, (0.045 + k * 0.02) * _boost()))
 
 
 func _draw_glow() -> void:
@@ -80,6 +92,7 @@ func _draw_glow() -> void:
 		if not view.has_point(l[0]):
 			continue
 		var f := _flick(l[3])
+		var b := _boost()
 		var c: Color = l[2]
-		glow.draw_circle(l[0] + Vector2(0, -10), roundf(l[1] * 0.75 * f), Color(c.r * 0.09, c.g * 0.06, c.b * 0.03))
-		glow.draw_circle(l[0] + Vector2(0, -10), roundf(l[1] * 0.4 * f), Color(c.r * 0.08, c.g * 0.05, c.b * 0.02))
+		glow.draw_circle(l[0] + Vector2(0, -10), roundf(l[1] * 0.75 * f), Color(c.r * 0.05 * b, c.g * 0.032 * b, c.b * 0.012 * b))
+		glow.draw_circle(l[0] + Vector2(0, -10), roundf(l[1] * 0.4 * f), Color(c.r * 0.045 * b, c.g * 0.028 * b, c.b * 0.01 * b))

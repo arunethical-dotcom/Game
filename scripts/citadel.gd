@@ -175,7 +175,7 @@ static func _wall_run(x0: float, x1: float, y: float, pieces: Array) -> void:
 ## One enterable building. `r` is its whole plan rect (back wall included); the floor
 ## starts below the back wall. Doors are plan x on the front (south) wall; side doors
 ## are ["w" or "e", y0, y1] in plan tiles.
-static func _building(main, r: Array, wall_h: int, doors: Array, floor_row: int, side_doors := []) -> Array:
+static func _building(main, r: Array, wall_h: int, doors: Array, floor_row: int, side_doors := [], env := "bedroom") -> Array:
 	var full := TR(r[0], r[1], r[2], r[3])
 	var fp := Rect2(full.position.x, full.position.y + wall_h, full.size.x, full.size.y - wall_h)
 	var inside = Interior.new()
@@ -199,6 +199,7 @@ static func _building(main, r: Array, wall_h: int, doors: Array, floor_row: int,
 	b.position = Vector2(roundf(fp.get_center().x), fp.end.y)
 	layer.add_child(b)
 	main.add_camera_zone(full.grow_individual(24, 24, 24, 40), main.INTERIOR_ZOOM)
+	main.add_env_zone(fp.grow(-6), env)
 	return [inside, b, fp]
 
 
@@ -274,7 +275,7 @@ static func _curtain_wall() -> void:
 # ---------------------------------------------------------------- throne hall
 
 static func _throne_hall(main) -> void:
-	var res := _building(main, [38, 8, 62, 28], 128, [50], Tiles.MARBLE)
+	var res := _building(main, [38, 8, 62, 28], 128, [50], Tiles.MARBLE, [], "throne")
 	var inside = res[0]
 	var b = res[1]
 	var fp: Rect2 = res[2]
@@ -369,7 +370,7 @@ static func _west_side(main) -> void:
 	main._npc("guard", T(22.8, 28.6), "Royal guard", Story.GUARD_WEST_WING)
 
 	# Chapel and Armory open into the west gallery; the gallery opens onto the courtyard
-	var ch := _building(main, [10, 32, 22, 42], 96, [], Tiles.C_LIMESTONE, [["e", 36, 38]])
+	var ch := _building(main, [10, 32, 22, 42], 96, [], Tiles.C_LIMESTONE, [["e", 36, 38]], "chapel")
 	ch[0].stained = true
 	ch[0].carpet = TR(15.4, 35, 16.6, 42)
 	_spr("cit_altar", T(16, 36.4), Vector2(76, 14))
@@ -380,7 +381,7 @@ static func _west_side(main) -> void:
 	_light("lighting/candelabra_table", 20, 36.6, Vector2(14, 8), "candle")
 	main._npc("court", T(16, 37.4), "Sister Maren", Story.PRIEST).variant = 2
 
-	var ar := _building(main, [10, 44, 22, 56], 96, [], Tiles.C_DARKSTONE, [["e", 48, 50]])
+	var ar := _building(main, [10, 44, 22, 56], 96, [], Tiles.C_DARKSTONE, [["e", 48, 50]], "stone")
 	ar[0].rugs = [[load("res://art/castle2/rugs/rug_red_b.png"), T(15, 52)]]
 	ar[0].shafts = false   # no windows: lit only by its torches
 	for x in [13, 19]:
@@ -394,7 +395,7 @@ static func _west_side(main) -> void:
 	_put("furniture/workbench", 17.5, 51, Vector2(44, 12))
 	main._npc("guard", T(19.5, 51.4), "Armourer", Story.ARMOURER)
 
-	var ga := _building(main, [22, 32, 28, 56], 96, [], Tiles.C_LIMESTONE, [["w", 36, 38], ["w", 48, 50], ["e", 40, 42]])
+	var ga := _building(main, [22, 32, 28, 56], 96, [], Tiles.C_LIMESTONE, [["w", 36, 38], ["w", 48, 50], ["e", 40, 42]], "throne")
 	ga[0].carpet = TR(24.4, 35, 25.6, 51)
 	_put("banners/banner_red_a", 25, 35.4, Vector2(16, 6))
 	_light("lighting/candle_stand", 23, 44, Vector2(10, 6), "candle")
@@ -443,7 +444,7 @@ static func _east_side(main) -> void:
 	main._npc("guard", T(77.6, 28.4), "Guard", Story.GUARD_EAST_WING)
 
 	# Library and Archives
-	var li := _building(main, [72, 32, 90, 42], 96, [77], Tiles.C_WOOD_CHEVRON)
+	var li := _building(main, [72, 32, 90, 42], 96, [77], Tiles.C_WOOD_CHEVRON, [], "library")
 	li[0].rugs = [[load("res://art/castle2/rugs/rug_square_blue.png"), T(81, 38.4)]]
 	for p in [[73.4, "bookshelf"], [74.8, "bookshelf_wide"], [76.2, "bookshelf_b"], [85.8, "bookshelf"], [87.2, "bookshelf_wide"], [88.6, "bookshelf_b"]]:
 		_put("library_props/" + p[1], p[0], 35.6, Vector2(30, 12))
@@ -456,7 +457,7 @@ static func _east_side(main) -> void:
 	main._npc("court", T(82.6, 38.8), "Archivist", Story.SCRIBE).variant = 2
 
 	# Council room
-	var co := _building(main, [70, 44, 82, 54], 96, [], Tiles.C_WOOD, [["w", 48, 50]])
+	var co := _building(main, [70, 44, 82, 54], 96, [], Tiles.C_WOOD, [["w", 48, 50]], "library")
 	co[0].rugs = [[load("res://art/castle2/rugs/rug_red_a.png"), T(76.5, 51)]]
 	_put("furniture/dining_table", 76.5, 51.4, Vector2(52, 16))
 	for x in [75, 76.5, 78]:
@@ -470,7 +471,7 @@ static func _east_side(main) -> void:
 	main._npc("court", T(73.6, 51.6), "Councillor", Story.COUNCILLOR).variant = 0
 
 	# Treasury entrance, with the stair down to the vaults (S4)
-	var tr := _building(main, [82, 44, 90, 56], 96, [86], Tiles.C_BLUESTONE)
+	var tr := _building(main, [82, 44, 90, 56], 96, [86], Tiles.C_BLUESTONE, [], "stone")
 	tr[0].shafts = false   # no windows into the treasury
 	_wall_torch(84, 47)
 	_wall_torch(88.4, 47)

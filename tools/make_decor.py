@@ -128,7 +128,7 @@ def tile_marble(v):
     img = new(T, T)
     p = img.load()
     cream = v < 2
-    base = [hexc('ece4d2'), hexc('f1eadb')] if cream else [hexc('7590cb'), hexc('7d97cf')]
+    base = [hexc('e0d3b8'), hexc('e6dac1')] if cream else [hexc('5f7ec2'), hexc('6785c6')]
     for y in range(T):
         for x in range(T):
             c = base[(x * 7 + y * 3) % 5 == 0]

@@ -8,16 +8,20 @@ shader_type canvas_item;
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform vec2 cam_pos = vec2(0.0);       // world position of the screen's top-left corner
 uniform vec2 view_size = vec2(960.0, 540.0);
-// Kept gentle on purpose: the art's own colours are the reference, so the grade must not
-// shift hues (no colour cast on shadows, no desaturation) or wash the image out.
+// The grade is kept gentle on purpose: the art's own colours are the reference. Each
+// environment (outdoors, throne hall, bedrooms, library, kitchen, dungeon) has its own
+// profile, blended in by grade.gd; time of day tints the outdoor profile.
 uniform float saturation = 1.0;
-uniform float warmth = 0.025;
 uniform float contrast = 1.03;
+uniform float exposure = 1.0;            // overall brightness of the ambient light
+uniform vec3 ambient = vec3(1.0);        // colour of the ambient light (multiplies the scene)
+uniform vec3 hi_tint = vec3(0.025, 0.014, -0.012);  // added to highlights
+uniform vec3 lo_tint = vec3(0.0);        // added to shadows (cool for stone, warm for wood)
 uniform float vignette = 0.16;
 uniform vec3 sun_color = vec3(1.0, 0.88, 0.62);
 uniform float shaft_strength = 0.22;
 uniform float glow_strength = 0.16;
-uniform float indoor = 0.0;             // 0 outside, 1 inside a building or on another floor
+uniform float indoor = 0.0;              // 0 outside, 1 under a roof: no sun beams or sky glow
 
 float hash(float n) { return fract(sin(n) * 43758.5453); }
 float hash2(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -59,12 +63,14 @@ void fragment() {
 	vec3 light = sky * (sun_color * (shaft * shaft_strength + glow * glow_strength) + sun_color * dust * shaft * 0.9);
 	c = c + light * (1.0 - c);   // screen blend: brightens without blowing out
 
-	// --- colour grade
+	// --- colour grade (per environment)
+	c *= ambient * exposure;
 	float l = dot(c, vec3(0.299, 0.587, 0.114));
 	c = mix(vec3(l), c, saturation);
-	c += sky * vec3(warmth, warmth * 0.55, -warmth * 0.5) * smoothstep(0.35, 0.9, l);
+	c += hi_tint * smoothstep(0.35, 0.9, l);
+	c += lo_tint * (1.0 - smoothstep(0.05, 0.45, l));
 	c = (c - 0.5) * contrast + 0.5;
 	vec2 d = SCREEN_UV - 0.5;
 	c *= 1.0 - dot(d, d) * vignette;
-	COLOR = vec4(c, 1.0);
+	COLOR = vec4(clamp(c, 0.0, 1.0), 1.0);
 }

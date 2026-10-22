@@ -27,6 +27,9 @@ var decal_layer: Node2D
 var entity_layer: Node2D
 var overlay_layer: Node2D
 var lights                    # light_layer.gd: warm local light from flames
+var env_zones := []           # [Rect2, environment name] used by the colour grade (grade.gd)
+var time_of_day := "day"      # "day", "afternoon", "sunset" or "night"
+const TIMES := ["day", "afternoon", "sunset", "night"]
 var player
 var haldor
 var hud
@@ -67,6 +70,7 @@ func _ready() -> void:
 	decal_layer.z_index = -5
 	add_child(decal_layer)
 	lights = preload("res://scripts/light_layer.gd").new()
+	lights.main = self
 	add_child(lights)
 	entity_layer = Node2D.new()
 	entity_layer.y_sort_enabled = true
@@ -199,6 +203,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Esc closes the game on a computer
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and not OS.has_feature("mobile"):
 		get_tree().quit()
+	# F2 cycles the time of day (for checking the lighting; a day/night cycle can drive it later)
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F2:
+		time_of_day = TIMES[(TIMES.find(time_of_day) + 1) % TIMES.size()]
+		float_text(time_of_day.capitalize(), player.global_position + Vector2(0, -90), Color(1, 0.9, 0.6))
 
 
 func _process(delta: float) -> void:
@@ -348,14 +356,29 @@ func travel(dest: Vector2, to_floor: String, place: String) -> void:
 	tw.tween_callback(func(): traveling = false)
 
 
+## Register a room for the colour grade: "throne", "bedroom", "library", "kitchen", "stone", "chapel".
+func add_env_zone(r: Rect2, env: String) -> void:
+	env_zones.append([r, env])
+
+
+## Which grading profile applies where Kael stands ("outdoor" when no room contains him).
+func environment() -> String:
+	var p: Vector2 = player.global_position
+	var best := "outdoor"
+	var area := INF
+	for z in env_zones:
+		var r: Rect2 = z[0]
+		if r.has_point(p) and r.get_area() < area:
+			area = r.get_area()
+			best = z[1]
+	if best == "outdoor" and floor_name != "":
+		best = "bedroom" if floor_name == "up" else "kitchen"
+	return best
+
+
 ## True when Kael is under a roof: inside a citadel building or on another floor.
 func is_indoors() -> bool:
-	if floor_name != "":
-		return true
-	for b in get_tree().get_nodes_in_group("enterable_buildings"):
-		if b.fade < 0.5:
-			return true
-	return false
+	return environment() != "outdoor"
 
 
 func is_world_paused() -> bool:
