@@ -16,7 +16,7 @@ const F_TUFT_TALL := 8
 const F_FERN := 9
 const F_MUSHROOM := 10
 const F_PEBBLES := 11
-const PAVED := ["street", "road", "market", "castle", "yard", "field", "cliff", "stream", "mountain"]
+const PAVED := ["street", "road", "market", "citadel", "yard", "field", "cliff", "stream", "mountain"]
 ## [flower patches, tufts, bushes, ferns, mushrooms, pebbles] per chunk
 const FLORA_DENSITY := {
 	"town": [3, 4, 1, 0, 0, 0],
@@ -231,7 +231,7 @@ func _tile_id(b: String, wp: Vector2, gx: int, gy: int) -> int:
 	var row := "grass"
 	match b:
 		"mountain": row = "mountain"
-		"castle": row = "cobble"
+		"citadel": row = "grass"   # the citadel draws its own grounds
 		"street", "road", "market": row = "grass"   # drawn smoothly by paving.gd
 		"yard": row = "yard"
 		"field": row = "grass"

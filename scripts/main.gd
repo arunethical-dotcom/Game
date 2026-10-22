@@ -5,6 +5,7 @@ extends Node2D
 
 const Geo = preload("res://scripts/geo.gd")
 const City = preload("res://scripts/city.gd")
+const Citadel = preload("res://scripts/citadel.gd")
 const WorldScript = preload("res://scripts/world.gd")
 const PlayerScript = preload("res://scripts/player.gd")
 const NpcScript = preload("res://scripts/npc.gd")
@@ -38,6 +39,7 @@ var inv := {"ore": 0, "moonsteel": 0}
 var leader_dead := false
 var moonsteel_drop := Vector2.INF
 var shake_amount := 0.0
+var cam_pos := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -64,6 +66,7 @@ func _ready() -> void:
 
 	City.build(self)
 	_place_people()
+	Citadel.build(self)
 
 	player = PlayerScript.new()
 	player.main = self
@@ -78,10 +81,13 @@ func _ready() -> void:
 	# 540 px tall, so let it scale smoothly there (phones keep exact 2x pixels).
 	if not (OS.has_feature("mobile") or DisplayServer.is_touchscreen_available()):
 		get_tree().root.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL
-	camera.position_smoothing_enabled = true
-	camera.position_smoothing_speed = 7.0
-	player.add_child(camera)
+	# The camera follows Kael smoothly but always lands on whole pixels, so walls,
+	# roads and buildings never shimmer or shake while he moves.
+	camera.position_smoothing_enabled = false
+	add_child(camera)
 	camera.make_current()
+	cam_pos = player.global_position
+	camera.global_position = cam_pos.round()
 
 	arrow = ArrowScript.new()
 	arrow.main = self
@@ -136,14 +142,12 @@ func _place_people() -> void:
 	_npc("guard", Geo.GATE_IN + Vector2(-85, 30), "Guard", Story.GUARD_NORTH)
 	_npc("guard", Geo.GATE_IN + Vector2(85, 30), "Guard", Story.GUARD_NORTH)
 	_npc("guard", Geo.SOUTH_GATE + Vector2(0, -90), "Guard", Story.GUARD_SOUTH)
-	_npc("guard", Vector2(-55, Geo.R_CASTLE + 40), "Royal guard", Story.GUARD_CASTLE)
-	_npc("guard", Vector2(55, Geo.R_CASTLE + 40), "Royal guard", Story.GUARD_CASTLE)
 
 	# Kingdom A captives hauling stone near the castle, watched by a guard
 	for i in 3:
-		var w = _npc("worker", Vector2(-640 - i * 40, 260 + i * 30), "Captive", Story.WORKER if i == 0 else [])
+		var w = _npc("worker", Vector2(-1960 - i * 40, 300 + i * 30), "Captive", Story.WORKER if i == 0 else [])
 		w.patrol_b = w.position + Vector2(-60, 220)
-	_npc("guard", Vector2(-560, 380), "Overseer", Story.GUARD_CASTLE)
+	_npc("guard", Vector2(-1880, 420), "Overseer", Story.GUARD_CASTLE)
 
 	# The inn, the watchtowers, the forest outpost and the mining settlement
 	_npc("villager", Geo.INN_POS + Vector2(0, 40), "Innkeeper", Story.INNKEEPER).variant = 3
@@ -196,11 +200,20 @@ func _process(delta: float) -> void:
 	else:
 		hud.set_hint("")
 
+	_update_camera(delta)
+
+
+func _update_camera(delta: float) -> void:
+	# ease toward Kael, then snap to a whole pixel
+	cam_pos = cam_pos.lerp(player.global_position, 1.0 - exp(-9.0 * delta))
+	if cam_pos.distance_to(player.global_position) > 400.0:
+		cam_pos = player.global_position   # teleports (waking at the forge)
+	var shake := Vector2.ZERO
 	if shake_amount > 0.0:
-		camera.offset = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
+		shake = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
 		shake_amount = move_toward(shake_amount, 0.0, 40.0 * delta)
-	else:
-		camera.offset = Vector2.ZERO
+	camera.global_position = (cam_pos + shake).round()
+	camera.offset = Vector2.ZERO
 
 
 func is_world_paused() -> bool:

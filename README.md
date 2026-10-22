@@ -53,6 +53,25 @@ joystick and buttons appear automatically.
 - Soft shadows under everything come from `scripts/shadow.gd`.
 - Interface frames and buttons: `art/ui_*.png`.
 
+## The Royal Citadel (main floor)
+
+Built by `scripts/citadel.gd` at the centre of the city, following the Royal Citadel blueprint:
+
+- curtain wall with towers, a moat and the main gatehouse with its bridge (south)
+- the Royal Courtyard with the battle arena, statues, braziers and the red carpet
+- the Grand Throne Hall: walk in and its roof fades away; marble floor, pillars, the throne
+  on its dais, and stairs to the other floors (marked, coming next)
+- the West and East Gardens with fountains, hedges, topiaries and flower beds
+- the Chapel (walk-in), the West Wing (military, training yard) and the East Wing
+  (royal family residences, service yard), both closed for now
+- guards, courtiers, a gardener and Sister Maren in the chapel, all with dialogue
+
+Pieces: `cit_wall.gd` (curtain walls), `cit_building.gd` (buildings with fading roofs),
+`cit_interior.gd` (floors and inner walls), `cit_ground.gd` (courtyard, gardens, arena),
+`cit_moat.gd`, `cit_hedge.gd`, `cit_sprite.gd`. Art comes from `tools/make_citadel.py`
+(`art/cit_*.png`). Everything sits on whole pixels and the camera snaps to whole pixels,
+so walls and buildings never shimmer while Kael moves.
+
 ## Kael's animations
 
 Kael is drawn from AI-generated sheets kept in `source_art/kael/` (magenta background).

@@ -2,7 +2,7 @@ extends Control
 ## Small map in the corner, centred on the player.
 
 const Geo = preload("res://scripts/geo.gd")
-const VIEW := 3400.0   # world units shown across the map
+const VIEW := 4400.0   # world units shown across the map
 
 var main
 
@@ -26,13 +26,16 @@ func _draw() -> void:
 	var s := size.x / VIEW
 	draw_rect(Rect2(Vector2.ZERO, size), Color(0.36, 0.48, 0.28))
 	# Forest of Elders
-	draw_circle(_w2m(Vector2(-1700, -2700)), 1100 * s, Color(0.2, 0.33, 0.18))
+	draw_circle(_w2m(Vector2(-2600, -3700)), 1500 * s, Color(0.2, 0.33, 0.18))
 	# Plateau, cliffs, city
 	draw_circle(_w2m(Vector2.ZERO), (Geo.R_CLIFF + 70) * s, Color(0.3, 0.27, 0.24))
 	draw_circle(_w2m(Vector2.ZERO), (Geo.R_CLIFF - 70) * s, Color(0.42, 0.53, 0.3))
 	draw_circle(_w2m(Vector2.ZERO), Geo.R_WALL * s, Color(0.5, 0.52, 0.36))
 	draw_arc(_w2m(Vector2.ZERO), Geo.R_WALL * s, 0, TAU, 64, Color(0.82, 0.78, 0.68), 3.0)
-	draw_circle(_w2m(Vector2.ZERO), Geo.R_CASTLE * s, Color(0.55, 0.58, 0.66))
+	var moat := Geo.CIT_MOAT
+	draw_rect(Rect2(_w2m(moat.position), moat.size * s), Color(0.3, 0.5, 0.65))
+	var cw := Geo.CIT_WALL
+	draw_rect(Rect2(_w2m(cw.position), cw.size * s), Color(0.62, 0.6, 0.56))
 	# Roads
 	for path in [Geo.SERPENT_WAY, Geo.ELDER_PATH]:
 		var pts := PackedVector2Array()

@@ -88,16 +88,18 @@ func _move_to(dest: Vector2, delta: float, speed: float) -> void:
 
 
 func _draw() -> void:
+	if role == "none":
+		return   # an invisible talk point, e.g. a staircase
 	Shadow.soft(self, Vector2(1, 0), 14.0, 5.5, 0.5)
 	var dir := look_dir
 	if look_at_pos != Vector2.INF:
 		dir = (look_at_pos - global_position).normalized()
-	elif not moving and role != "villager":
+	elif not moving and role != "villager" and role != "court":
 		dir = Vector2.DOWN
 	var row := 2 if absf(dir.x) > absf(dir.y) else (1 if dir.y < 0.0 else 0)
 	var flip := row == 2 and dir.x < 0.0
 	var frame := int(walk * 0.75) % 4 if moving else 0
-	var key := role if role != "villager" else "villager%d" % variant
+	var key := role if not role in ["villager", "court"] else "villager%d" % variant
 	var sheet: Texture2D = SHEETS.get(key, SHEETS["villager0"])
 	draw_set_transform(Vector2.ZERO, 0, Vector2(-1 if flip else 1, 1))
 	draw_texture_rect_region(sheet, Rect2(-20, -58, 40, 60), Rect2(frame * 40, row * 60, 40, 60))

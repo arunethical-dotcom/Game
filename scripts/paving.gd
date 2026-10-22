@@ -33,7 +33,7 @@ func _ready() -> void:
 func _arc(r: float, a0: float, a1: float, steps: int) -> PackedVector2Array:
 	var pts := PackedVector2Array()
 	for i in steps + 1:
-		pts.append(Vector2.from_angle(lerpf(a0, a1, float(i) / steps)) * r)
+		pts.append((Vector2.from_angle(lerpf(a0, a1, float(i) / steps)) * r).round())
 	return pts
 
 
@@ -41,22 +41,20 @@ func _build() -> void:
 	# City streets: 8 spokes from the castle to the wall, the ring road, the castle ring
 	for k in 8:
 		var d := Vector2.from_angle(-PI / 2.0 + k * PI / 4.0)
-		streets.append(PackedVector2Array([d * (Geo.R_CASTLE - 10.0), d * (Geo.R_WALL + 40.0)]))
+		var start := 1000.0 if k == 4 else Geo.RING_ROAD   # the south avenue runs to the citadel gate
+		streets.append(PackedVector2Array([(d * start).round(), (d * (Geo.R_WALL + 40.0)).round()]))
 	# rings are drawn as four overlapping arcs (a closed loop would fill its middle)
 	for q in 4:
-		streets.append(_arc(Geo.RING_ROAD, q * TAU / 4.0, (q + 1) * TAU / 4.0 + 0.04, 40))
-		streets.append(_arc(Geo.R_CASTLE + 60.0, q * TAU / 4.0, (q + 1) * TAU / 4.0 + 0.06, 24))
+		streets.append(_arc(Geo.RING_ROAD, q * TAU / 4.0, (q + 1) * TAU / 4.0 + 0.04, 60))
 	# Dirt roads outside the walls
 	roads.append(PackedVector2Array(Geo.SERPENT_WAY))
 	roads.append(PackedVector2Array(Geo.ELDER_PATH))
 	# Castle courtyard (cobbles), market square (pale stone), fields
-	# full circle: stop one step short so the first and last points don't overlap
-	areas.append([_arc(Geo.R_CASTLE + 22.0, 0.0, TAU - TAU / 64.0, 63), "cobble", ""])
-	var m := _arc(905.0, -1.50, -1.15, 24)
-	m.append_array(_arc(1328.0, -1.15, -1.50, 32))
+	var m := _arc(Geo.MARKET_R.x + 5.0, -1.50, -1.24, 30)
+	m.append_array(_arc(Geo.MARKET_R.y - 2.0, -1.24, -1.50, 40))
 	areas.append([m, "plaza", "kerb"])
-	var f := _arc(915.0, -1.15, -0.88, 20)
-	f.append_array(_arc(1320.0, -0.88, -1.15, 28))
+	var f := _arc(Geo.MARKET_R.x + 15.0, -1.24, -1.04, 24)
+	f.append_array(_arc(Geo.MARKET_R.y - 10.0, -1.04, -1.24, 30))
 	areas.append([f, "field", "dirt"])
 
 
@@ -101,15 +99,15 @@ func _draw() -> void:
 	# 0. the cliff around the plateau: a pale rim on top, the rock face going down, a shadow below
 	var rc := Geo.R_CLIFF
 	var hc := Geo.CLIFF_HALF
-	for i in 160:
-		var a0 := TAU * i / 160.0
-		var a1 := TAU * (i + 1) / 160.0 + 0.002
+	for i in 260:
+		var a0 := TAU * i / 260.0
+		var a1 := TAU * (i + 1) / 260.0 + 0.002
 		var q := PackedVector2Array([
 			Vector2.from_angle(a0) * (rc + hc), Vector2.from_angle(a1) * (rc + hc),
 			Vector2.from_angle(a1) * (rc + hc + 26.0), Vector2.from_angle(a0) * (rc + hc + 26.0)])
 		draw_colored_polygon(q, Color(0.05, 0.1, 0.03, 0.3))
-	_ring(rc - hc + 14.0, rc + hc, TEX["cliff"], 160, 0.35)
-	_ring(rc - hc, rc - hc + 16.0, TEX["rim"], 160)
+	_ring(rc - hc + 14.0, rc + hc, TEX["cliff"], 260, 0.35)
+	_ring(rc - hc, rc - hc + 16.0, TEX["rim"], 260)
 
 	# 1. soft dark edge where paving meets grass
 	for s in streets:

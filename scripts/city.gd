@@ -1,18 +1,18 @@
 extends RefCounted
-## Builds Akropolis Aigidos: the round outer wall with its gates, the royal castle inside
-## its eight-sided wall, the districts of houses, Haldor's yard, the fields, and the cliff edge.
+## Builds Akropolis Aigidos: the round outer wall with its gates, the districts of houses
+## around the Royal Citadel, Haldor's yard, the market, the fields, and the cliff edge.
+## The citadel itself is built by citadel.gd.
 
 const Geo = preload("res://scripts/geo.gd")
 const WallScript = preload("res://scripts/wall_segment.gd")
 const TowerScript = preload("res://scripts/tower.gd")
 const BuildingScript = preload("res://scripts/building.gd")
 const FenceScript = preload("res://scripts/fence.gd")
-const CastleScript = preload("res://scripts/castle.gd")
 const ResourceScript = preload("res://scripts/resource_node.gd")
 const PropScript = preload("res://scripts/prop.gd")
 const DecoScript = preload("res://scripts/deco.gd")
 
-const WALL_SEGMENTS := 120
+const WALL_SEGMENTS := 216
 const SLATE := 4   # roof index for wealthy houses near the castle
 
 
@@ -21,7 +21,6 @@ static func build(main) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
 	_outer_wall(layer)
-	_castle(layer)
 	_cliff_edge(main)
 	_yard(layer, main)
 	_fields(layer)
@@ -64,33 +63,7 @@ static func _outer_wall(layer: Node2D) -> void:
 		towers.append(k)
 	for k in towers:
 		var ang: float = -PI / 2.0 + (k - 0.5) * step
-		_tower(layer, Vector2.from_angle(ang) * Geo.R_WALL, false, 34.0, 92.0)
-
-
-static func _castle(layer: Node2D) -> void:
-	var verts := []
-	for k in 8:
-		verts.append(Vector2.from_angle(-PI / 2.0 + PI / 8.0 + k * PI / 4.0) * Geo.R_CASTLE)
-	for k in 8:
-		var va: Vector2 = verts[k]
-		var vb: Vector2 = verts[(k + 1) % 8]
-		var pieces := 5
-		for j in pieces:
-			var gate := k == 3 and j == 2  # royal gate faces south, closed for now
-			_wall(layer, va.lerp(vb, float(j) / pieces), va.lerp(vb, float(j + 1) / pieces), gate, 66.0)
-	for v in verts:
-		_tower(layer, v, true, 30.0, 110.0)
-
-	var keep = CastleScript.new()
-	keep.position = Vector2(0, 110)
-	layer.add_child(keep)
-
-	for spot in [Vector2(-320, -60), Vector2(320, -60), Vector2(-290, 250), Vector2(290, 250)]:
-		var b = BuildingScript.new()
-		b.position = spot
-		b.style = 2
-		b.roof = SLATE
-		layer.add_child(b)
+		_tower(layer, (Vector2.from_angle(ang) * Geo.R_WALL).round(), false, 34.0, 92.0)
 
 
 static func _cliff_edge(main) -> void:
@@ -98,7 +71,7 @@ static func _cliff_edge(main) -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = 1
 	body.collision_mask = 0
-	var n := 220
+	var n := 360
 	var r := Geo.R_CLIFF + 20.0
 	for i in n:
 		var a0 := TAU * i / n
@@ -135,8 +108,8 @@ static func _yard(layer: Node2D, main) -> void:
 	_fence(layer, tl, tr)
 	_fence(layer, tl, bl)
 	_fence(layer, bl, br)
-	_fence(layer, tr, Vector2(tr.x, -1100))     # gap toward the north road
-	_fence(layer, Vector2(tr.x, -1010), br)
+	_fence(layer, tr, Vector2(tr.x, Geo.YARD_DOOR.y - 45.0))     # gap toward the north road
+	_fence(layer, Vector2(tr.x, Geo.YARD_DOOR.y + 45.0), br)
 
 	var forge = BuildingScript.new()
 	forge.kind = "forge"
@@ -144,7 +117,8 @@ static func _yard(layer: Node2D, main) -> void:
 	layer.add_child(forge)
 
 	# Haldor's house, and the neighbours
-	for h in [[Vector2(-440, -1100), 1, 0], [Vector2(-450, -935), 0, 1], [Vector2(-340, -935), 0, 0]]:
+	var o := Geo.YARD_RECT.position - Vector2(-520, -1210)   # yard layout was designed at (-520, -1210)
+	for h in [[Vector2(-440, -1100) + o, 1, 0], [Vector2(-450, -935) + o, 0, 1], [Vector2(-340, -935) + o, 0, 0]]:
 		var b = BuildingScript.new()
 		b.position = h[0]
 		b.style = h[1]
@@ -153,34 +127,34 @@ static func _yard(layer: Node2D, main) -> void:
 	var g = PropScript.new()
 	g.kind = "garden"
 	g.variant = 1
-	g.position = Vector2(-470, -1010)
+	g.position = Vector2(-470, -1010) + o
 	layer.add_child(g)
 
 
 static func _fields(layer: Node2D) -> void:
 	# Fence pieces around the farm fields, with gaps to walk through
-	var a0 := -1.15
-	var a1 := -0.88
+	var a0 := -1.24
+	var a1 := -1.04
 	var steps := 10
 	for i in steps:
 		if i % 3 == 1:
 			continue
 		var t0 := lerpf(a0, a1, float(i) / steps)
 		var t1 := lerpf(a0, a1, float(i + 1) / steps)
-		_fence(layer, Vector2.from_angle(t0) * 910.0, Vector2.from_angle(t1) * 910.0)
+		_fence(layer, (Vector2.from_angle(t0) * (Geo.MARKET_R.x + 10.0)).round(), (Vector2.from_angle(t1) * (Geo.MARKET_R.x + 10.0)).round())
 
 
 static func _market(layer: Node2D) -> void:
 	# Market square inside the north gate: rows of striped stalls around a well
 	var well = PropScript.new()
 	well.kind = "well"
-	well.position = Vector2.from_angle(-1.33) * 1115.0
+	well.position = (Vector2.from_angle(-1.37) * 2270.0).round()
 	layer.add_child(well)
 	var i := 0
-	for r in [990.0, 1120.0, 1250.0]:
-		var a: float = -1.44
-		while a < -1.2:
-			var pos: Vector2 = Vector2.from_angle(a) * r
+	for r in [2090.0, 2270.0, 2450.0]:
+		var a: float = -1.47
+		while a < -1.27:
+			var pos: Vector2 = (Vector2.from_angle(a) * r).round()
 			a += 64.0 / r
 			if pos.distance_to(well.position) < 70.0:
 				continue
@@ -203,12 +177,13 @@ static func _deco(layer: Node2D, sprite: String, p: Vector2, solid := true, base
 
 static func _places(layer: Node2D) -> void:
 	# Blacksmith compound: weapons and armour on display, firewood, storage
-	_deco(layer, "weapon_rack", Vector2(-110, -1150))
-	_deco(layer, "armor_stand", Vector2(-322, -1150), true, Vector2(26, 14))
-	_deco(layer, "woodpile", Vector2(-470, -1172))
-	_deco(layer, "barrel", Vector2(-96, -940), true, Vector2(22, 14))
-	_deco(layer, "barrel", Vector2(-124, -930), true, Vector2(22, 14))
-	_deco(layer, "crates", Vector2(-190, -925))
+	var o := Geo.YARD_RECT.position - Vector2(-520, -1210)
+	_deco(layer, "weapon_rack", Vector2(-110, -1150) + o)
+	_deco(layer, "armor_stand", Vector2(-322, -1150) + o, true, Vector2(26, 14))
+	_deco(layer, "woodpile", Vector2(-470, -1172) + o)
+	_deco(layer, "barrel", Vector2(-96, -940) + o, true, Vector2(22, 14))
+	_deco(layer, "barrel", Vector2(-124, -930) + o, true, Vector2(22, 14))
+	_deco(layer, "crates", Vector2(-190, -925) + o)
 	# The inn on the ring road
 	_deco(layer, "inn", Geo.INN_POS, true, Vector2(120, 40))
 	_deco(layer, "barrel", Geo.INN_POS + Vector2(-80, 6), true, Vector2(22, 14))
@@ -241,17 +216,17 @@ static func _houses(layer: Node2D, main, rng: RandomNumberGenerator) -> void:
 	while y < Geo.R_WALL:
 		var x := -Geo.R_WALL
 		while x < Geo.R_WALL:
-			var p := Vector2(x, y) + Vector2(rng.randf_range(-22, 22), rng.randf_range(-18, 18))
+			var p := (Vector2(x, y) + Vector2(rng.randf_range(-22, 22), rng.randf_range(-18, 18))).round()
 			x += step
 			var r := p.length()
-			if r < Geo.R_CASTLE + 120.0 or r > Geo.R_WALL - 115.0:
+			if Geo.in_citadel(p, 120.0) or r > Geo.R_WALL - 115.0:
 				continue
-			if Geo.spoke_dist(p) < 88.0 or absf(r - Geo.RING_ROAD) < 96.0:
+			if (Geo.spoke_dist(p) < 88.0 and r > Geo.RING_ROAD - 60.0) or absf(p.x) < 100.0 and p.y > 0.0 or absf(r - Geo.RING_ROAD) < 96.0:
 				continue
 			if yard.has_point(p) or p.distance_to(Geo.GATE_IN) < 200.0 or p.distance_to(Geo.SOUTH_GATE) < 170.0 or Geo.reserved(p, 60.0):
 				continue
 			var a := p.angle()
-			if r > 860.0 and a > -1.55 and a < -0.8:
+			if r > Geo.MARKET_R.x - 40.0 and a > -1.55 and a < -0.98:
 				continue  # farm fields
 			var roll := rng.randf()
 			if roll < 0.2:

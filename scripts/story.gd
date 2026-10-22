@@ -118,6 +118,50 @@ const MINE_FOREMAN := [
 	["Foreman", "Half my diggers are captives from Kingdom A now. They work hard. They don't have much choice."],
 ]
 
+const GUARD_CITADEL_GATE := [
+	["Royal guard", "This is the Royal Citadel, boy. Haldor's apprentice, are you? Then you're here about the king's blades."],
+	["Royal guard", "Go on through. Keep to the courtyard and the gardens, and touch nothing."],
+]
+
+const GUARD_HALL := [
+	["Royal guard", "The Grand Throne Hall. His Majesty is not receiving today. Keep to the carpet."],
+]
+
+const GUARD_WEST_WING := [
+	["Guard", "The Military Wing: barracks and armory. No one enters without the captain's leave."],
+]
+
+const GUARD_EAST_WING := [
+	["Guard", "The East Wing is where the royal family lives. Turn around, boy."],
+]
+
+const PRIEST := [
+	["Sister Maren", "Peace be with you. Even the conquered may pray here, though few dare to."],
+	["Sister Maren", "The king's sister comes every morning. She prays for both kingdoms. Don't repeat that."],
+]
+
+const GARDENER := [
+	["Gardener", "The princess planted half these roses herself. Mind your boots on the gravel."],
+]
+
+const COURT_LADY := [
+	["Lady of the court", "A smith's boy, in the royal gardens? How very... unusual."],
+]
+
+const SERVANT := [
+	["Servant", "Kitchens are below us, on the service floor. Busy day, the king's nephew is hosting a hunt."],
+]
+
+const STAIRS_UP := [
+	["", "Stairs up to the Royal Residential Floor, where the king's family and his sister's family live."],
+	["", "(This floor comes in the next update.)"],
+]
+
+const STAIRS_DOWN := [
+	["", "Stairs down to the Service Floor: kitchens, dining hall and servants' quarters."],
+	["", "(This floor comes in the next update.)"],
+]
+
 const VILLAGER_LINES := [
 	[["Townswoman", "Since the war ended, the king's men take half of every harvest for the castle."]],
 	[["Old man", "They say the king's nephew is the cruelest of the whole family. Keep your head down."]],
