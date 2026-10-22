@@ -96,7 +96,7 @@ func _ready() -> void:
 
 	player = PlayerScript.new()
 	player.main = self
-	player.position = Geo.rp(768, 986) if CASTLE_ONLY else Geo.HALDOR_POS + Vector2(-70, 40)
+	player.position = Geo.rp(768, 975) if CASTLE_ONLY else Geo.HALDOR_POS + Vector2(-70, 40)
 	entity_layer.add_child(player)
 
 	camera = Camera2D.new()
@@ -215,7 +215,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().quit()
 	# F3 (computer only, for testing): jump to the Royal Castle's north gate and back
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F3 and not OS.has_feature("mobile"):
-		var gate := Geo.rp(768, 986)
+		var gate := Geo.rp(768, 975)
 		var dest: Vector2 = Geo.HALDOR_POS + Vector2(-70, 40) if player.global_position.distance_to(gate) < 3000.0 else gate
 		player.global_position = dest
 		cam_pos = dest

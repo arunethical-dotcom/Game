@@ -43,10 +43,8 @@ func _draw() -> void:
 	# the Royal Castle on its lake
 	var lake := Geo.CASTLE_AREA
 	draw_rect(Rect2(_w2m(lake.position), lake.size * s), Color(0.3, 0.5, 0.68))
-	var ward := PackedVector2Array()
-	for p in preload("res://scripts/castle_outer.gd").WARD:
-		ward.append(_w2m(Geo.rp(p[0], p[1])))
-	draw_colored_polygon(ward, Color(0.7, 0.66, 0.6))
+	var keep := Rect2(Geo.rp(230, 110), Geo.rp(1306, 716) - Geo.rp(230, 110))
+	draw_rect(Rect2(_w2m(keep.position), keep.size * s), Color(0.7, 0.66, 0.6))
 	# Roads
 	for path in [Geo.SERPENT_WAY, Geo.ELDER_PATH, Geo.SOUTH_ROAD]:
 		var pts := PackedVector2Array()

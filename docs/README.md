@@ -20,7 +20,8 @@ the team can see what was decided, why, and where it lives in the code.
 | 11 | [Main-floor visual polish](stages/11-main-floor-polish.md) | `4b6061a` | Grand throne hall, furniture scale audit, zoned royal wings, unique gardens, local lighting, S4 sealed, interior camera |
 | 12 | [Living colour grading](stages/12-colour-grading.md) | `5868244` | Per-room grading profiles, local flame lighting on every floor, time of day (day/afternoon/sunset/night) |
 | 13 | [Royal Castle from scratch: outer layer](stages/13-royal-castle-outer.md) | `571e9f3` | Castle on its own lake south of the city at real scale, walls, towers, barbican, bridges, waterfalls; city centre becomes a town square |
-| 14 | [The castle's whole outer shell, traced](stages/14-castle-shell-traced.md) | (see git log) | Castle traced from the reference at the kit's own scale: real outline with diagonal walls, every building, garden and tower in place; castle-only view |
+| 14 | [The castle's whole outer shell, traced](stages/14-castle-shell-traced.md) | `747ed4b` | Castle traced from the reference at the kit's own scale: real outline with diagonal walls, every building, garden and tower in place; castle-only view |
+| 15 | [The castle matches the reference exactly](stages/15-castle-from-painting.md) | (see git log) | Castle drawn from the reference painting; walkable areas, water, depth and collision generated from it; Kael walks behind towers and trees |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.

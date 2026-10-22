@@ -60,18 +60,18 @@ joystick and buttons appear automatically.
 
 ## The Royal Castle
 
-`scripts/castle_outer.gd` builds the whole outer shell of the Royal Castle, traced from the
-reference map at the kit's own scale (3 world px per map px). The castle stands on its own lake,
-with its real outline, diagonal walls included:
-- the palace, the church and chapels, the domed hall and manor
-- the inner terraces, the fountain court and its gardens
-- the market yard and the training ground
-- the curtain wall, the barbican and the causeway
-- bridges, waterfalls and cliffs
+The castle is drawn from the reference painting itself (`art/castle3/castle_painting.png`, at 3×),
+so it matches the reference exactly: every tower, wall, building, garden and tree.
 
-**Castle-only view:** `CASTLE_ONLY := true` in `scripts/main.gd` shows just the castle, and Kael
-starts on the causeway. Set it to `false` for the full game (city, countryside, Mission 1). See
-[docs/stages/14-castle-shell-traced.md](docs/stages/14-castle-shell-traced.md).
+- **Making it playable:** `tools/castle_mask.py` works out from the painting which parts are
+  walkable, which are water, and which stand upright (and where each upright thing's base is).
+  It writes `art/castle3/ref_depth.png` and `ref_collision.json`.
+- **In the game:** `scripts/castle_outer.gd` draws the painting, adds the collision, and
+  redraws upright pixels over Kael when he walks behind them.
+- **Castle-only view:** `CASTLE_ONLY := true` in `scripts/main.gd` (Kael starts on the causeway).
+  Set it to `false` for the full game.
+
+See [docs/stages/15-castle-from-painting.md](docs/stages/15-castle-from-painting.md).
 
 ## Imported castle art (from an AI sheet)
 
