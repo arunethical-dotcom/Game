@@ -206,6 +206,10 @@ static func _residence(main) -> void:
 	fp.pools.append([Vector2(-210, 450), 40.0])
 	fp.pools.append([Vector2(210, 450), 40.0])
 
+	# camera zones: each room (with its back wall) frames itself, the corridors scroll
+	for rm in fp.rooms:
+		var r: Rect2 = rm["rect"]
+		main.add_camera_zone(Rect2(o + r.position - Vector2(24, rm["h"] + 30), r.size + Vector2(48, rm["h"] + 60)))
 	main.add_child(fp)
 
 
@@ -272,6 +276,10 @@ static func _service(main) -> void:
 	_put("castle/furniture/washstand", Vector2(200, -160), Vector2(26, 10))
 	_put("castle/furniture/screen", Vector2(250, -150), Vector2(50, 10))
 
+	# camera zones: each room (with its back wall) frames itself, the corridors scroll
+	for rm in fp.rooms:
+		var r: Rect2 = rm["rect"]
+		main.add_camera_zone(Rect2(o + r.position - Vector2(24, rm["h"] + 30), r.size + Vector2(48, rm["h"] + 60)))
 	main.add_child(fp)
 
 

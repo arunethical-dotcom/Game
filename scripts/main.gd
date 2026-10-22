@@ -40,6 +40,10 @@ var leader_dead := false
 var moonsteel_drop := Vector2.INF
 var shake_amount := 0.0
 var cam_pos := Vector2.ZERO
+var camera_zones := []        # Rect2 areas the camera stays inside (see _update_camera)
+var current_zone := Rect2()
+var zone_blend := 1.0
+var look_ahead := Vector2.ZERO
 
 # indoor floors reached by stairs (see citadel_floors.gd)
 var floor_name := ""          # "" = the open world and the citadel's main floor
@@ -222,15 +226,63 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 
 
+## CrossCode-style camera:
+##  - follows Kael softly and leans a little ahead of where he is walking
+##  - each area (a room, a hall, the castle grounds) is a camera zone: the view never shows
+##    past its edges, so small rooms sit still like a framed picture and big ones scroll
+##  - moving into another zone glides the camera over instead of jumping
+##  - in a conversation it frames Kael and the person he is talking to
+func add_camera_zone(r: Rect2) -> void:
+	camera_zones.append(r)
+
+
+func _zone_at(p: Vector2) -> Rect2:
+	var best := Rect2()
+	for z in camera_zones:
+		if z.has_point(p) and (best.size == Vector2.ZERO or z.get_area() < best.get_area()):
+			best = z
+	return best
+
+
+func _clamp_to_zone(t: Vector2, z: Rect2, view: Vector2) -> Vector2:
+	if z.size == Vector2.ZERO:
+		return t
+	var half := view / 2.0
+	for i in 2:
+		if z.size[i] <= view[i]:
+			t[i] = z.get_center()[i]     # area narrower than the screen: keep it centred
+		else:
+			t[i] = clampf(t[i], z.position[i] + half[i], z.end[i] - half[i])
+	return t
+
+
 func _update_camera(delta: float) -> void:
-	# ease toward Kael, then snap to a whole pixel
-	cam_pos = cam_pos.lerp(player.global_position, 1.0 - exp(-9.0 * delta))
-	if cam_pos.distance_to(player.global_position) > 400.0:
-		cam_pos = player.global_position   # teleports (waking at the forge)
+	var view: Vector2 = get_viewport().get_visible_rect().size / camera.zoom
+	var p: Vector2 = player.global_position
+	# look ahead in the walking direction (eased so it never snaps)
+	var ahead: Vector2 = player.velocity.limit_length(1.0) * 0.0
+	if player.velocity.length() > 10.0:
+		ahead = player.velocity.normalized() * 44.0
+	look_ahead = look_ahead.lerp(ahead, 1.0 - exp(-2.5 * delta))
+	var target := p + look_ahead
+	# in a conversation, frame both speakers
+	if hud.is_busy() and talk_target != null and is_instance_valid(talk_target):
+		target = (p + talk_target.global_position) / 2.0 + Vector2(0, -20)
+	var zone := _zone_at(p)
+	if zone != current_zone:
+		current_zone = zone
+		zone_blend = 0.0          # glide into the new area
+	target = _clamp_to_zone(target, zone, view)
+	zone_blend = minf(1.0, zone_blend + delta * 1.6)
+	var speed := lerpf(3.0, 7.0, zone_blend)
+	cam_pos = cam_pos.lerp(target, 1.0 - exp(-speed * delta))
+	if cam_pos.distance_to(target) > 700.0:
+		cam_pos = target   # teleports (stairs, waking at the forge)
 	var shake := Vector2.ZERO
 	if shake_amount > 0.0:
 		shake = Vector2(randf_range(-1, 1), randf_range(-1, 1)) * shake_amount
 		shake_amount = move_toward(shake_amount, 0.0, 40.0 * delta)
+	# always land on whole pixels so nothing shimmers
 	camera.global_position = (cam_pos + shake).round()
 	camera.offset = Vector2.ZERO
 

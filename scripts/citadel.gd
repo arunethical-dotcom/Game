@@ -46,6 +46,8 @@ static func build(main) -> void:
 	_yards()
 	_people(main)
 	Floors.build(main)
+	# the castle grounds: inside the moat the camera stops at the castle's edge
+	main.add_camera_zone(Geo.CIT_MOAT.grow_individual(0, 120, 0, 260))
 
 
 # ---------------------------------------------------------------- helpers
@@ -212,6 +214,7 @@ static func _throne_hall(main) -> void:
 	inside.dais = Rect2(-180, -862, 360, 96)
 	inside.stairs = [[Vector2(-318, -902), load("res://art/castle/walls/stairs_grand.png")], [Vector2(226, -876), load("res://art/dec_stairs_down.png")]]
 	main.ground_layer.add_child(inside)
+	main.add_camera_zone(Rect2(fp.position.x - 40, fp.position.y - 150, fp.size.x + 80, fp.size.y + 170))
 	var b = _building(main, fp, 128, [0], true)
 	b.big_door = true
 	b.keep_spire = true
@@ -259,6 +262,7 @@ static func _chapel(main) -> void:
 	inside.carpet = Rect2(946, -760, 28, 280)
 	inside.stained = true
 	main.ground_layer.add_child(inside)
+	main.add_camera_zone(Rect2(fp.position.x - 40, fp.position.y - 120, fp.size.x + 80, fp.size.y + 140))
 	var b = _building(main, fp, 96, [960], true)
 	b.banners = false
 	layer.add_child(b)
@@ -274,6 +278,7 @@ static func _wing(main, fp: Rect2, door: float, row: int) -> void:
 	inside.wall_h = 112
 	inside.tile_row = row
 	main.ground_layer.add_child(inside)
+	main.add_camera_zone(Rect2(fp.position.x - 40, fp.position.y - 136, fp.size.x + 80, fp.size.y + 156))
 	layer.add_child(_building(main, fp, 112, [door], true))
 
 
