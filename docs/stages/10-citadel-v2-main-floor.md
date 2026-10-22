@@ -1,6 +1,6 @@
 # Stage 10: Royal Citadel v2, main floor
 
-**Date:** 2026-10-22
+**Commit:** `c95b8f4` · **Date:** 2026-10-22
 
 ## Goal
 Rebuild the Royal Citadel from the new blueprint and asset atlas at 3200 × 2880 px
