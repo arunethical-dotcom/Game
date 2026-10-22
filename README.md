@@ -60,18 +60,18 @@ joystick and buttons appear automatically.
 
 ## The Royal Castle
 
-Rebuilt from scratch in stage 13 (`scripts/castle_outer.gd`). The castle stands on its own lake
-south of the city, at a realistic scale (about 250 m wide).
-- **Getting there:** a road leaves the city's open south gate, runs down the cliffs to the castle's north bridge.
-- **Outer layer (built):**
-  - The main curtain wall with 21 towers and two gatehouses.
-  - Four side bridges.
-  - The barbican wall across the lake, with a torch-lit causeway to the south shore.
-  - Cliffs, pines and waterfalls around the shore.
-- **Inner ward:** to be built next.
+`scripts/castle_outer.gd` builds the whole outer shell of the Royal Castle, traced from the
+reference map at the kit's own scale (3 world px per map px). The castle stands on its own lake,
+with its real outline, diagonal walls included:
+- the palace, the church and chapels, the domed hall and manor
+- the inner terraces, the fountain court and its gardens
+- the market yard and the training ground
+- the curtain wall, the barbican and the causeway
+- bridges, waterfalls and cliffs
 
-The kit is imported by `tools/import_castle3.py` into `art/castle3/`. The old city-centre citadel
-is gone; the city centre is now a town square. See [docs/stages/13-royal-castle-outer.md](docs/stages/13-royal-castle-outer.md).
+**Castle-only view:** `CASTLE_ONLY := true` in `scripts/main.gd` shows just the castle, and Kael
+starts on the causeway. Set it to `false` for the full game (city, countryside, Mission 1). See
+[docs/stages/14-castle-shell-traced.md](docs/stages/14-castle-shell-traced.md).
 
 ## Imported castle art (from an AI sheet)
 

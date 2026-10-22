@@ -72,23 +72,20 @@ static func trect(x0: float, y0: float, x1: float, y1: float) -> Rect2:
 # The city centre is now a town square (the castle moved to its own lake, stage 13).
 const TOWN_SQUARE := Rect2(-640, -640, 1280, 1280)
 
-# The Royal Castle stands on its own lake south of the city (castle_outer.gd). Its plan is
-# a CASTLE_TILES grid of 32 px tiles whose top-left corner is CASTLE_O; plan tile (168, x)
-# lines up with the city's south gate road at world x = 0.
-const CASTLE_O := Vector2(-5376, 5616)
-const CASTLE_TILES := Vector2(336, 224)
-const CASTLE_AREA := Rect2(-5376, 5616, 10752, 7168)
-# the road from the city's south gate, down the cliffs, to the castle's north bridge
-const SOUTH_ROAD := [Vector2(0, 2600 * K - 20), Vector2(0, 4300), Vector2(0, 5200), Vector2(0, 6000)]
+# The Royal Castle stands on its own lake south of the city (castle_outer.gd). It is traced
+# from the reference map (source_art/castle3/reference_map.png, 1536 x 1024) at 3 world px
+# per map px, the same scale the kit's sprites are drawn at: reference pixel (768, y) is
+# world x = 0, and the map's top edge is world y = CASTLE_O.y.
+const CASTLE_S := 3.0
+const CASTLE_O := Vector2(-2304, 5616)
+const CASTLE_AREA := Rect2(-2304, 5616, 4608, 3072)
+# the road from the city's south gate down the cliffs to the town shore north-east of the castle
+const SOUTH_ROAD := [Vector2(0, 2600 * K - 20), Vector2(0, 4300), Vector2(500, 5000), Vector2(1400, 5500), Vector2(2076, 5796)]
 
 
-## World position of a castle plan tile (its top-left corner).
-static func ct(x: float, y: float) -> Vector2:
-	return CASTLE_O + Vector2(x, y) * TILE
-
-
-static func ctr(x0: float, y0: float, x1: float, y1: float) -> Rect2:
-	return Rect2(ct(x0, y0), Vector2(x1 - x0, y1 - y0) * TILE)
+## World position of a point on the reference map.
+static func rp(x: float, y: float) -> Vector2:
+	return CASTLE_O + Vector2(x, y) * CASTLE_S
 
 
 static func in_castle(p: Vector2, pad := 0.0) -> bool:

@@ -1,4 +1,164 @@
 {
+ "buildings/chapel_a": {
+  "pivot": [
+   105,
+   372
+  ],
+  "size": [
+   210,
+   372
+  ]
+ },
+ "buildings/chapel_b": {
+  "pivot": [
+   106,
+   378
+  ],
+  "size": [
+   213,
+   378
+  ]
+ },
+ "buildings/chapel_row": {
+  "pivot": [
+   378,
+   405
+  ],
+  "size": [
+   756,
+   405
+  ]
+ },
+ "buildings/church": {
+  "pivot": [
+   118,
+   369
+  ],
+  "size": [
+   237,
+   369
+  ]
+ },
+ "buildings/domed_hall": {
+  "pivot": [
+   375,
+   630
+  ],
+  "size": [
+   750,
+   630
+  ]
+ },
+ "buildings/gate_tower": {
+  "pivot": [
+   178,
+   312
+  ],
+  "size": [
+   357,
+   312
+  ]
+ },
+ "buildings/keep_tower": {
+  "pivot": [
+   165,
+   408
+  ],
+  "size": [
+   330,
+   408
+  ]
+ },
+ "buildings/palace": {
+  "pivot": [
+   757,
+   741
+  ],
+  "size": [
+   1515,
+   741
+  ]
+ },
+ "buildings/stair_big": {
+  "pivot": [
+   99,
+   327
+  ],
+  "size": [
+   198,
+   327
+  ]
+ },
+ "buildings/tower_hall": {
+  "pivot": [
+   225,
+   363
+  ],
+  "size": [
+   450,
+   363
+  ]
+ },
+ "buildings/towers_a": {
+  "pivot": [
+   294,
+   597
+  ],
+  "size": [
+   588,
+   597
+  ]
+ },
+ "buildings/towers_b": {
+  "pivot": [
+   187,
+   612
+  ],
+  "size": [
+   375,
+   612
+  ]
+ },
+ "buildings/towers_c": {
+  "pivot": [
+   208,
+   600
+  ],
+  "size": [
+   417,
+   600
+  ]
+ },
+ "buildings/towers_d": {
+  "pivot": [
+   279,
+   612
+  ],
+  "size": [
+   558,
+   612
+  ]
+ },
+ "buildings/wall_arches": {
+  "pivot": [
+   412,
+   294
+  ],
+  "size": [
+   825,
+   294
+  ]
+ },
+ "buildings/wall_tower": {
+  "pivot": [
+   253,
+   501
+  ],
+  "size": [
+   507,
+   501
+  ]
+ },
  "cliffs/cliff_a": {
   "pivot": [
    103,
@@ -119,6 +279,86 @@
    110
   ]
  },
+ "garden/arch_flowers": {
+  "pivot": [
+   75,
+   198
+  ],
+  "size": [
+   150,
+   198
+  ]
+ },
+ "garden/arch_roses": {
+  "pivot": [
+   67,
+   210
+  ],
+  "size": [
+   135,
+   210
+  ]
+ },
+ "garden/bed": {
+  "pivot": [
+   76,
+   192
+  ],
+  "size": [
+   153,
+   192
+  ]
+ },
+ "garden/bed_big": {
+  "pivot": [
+   106,
+   222
+  ],
+  "size": [
+   213,
+   222
+  ]
+ },
+ "garden/flower_bed": {
+  "pivot": [
+   78,
+   111
+  ],
+  "size": [
+   156,
+   111
+  ]
+ },
+ "garden/hedge_bed": {
+  "pivot": [
+   118,
+   114
+  ],
+  "size": [
+   237,
+   114
+  ]
+ },
+ "garden/lawn": {
+  "pivot": [
+   112,
+   216
+  ],
+  "size": [
+   225,
+   216
+  ]
+ },
+ "garden/planter": {
+  "pivot": [
+   61,
+   114
+  ],
+  "size": [
+   123,
+   114
+  ]
+ },
  "gates/gate_arch": {
   "pivot": [
    139,
@@ -167,6 +407,86 @@
   "size": [
    357,
    312
+  ]
+ },
+ "market/rack": {
+  "pivot": [
+   51,
+   120
+  ],
+  "size": [
+   102,
+   120
+  ]
+ },
+ "market/shed": {
+  "pivot": [
+   28,
+   86
+  ],
+  "size": [
+   56,
+   86
+  ]
+ },
+ "market/stall_a": {
+  "pivot": [
+   55,
+   118
+  ],
+  "size": [
+   110,
+   118
+  ]
+ },
+ "market/stall_b": {
+  "pivot": [
+   45,
+   108
+  ],
+  "size": [
+   90,
+   108
+  ]
+ },
+ "market/stall_c": {
+  "pivot": [
+   59,
+   130
+  ],
+  "size": [
+   118,
+   130
+  ]
+ },
+ "market/stall_d": {
+  "pivot": [
+   44,
+   124
+  ],
+  "size": [
+   88,
+   124
+  ]
+ },
+ "market/stall_e": {
+  "pivot": [
+   40,
+   116
+  ],
+  "size": [
+   80,
+   116
+  ]
+ },
+ "market/stall_f": {
+  "pivot": [
+   46,
+   126
+  ],
+  "size": [
+   92,
+   126
   ]
  },
  "stairs/stairs_narrow": {
@@ -307,6 +627,66 @@
   "size": [
    156,
    510
+  ]
+ },
+ "training/dummy_stand": {
+  "pivot": [
+   36,
+   112
+  ],
+  "size": [
+   72,
+   112
+  ]
+ },
+ "training/fence": {
+  "pivot": [
+   45,
+   64
+  ],
+  "size": [
+   90,
+   64
+  ]
+ },
+ "training/gallows_rack": {
+  "pivot": [
+   60,
+   106
+  ],
+  "size": [
+   120,
+   106
+  ]
+ },
+ "training/shelf": {
+  "pivot": [
+   51,
+   70
+  ],
+  "size": [
+   102,
+   70
+  ]
+ },
+ "training/tent_rack": {
+  "pivot": [
+   62,
+   84
+  ],
+  "size": [
+   124,
+   84
+  ]
+ },
+ "training/weapon_rack": {
+  "pivot": [
+   57,
+   72
+  ],
+  "size": [
+   114,
+   72
   ]
  },
  "trees/bush_round": {

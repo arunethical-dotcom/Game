@@ -100,9 +100,9 @@ func _load_chunk(c: Vector2i) -> void:
 	ground.flora = _flora_for(origin, rng)
 	add_child(ground)
 
-	# Trees and ore rocks, only outside the city walls
+	# Trees and ore rocks, only outside the city walls (none in the castle-only view)
 	var props := []
-	for i in 12:
+	for i in (0 if main.CASTLE_ONLY else 12):
 		var key := "%d_%d_%d" % [c.x, c.y, i]
 		var wp := origin + Vector2(rng.randf_range(24, CHUNK_PX - 24), rng.randf_range(24, CHUNK_PX - 24))
 		var roll := rng.randf()
@@ -136,7 +136,8 @@ func _load_chunk(c: Vector2i) -> void:
 		main.entity_layer.add_child(node)
 		props.append(node)
 
-	_spawn_bushes(c, origin, rng, props)
+	if not main.CASTLE_ONLY:
+		_spawn_bushes(c, origin, rng, props)
 	chunks[c] = {"ground": ground, "props": props}
 
 

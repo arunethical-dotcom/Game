@@ -44,6 +44,10 @@ var leader_dead := false
 var moonsteel_drop := Vector2.INF
 var shake_amount := 0.0
 var cam_pos := Vector2.ZERO
+
+# Castle-only view: build just the Royal Castle on its lake (no city, no countryside),
+# with Kael starting at the castle's causeway. Set to false for the full game and Mission 1.
+const CASTLE_ONLY := true
 var camera_zones := []        # [Rect2, zoom] areas the camera stays inside (see _update_camera)
 var boss_focus: Node2D = null # set during a boss fight: the camera keeps Kael and the boss in view
 const INTERIOR_ZOOM := 1.5    # 1.5 x the 2x phone scale = exactly 3 screen pixels per art pixel
@@ -82,15 +86,17 @@ func _ready() -> void:
 	world = WorldScript.new()
 	world.main = self
 	ground_layer.add_child(world)
-	ground_layer.add_child(preload("res://scripts/paving.gd").new())
-
-	City.build(self)
-	_place_people()
+	if CASTLE_ONLY:
+		haldor = _npc("haldor", Geo.HALDOR_POS, "Haldor")
+	else:
+		ground_layer.add_child(preload("res://scripts/paving.gd").new())
+		City.build(self)
+		_place_people()
 	Castle.build(self)
 
 	player = PlayerScript.new()
 	player.main = self
-	player.position = Geo.HALDOR_POS + Vector2(-70, 40)
+	player.position = Geo.rp(768, 986) if CASTLE_ONLY else Geo.HALDOR_POS + Vector2(-70, 40)
 	entity_layer.add_child(player)
 
 	camera = Camera2D.new()
@@ -131,7 +137,11 @@ func _ready() -> void:
 
 	world.update_chunks(player.global_position)
 	_refresh_hud()
-	hud.show_dialog(Story.WAKE_UP)
+	if CASTLE_ONLY:
+		arrow.visible = false
+		hud.show_dialog([["", "The Royal Castle. Walk up the causeway and explore the whole castle."]])
+	else:
+		hud.show_dialog(Story.WAKE_UP)
 
 
 func _setup_input() -> void:
@@ -205,7 +215,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().quit()
 	# F3 (computer only, for testing): jump to the Royal Castle's north gate and back
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F3 and not OS.has_feature("mobile"):
-		var gate := Geo.ct(168, 8)
+		var gate := Geo.rp(768, 986)
 		var dest: Vector2 = Geo.HALDOR_POS + Vector2(-70, 40) if player.global_position.distance_to(gate) < 3000.0 else gate
 		player.global_position = dest
 		cam_pos = dest
