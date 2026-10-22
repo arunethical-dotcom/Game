@@ -16,6 +16,7 @@ var wall_h := 112
 var floor_tex: Texture2D
 var carpet := Rect2()          # world rect, empty = none
 var dais := Rect2()            # world rect, empty = none
+var dais_steps := 2            # steps down from the front of the dais
 var stairs := []               # [world position (top-left), Texture2D]
 var stained := false
 var tile_row := -1             # >= 0: floor from the tile atlas (scripts/tiles.gd) instead of floor_tex
@@ -59,10 +60,16 @@ func _draw() -> void:
 			Tiles.fill(self, dais, tile_row, [0, 1], [], Vector2.ZERO, Color(1.06, 1.06, 1.08))
 		else:
 			_tile(floor_tex, dais, Color(1.12, 1.12, 1.15))
-		draw_rect(Rect2(dais.position.x, dais.end.y, dais.size.x, 6), Color(0.85, 0.82, 0.78))
-		draw_rect(Rect2(dais.position.x, dais.end.y + 6, dais.size.x, 6), Color(0.7, 0.68, 0.66))
-		draw_rect(Rect2(dais.position.x, dais.end.y + 12, dais.size.x, 2), Color(0.3, 0.28, 0.3))
-		draw_rect(Rect2(dais.position.x, dais.position.y, dais.size.x, 2), Color(0.85, 0.66, 0.3))
+		# steps down the front, each a little narrower shadow, with a gold nosing on top
+		for k in dais_steps:
+			var y := dais.end.y + k * 7
+			var l := 0.94 - k * 0.1
+			draw_rect(Rect2(dais.position.x - k * 6, y, dais.size.x + k * 12, 7), Color(l, l * 0.97, l * 0.92))
+			draw_rect(Rect2(dais.position.x - k * 6, y, dais.size.x + k * 12, 1), Color(1.0, 0.97, 0.9))
+			draw_rect(Rect2(dais.position.x - k * 6, y + 6, dais.size.x + k * 12, 1), Color(0.35, 0.3, 0.3))
+		draw_rect(Rect2(dais.position.x, dais.end.y - 2, dais.size.x, 2), Color(0.85, 0.66, 0.3))
+		draw_rect(Rect2(dais.position.x, dais.position.y, 3, dais.size.y), Color(0.85, 0.66, 0.3))
+		draw_rect(Rect2(dais.end.x - 3, dais.position.y, 3, dais.size.y), Color(0.85, 0.66, 0.3))
 	# carpet with a gold border
 	if carpet.size != Vector2.ZERO:
 		_tile(T_CARPET, carpet)
@@ -78,6 +85,13 @@ func _draw() -> void:
 				var l := minf(f.size.y * 0.5, 260.0)
 				draw_colored_polygon(PackedVector2Array([Vector2(wx - 10, f.position.y), Vector2(wx + 10, f.position.y),
 						Vector2(wx + 10 + l * 0.35, f.position.y + l), Vector2(wx - 10 + l * 0.35, f.position.y + l)]), Color(1.0, 0.86, 0.55, 0.05))
+	# softer light toward the side and front walls, deepest in the corners
+	for k in 3:
+		var wdt := 18.0 * (3 - k)
+		var shade := Color(0.05, 0.03, 0.06, 0.05)
+		draw_rect(Rect2(f.position.x, f.position.y, wdt, f.size.y), shade)
+		draw_rect(Rect2(f.end.x - wdt, f.position.y, wdt, f.size.y), shade)
+		draw_rect(Rect2(f.position.x, f.end.y - wdt, f.size.x, wdt), shade)
 	for p in pools:
 		draw_circle(p[0], p[1], Color(1.0, 0.6, 0.22, 0.06))
 		draw_circle(p[0], p[1] * 0.55, Color(1.0, 0.68, 0.3, 0.07))

@@ -365,58 +365,58 @@
  },
  "bath_props/alcove_b": {
   "footprint": [
-   29,
-   12
+   43,
+   18
   ],
   "pivot": [
-   18,
-   41
+   27,
+   61
   ],
   "size": [
-   36,
-   41
+   54,
+   61
   ]
  },
  "bath_props/bath_round": {
   "footprint": [
-   28,
-   14
+   42,
+   20
   ],
   "pivot": [
-   17,
-   45
+   26,
+   67
   ],
   "size": [
-   35,
-   45
+   53,
+   67
   ]
  },
  "bath_props/bath_tub": {
   "footprint": [
-   42,
-   11
+   63,
+   17
   ],
   "pivot": [
-   26,
-   37
+   39,
+   56
   ],
   "size": [
-   53,
-   37
+   79,
+   56
   ]
  },
  "bath_props/shrine_alcove": {
   "footprint": [
-   27,
-   12
+   41,
+   18
   ],
   "pivot": [
-   17,
-   40
+   25,
+   60
   ],
   "size": [
-   34,
-   40
+   51,
+   60
   ]
  },
  "floors/cobble_wide": {
@@ -743,44 +743,44 @@
  },
  "furniture/altar_table": {
   "footprint": [
-   51,
-   14
+   77,
+   20
   ],
   "pivot": [
-   32,
-   45
+   48,
+   67
   ],
   "size": [
-   64,
-   45
+   96,
+   67
   ]
  },
  "furniture/armchair_blue": {
   "footprint": [
-   20,
-   10
+   30,
+   15
   ],
   "pivot": [
-   12,
-   33
+   18,
+   49
   ],
   "size": [
-   25,
-   33
+   37,
+   49
   ]
  },
  "furniture/bed_blue": {
   "footprint": [
-   30,
-   18
+   44,
+   24
   ],
   "pivot": [
-   18,
-   61
+   27,
+   92
   ],
   "size": [
-   37,
-   61
+   55,
+   92
   ]
  },
  "furniture/bed_canopy": {
@@ -799,170 +799,170 @@
  },
  "furniture/bed_double_stone": {
   "footprint": [
-   46,
-   17
+   69,
+   24
   ],
   "pivot": [
-   28,
-   57
+   43,
+   85
   ],
   "size": [
-   57,
-   57
+   86,
+   85
   ]
  },
  "furniture/bed_red": {
   "footprint": [
-   25,
-   16
+   37,
+   24
   ],
   "pivot": [
-   15,
-   55
+   23,
+   83
   ],
   "size": [
-   31,
-   55
+   46,
+   83
   ]
  },
  "furniture/bed_single": {
   "footprint": [
-   15,
-   12
+   23,
+   18
   ],
   "pivot": [
-   9,
-   41
+   14,
+   61
   ],
   "size": [
-   19,
-   41
+   29,
+   61
   ]
  },
  "furniture/bed_white": {
   "footprint": [
-   31,
-   12
+   46,
+   18
   ],
   "pivot": [
-   19,
-   39
+   29,
+   59
   ],
   "size": [
-   39,
-   39
+   58,
+   59
   ]
  },
  "furniture/bench": {
   "footprint": [
-   25,
-   8
+   38,
+   12
   ],
   "pivot": [
-   15,
-   27
+   23,
+   41
   ],
   "size": [
-   31,
-   27
+   47,
+   41
   ]
  },
  "furniture/cabinet_gold": {
   "footprint": [
-   33,
-   17
+   50,
+   24
   ],
   "pivot": [
-   20,
-   57
+   31,
+   86
   ],
   "size": [
-   41,
-   57
+   62,
+   86
   ]
  },
  "furniture/cabinet_map": {
   "footprint": [
-   29,
-   13
+   43,
+   19
   ],
   "pivot": [
-   18,
-   42
+   27,
+   63
   ],
   "size": [
-   36,
-   42
+   54,
+   63
   ]
  },
  "furniture/cabinet_painted": {
   "footprint": [
-   41,
-   18
+   61,
+   24
   ],
   "pivot": [
-   25,
-   61
+   38,
+   91
   ],
   "size": [
-   51,
-   61
+   76,
+   91
   ]
  },
  "furniture/cabinet_small": {
   "footprint": [
-   17,
-   11
+   26,
+   17
   ],
   "pivot": [
-   10,
-   37
+   16,
+   56
   ],
   "size": [
-   21,
-   37
+   32,
+   56
   ]
  },
  "furniture/cabinet_stone": {
   "footprint": [
-   22,
-   13
+   33,
+   20
   ],
   "pivot": [
-   13,
-   44
+   20,
+   66
   ],
   "size": [
-   27,
-   44
+   41,
+   66
   ]
  },
  "furniture/chair_blue": {
   "footprint": [
-   10,
-   8
+   16,
+   12
   ],
   "pivot": [
-   6,
-   26
+   10,
+   39
   ],
   "size": [
-   13,
-   26
+   20,
+   39
   ]
  },
  "furniture/chair_blue_b": {
   "footprint": [
-   11,
-   11
+   17,
+   16
   ],
   "pivot": [
-   7,
-   36
+   10,
+   54
   ],
   "size": [
-   14,
-   36
+   21,
+   54
   ]
  },
  "furniture/chair_blue_high": {
@@ -995,338 +995,338 @@
  },
  "furniture/chair_red_bench": {
   "footprint": [
-   30,
-   10
+   44,
+   16
   ],
   "pivot": [
-   18,
-   35
+   27,
+   53
   ],
   "size": [
-   37,
-   35
+   55,
+   53
   ]
  },
  "furniture/chair_upholstered": {
   "footprint": [
-   25,
-   10
+   37,
+   15
   ],
   "pivot": [
-   15,
-   34
+   23,
+   51
   ],
   "size": [
-   31,
-   34
+   46,
+   51
   ]
  },
  "furniture/chair_wood": {
   "footprint": [
-   12,
-   11
+   18,
+   16
   ],
   "pivot": [
-   7,
-   36
+   11,
+   54
   ],
   "size": [
-   15,
-   36
+   22,
+   54
   ]
  },
  "furniture/cupboard": {
   "footprint": [
-   16,
-   10
+   24,
+   15
   ],
   "pivot": [
-   10,
-   33
+   15,
+   49
   ],
   "size": [
-   20,
-   33
+   30,
+   49
   ]
  },
  "furniture/curtain_screen": {
   "footprint": [
-   40,
-   14
+   60,
+   21
   ],
   "pivot": [
-   25,
-   46
+   37,
+   69
   ],
   "size": [
-   50,
-   46
+   75,
+   69
   ]
  },
  "furniture/desk_alchemy": {
   "footprint": [
-   39,
-   17
+   58,
+   24
   ],
   "pivot": [
-   24,
-   58
+   36,
+   87
   ],
   "size": [
-   49,
-   58
+   73,
+   87
   ]
  },
  "furniture/desk_dark": {
   "footprint": [
-   35,
-   7
+   53,
+   10
   ],
   "pivot": [
-   22,
-   23
+   33,
+   34
   ],
   "size": [
-   44,
-   23
+   66,
+   34
   ]
  },
  "furniture/desk_items": {
   "footprint": [
-   39,
-   13
+   58,
+   20
   ],
   "pivot": [
-   24,
-   44
+   36,
+   66
   ],
   "size": [
-   49,
-   44
+   73,
+   66
   ]
  },
  "furniture/desk_small": {
   "footprint": [
-   26,
-   8
+   40,
+   13
   ],
   "pivot": [
-   16,
-   28
+   25,
+   42
   ],
   "size": [
-   33,
-   28
+   50,
+   42
   ]
  },
  "furniture/desk_writing": {
   "footprint": [
-   23,
-   11
+   35,
+   17
   ],
   "pivot": [
-   14,
-   37
+   22,
+   56
   ],
   "size": [
-   29,
-   37
+   44,
+   56
   ]
  },
  "furniture/dining_table": {
   "footprint": [
-   46,
-   11
+   68,
+   16
   ],
   "pivot": [
-   28,
-   37
+   42,
+   55
   ],
   "size": [
-   57,
-   37
+   85,
+   55
   ]
  },
  "furniture/display_case": {
   "footprint": [
-   33,
-   14
+   49,
+   20
   ],
   "pivot": [
-   20,
-   45
+   30,
+   67
   ],
   "size": [
-   41,
-   45
+   61,
+   67
   ]
  },
  "furniture/dresser_dark": {
+  "footprint": [
+   32,
+   18
+  ],
+  "pivot": [
+   20,
+   61
+  ],
+  "size": [
+   40,
+   61
+  ]
+ },
+ "furniture/fireplace_stone": {
+  "footprint": [
+   49,
+   17
+  ],
+  "pivot": [
+   30,
+   58
+  ],
+  "size": [
+   61,
+   58
+  ]
+ },
+ "furniture/hearth_grate": {
+  "footprint": [
+   46,
+   18
+  ],
+  "pivot": [
+   29,
+   61
+  ],
+  "size": [
+   58,
+   61
+  ]
+ },
+ "furniture/nightstand": {
   "footprint": [
    22,
    12
   ],
   "pivot": [
-   13,
+   14,
    41
   ],
   "size": [
-   27,
+   28,
    41
-  ]
- },
- "furniture/fireplace_stone": {
-  "footprint": [
-   33,
-   12
-  ],
-  "pivot": [
-   20,
-   39
-  ],
-  "size": [
-   41,
-   39
-  ]
- },
- "furniture/hearth_grate": {
-  "footprint": [
-   31,
-   12
-  ],
-  "pivot": [
-   19,
-   41
-  ],
-  "size": [
-   39,
-   41
-  ]
- },
- "furniture/nightstand": {
-  "footprint": [
-   15,
-   8
-  ],
-  "pivot": [
-   9,
-   27
-  ],
-  "size": [
-   19,
-   27
   ]
  },
  "furniture/secretary_desk": {
   "footprint": [
-   20,
-   14
+   30,
+   20
   ],
   "pivot": [
-   12,
-   45
+   18,
+   67
   ],
   "size": [
-   25,
-   45
+   37,
+   67
   ]
  },
  "furniture/sofa_red": {
   "footprint": [
-   26,
-   9
+   39,
+   14
   ],
   "pivot": [
-   16,
-   31
+   24,
+   47
   ],
   "size": [
-   33,
-   31
+   49,
+   47
   ]
  },
  "furniture/stool_red": {
   "footprint": [
-   10,
-   6
+   16,
+   8
   ],
   "pivot": [
-   6,
-   17
+   10,
+   26
   ],
   "size": [
-   13,
-   17
+   20,
+   26
   ]
  },
  "furniture/table_chest": {
   "footprint": [
-   30,
-   9
+   46,
+   14
   ],
   "pivot": [
-   19,
-   31
+   28,
+   46
   ],
   "size": [
-   38,
-   31
+   57,
+   46
   ]
  },
  "furniture/table_round": {
   "footprint": [
-   20,
-   8
+   30,
+   12
   ],
   "pivot": [
-   12,
-   27
+   19,
+   41
   ],
   "size": [
-   25,
-   27
+   38,
+   41
   ]
  },
  "furniture/wardrobe": {
   "footprint": [
-   28,
-   15
+   42,
+   22
   ],
   "pivot": [
-   17,
-   49
+   26,
+   73
   ],
   "size": [
-   35,
-   49
+   53,
+   73
   ]
  },
  "furniture/wardrobe_tall": {
   "footprint": [
-   12,
-   13
+   18,
+   19
   ],
   "pivot": [
-   7,
-   42
+   11,
+   63
   ],
   "size": [
-   15,
-   42
+   22,
+   63
   ]
  },
  "furniture/workbench": {
   "footprint": [
-   29,
-   12
+   43,
+   18
   ],
   "pivot": [
-   18,
-   39
+   27,
+   59
   ],
   "size": [
-   36,
-   39
+   54,
+   59
   ]
  },
  "gates/door_arch_blue": {
@@ -1737,86 +1737,86 @@
  },
  "library_props/bookshelf": {
   "footprint": [
-   28,
-   14
+   42,
+   21
   ],
   "pivot": [
-   17,
-   47
+   26,
+   70
   ],
   "size": [
-   35,
-   47
+   52,
+   70
   ]
  },
  "library_props/bookshelf_b": {
   "footprint": [
-   25,
-   12
+   37,
+   18
   ],
   "pivot": [
-   15,
-   40
+   23,
+   60
   ],
   "size": [
-   31,
-   40
+   46,
+   60
   ]
  },
  "library_props/bookshelf_wide": {
   "footprint": [
-   49,
-   12
+   73,
+   18
   ],
   "pivot": [
-   30,
-   41
+   45,
+   61
   ],
   "size": [
-   61,
-   41
+   91,
+   61
   ]
  },
  "library_props/globe_blue": {
   "footprint": [
-   12,
-   8
+   18,
+   12
   ],
   "pivot": [
-   7,
-   27
+   11,
+   40
   ],
   "size": [
-   15,
-   27
+   22,
+   40
   ]
  },
  "library_props/globe_gold": {
   "footprint": [
-   15,
-   9
+   23,
+   14
   ],
   "pivot": [
-   9,
-   31
+   14,
+   46
   ],
   "size": [
-   19,
-   31
+   29,
+   46
   ]
  },
  "library_props/globe_green": {
   "footprint": [
-   14,
-   10
+   22,
+   15
   ],
   "pivot": [
-   9,
-   34
+   13,
+   51
   ],
   "size": [
-   18,
-   34
+   27,
+   51
   ]
  },
  "library_props/globe_large": {
@@ -1835,30 +1835,30 @@
  },
  "library_props/globe_small": {
   "footprint": [
-   13,
-   8
+   19,
+   11
   ],
   "pivot": [
-   8,
-   25
+   12,
+   38
   ],
   "size": [
-   16,
-   25
+   24,
+   38
   ]
  },
  "library_props/treasure_map": {
   "footprint": [
-   26,
-   12
+   40,
+   18
   ],
   "pivot": [
-   16,
-   40
+   25,
+   60
   ],
   "size": [
-   33,
-   40
+   50,
+   60
   ]
  },
  "lighting/brazier_gold": {
@@ -4162,44 +4162,44 @@
  },
  "treasury_props/cabinet_treasure": {
   "footprint": [
-   16,
-   11
+   24,
+   16
   ],
   "pivot": [
-   10,
-   36
+   15,
+   54
   ],
   "size": [
-   20,
-   36
+   30,
+   54
   ]
  },
  "treasury_props/gold_pile": {
   "footprint": [
-   31,
-   12
+   46,
+   17
   ],
   "pivot": [
-   19,
-   39
+   29,
+   58
   ],
   "size": [
-   39,
-   39
+   58,
+   58
   ]
  },
  "treasury_props/gold_table": {
   "footprint": [
-   48,
-   12
+   72,
+   17
   ],
   "pivot": [
-   30,
-   39
+   45,
+   58
   ],
   "size": [
-   60,
-   39
+   90,
+   58
   ]
  },
  "vegetation/fountain": {

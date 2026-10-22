@@ -367,8 +367,12 @@ def build():
 # Architecture is kept at its native size; furniture-scale props are drawn larger on
 # the sheet, so they are scaled by 2/3 to sit right next to Kael (64 px tall).
 OUT2 = '../art/castle2/'
-SCALE2 = {'furniture': 2 / 3, 'library_props': 2 / 3, 'kitchen_props': 2 / 3, 'treasury_props': 2 / 3,
-          'bath_props': 2 / 3, 'misc': 2 / 3}
+# Scale audit (stage 11): every prop was measured against Kael (64 px) and the 32 px tile.
+# Most furniture is right at its native sheet size; the few pieces drawn oversized on the
+# sheet, and the small kitchen/table props, are scaled by 2/3. See docs/FURNITURE_SCALE.md.
+SCALE2 = {'kitchen_props': 2 / 3, 'misc': 2 / 3}
+SCALE2_ITEMS = {'furniture/bed_canopy': 2 / 3, 'furniture/chair_blue_high': 2 / 3,
+                'furniture/chair_blue_tall': 2 / 3, 'library_props/globe_large': 2 / 3}
 
 
 def build_sheet2():
@@ -384,7 +388,7 @@ def build_sheet2():
         group, name = key.split('/')
         c, a = cut(rgb, fg, lab, b)
         im = to_image(c, a > 0.5)
-        s = SCALE2.get(group, 1.0)
+        s = SCALE2_ITEMS.get(key, SCALE2.get(group, 1.0))
         if s != 1.0:
             # scale with nearest sampling so every pixel keeps a real colour from the sheet
             w, h = max(1, round(im.width * s)), max(1, round(im.height * s))

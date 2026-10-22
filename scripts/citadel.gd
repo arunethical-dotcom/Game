@@ -92,6 +92,33 @@ static func _put(name: String, x: float, y: float, solid := Vector2.ZERO, shadow
 	return _spr(A + name, T(x, y), solid, Vector2.INF, shadow)
 
 
+## A light-giving prop: places the sprite and a warm light at its flame.
+## kind: "candle", "torch", "brazier" or "fire".
+static func _light(name: String, x: float, y: float, solid := Vector2.ZERO, kind := "candle", flame_up := -1.0) -> Node2D:
+	var s := _put(name, x, y, solid)
+	var h := float(load("res://art/%s%s.png" % [A, name]).get_height())
+	var up := flame_up if flame_up >= 0.0 else h * 0.85
+	main_ref.lights.add(T(x, y) - Vector2(0, up), kind)
+	return s
+
+
+## A picture or banner hung on a back wall: drawn up on the wall face above line y.
+static func _hang(name: String, x: float, y: float, lift: int) -> Node2D:
+	var s = Spr.new()
+	s.sprite = name
+	s.lift = lift
+	s.shadow = false
+	s.position = T(x, y).round()
+	layer.add_child(s)
+	return s
+
+
+## A torch in an iron sconce on a back wall whose base is at plan row y.
+static func _wall_torch(x: float, y: float) -> void:
+	_spr("dec_sconce", T(x, y), Vector2.ZERO, Vector2(0, -72), false, 46)
+	main_ref.lights.add(T(x, y) - Vector2(0, 70), "torch")
+
+
 static func _deco(name: String, p: Vector2, base := Vector2.ZERO) -> void:
 	var d = Deco.new()
 	d.sprite = name
@@ -171,7 +198,7 @@ static func _building(main, r: Array, wall_h: int, doors: Array, floor_row: int,
 		b.side_doors.append([sd[0], (T(0, sd[1]).y + T(0, sd[2]).y) / 2.0, (sd[2] - sd[1]) * Geo.TILE])
 	b.position = Vector2(roundf(fp.get_center().x), fp.end.y)
 	layer.add_child(b)
-	main.add_camera_zone(full.grow_individual(24, 24, 24, 40))
+	main.add_camera_zone(full.grow_individual(24, 24, 24, 40), main.INTERIOR_ZOOM)
 	return [inside, b, fp]
 
 
@@ -254,59 +281,92 @@ static func _throne_hall(main) -> void:
 	b.big_door = true
 	b.keep_spire = true
 	b.facade = load("res://art/castle2/roofs/hall_facade.png")
+	# cream marble, a checkered nave between the pillar rows, inlaid borders under the pillars
 	inside.tile_vars = [0, 1]
-	inside.nave = Rect2(fp.position.x + 160, fp.position.y + 96, fp.size.x - 320, fp.size.y - 96)
+	inside.nave = TR(43, 16, 57, 28)
 	inside.nave_alt = [2, 3]
-	inside.bands = [[Rect2(inside.nave.position.x - 32, inside.nave.position.y, 32, inside.nave.size.y), Tiles.MARBLE_BORDER_V],
-			[Rect2(inside.nave.end.x, inside.nave.position.y, 32, inside.nave.size.y), Tiles.MARBLE_BORDER_V],
-			[Rect2(inside.nave.position.x - 32, inside.nave.position.y, inside.nave.size.x + 64, 32), Tiles.MARBLE_BORDER]]
-	inside.carpet = TR(48.75, 15, 51.25, 28)
-	inside.dais = TR(44, 12, 56, 15)
-	inside.rugs = [[load("res://art/dec_rug_throne.png"), T(50, 21)]]
-	inside.pools = [[T(46, 12.4), 44.0], [T(54, 12.4), 44.0]]
-	# the throne under its canopy, on the dais
-	_spr("dec_canopy", T(50, 13.6), Vector2.ZERO, Vector2.INF, false)
-	_put("royal_props/throne_red", 50, 14.6, Vector2(60, 20))
-	for x in [46.5, 53.5]:
-		_put("lighting/candelabra", x, 14.4, Vector2(12, 8))
-	for x in [46, 54]:
-		_spr("dec_sconce", T(x, 12), Vector2.ZERO, Vector2(0, -72), false, 46)
-	# two rows of pillars along the nave, braziers along the carpet
-	for y in [17, 20, 23, 26]:
-		for x in [42.5, 57.5]:
-			_put("royal_props/pillar_a", x, y, Vector2(26, 12))
-	for y in [18.5, 24.5]:
-		for x in [46.5, 53.5]:
-			_put("lighting/brazier_large", x, y, Vector2(22, 10))
-	# banners, busts and planters in the side aisles
+	inside.bands = [[TR(42, 16, 43, 28), Tiles.MARBLE_BORDER_V], [TR(57, 16, 58, 28), Tiles.MARBLE_BORDER_V],
+			[TR(42, 16, 58, 17), Tiles.MARBLE_BORDER]]
+	# the raised throne platform: 16 x 4 tiles, three steps, carpet running up it
+	inside.dais = TR(41, 12, 59, 16)
+	inside.dais_steps = 3
+	inside.carpet = TR(48.75, 13.4, 51.25, 28)
+	inside.rugs = [[load("res://art/dec_rug_throne.png"), T(50, 23)]]
+	# backdrop: velvet canopy over the throne, royal banners either side, torches on the wall
+	_spr("dec_canopy", T(50, 13.2), Vector2.ZERO, Vector2.INF, false)
+	_put("royal_props/throne_red", 50, 14.9, Vector2(60, 20))
 	for side in [-1, 1]:
-		var ax: float = 50 + side * 10.6
-		_put("banners/banner_lion", ax, 16.2, Vector2(20, 8))
-		_put("royal_props/bust_stone", ax, 19.5, Vector2(20, 10))
-		_put("banners/banner_large", ax, 22.5, Vector2(24, 8))
-		_put("vegetation/planter_tall", ax, 27, Vector2(16, 8))
-	main._npc("guard", T(47.6, 16.4), "Royal guard", Story.GUARD_HALL)
-	main._npc("guard", T(52.4, 16.4), "Royal guard", Story.GUARD_HALL)
+		_hang(A + "banners/banner_large", 50 + side * 4.4, 12, 8)
+		_hang(A + "banners/banner_lion", 50 + side * 7.4, 12, 14)
+		_light("lighting/candelabra", 50 + side * 3.3, 15.2, Vector2(12, 8), "candle")
+		_light("lighting/lamp_globe", 50 + side * 7.6, 15.4, Vector2(14, 8), "candle")
+		_spr("dec_sconce", T(50 + side * 10.6, 12), Vector2.ZERO, Vector2(0, -72), false, 46)
+		main.lights.add(T(50 + side * 10.6, 12) - Vector2(0, 70), "torch")
+	# two rows of tall pillars on the borders of the nave
+	for y in [19, 22, 25, 27.6]:
+		for x in [42.5, 57.5]:
+			_spr("cit_pillar", T(x, y), Vector2(26, 12))
+	# braziers stand in the side aisles between the pillars, so the nave stays clear
+	for y in [20.5, 23.5, 26.3]:
+		for x in [40.6, 59.4]:
+			_light("lighting/brazier_large", x, y, Vector2(22, 10), "brazier", 58.0)
+	# statues, busts and planters along the outer walls of the aisles
+	for side in [-1, 1]:
+		var ax: float = 50 + side * 10.9
+		_put("royal_props/statue_small", ax, 17.6, Vector2(20, 10))
+		_put("royal_props/shrine_niche" if side < 0 else "royal_props/bust_stone", ax, 22, Vector2(24, 10))
+		_put("vegetation/planter_tall", ax, 27.4, Vector2(16, 8))
+	main._npc("guard", T(46.2, 17), "Royal guard", Story.GUARD_HALL)
+	main._npc("guard", T(53.8, 17), "Royal guard", Story.GUARD_HALL)
 
 
 # ---------------------------------------------------------------- west side
 
 static func _west_side(main) -> void:
-	# West Royal Wing: entrance hall with the grand stair (S1) up to the residential floor
+	# West Royal Wing: the entrance hall of the royal family's west wing, with the grand
+	# stair (S1) up to their bedrooms. Zones: entrance (south), seating with a fireplace
+	# (west), storage along the north wall, an attendant's sleeping alcove (south-west),
+	# and the stair (south-east).
 	var w := _building(main, [10, 10, 30, 30], 112, [20], Tiles.C_WOOD)
-	w[0].rugs = [[load("res://art/castle2/rugs/rug_red_a.png"), T(17, 21)], [load("res://art/castle2/rugs/rug_red_d.png"), T(17, 26)]]
-	_put("furniture/sofa_red", 14, 18, Vector2(36, 10))
-	_put("furniture/table_round", 17, 18.2, Vector2(24, 10))
-	_put("furniture/chair_blue", 19.5, 18, Vector2(14, 8))
-	_put("library_props/bookshelf", 12, 14.6, Vector2(30, 12))
-	_put("library_props/bookshelf_b", 13.4, 14.6, Vector2(30, 12))
-	_put("royal_props/clock_trio", 22, 14.6, Vector2(30, 10))
-	_put("vegetation/urn_flowers", 28.6, 15, Vector2(18, 8))
-	_put("vegetation/urn_flowers", 11.4, 29.4, Vector2(18, 8))
-	_put("banners/banner_lion_b", 26, 14.8, Vector2(20, 8))
-	_put("lighting/candle_stand", 22.6, 25, Vector2(10, 6))
-	_put("lighting/candle_stand", 28.4, 25, Vector2(10, 6))
-	main._npc("guard", T(22.6, 28.4), "Royal guard", Story.GUARD_WEST_WING)
+	# a runner from the door to the north wall gives the hall its spine
+	w[0].carpet = TR(19.3, 15.6, 20.7, 30)
+	w[0].rugs = [[load("res://art/dec_rug_blue.png"), T(14.5, 19.8)], [load("res://art/castle2/rugs/rug_square_blue.png"), T(25.4, 20)],
+			[load("res://art/castle2/rugs/rug_red_b.png"), T(12.8, 27.8)]]
+	# back wall: portraits of the royal family and the house banner
+	_hang("castle/decor/portrait_king", 13, 13.5, 30)
+	_hang("castle/decor/portrait_lady", 16, 13.5, 26)
+	_hang(A + "banners/banner_lion", 20, 13.5, 6)
+	_hang("castle/decor/painting_castle", 26.5, 13.5, 32)
+	# seating: a fireplace with a sofa and armchairs around a table, on a blue rug
+	_light("furniture/fireplace_stone", 14.5, 14.9, Vector2(56, 14), "fire", 22.0)
+	_put("furniture/sofa_red", 14.5, 21.4, Vector2(44, 12))
+	_put("furniture/armchair_blue", 11.8, 19.6, Vector2(28, 10))
+	_put("furniture/armchair_blue", 17.2, 19.6, Vector2(28, 10))
+	_put("furniture/table_round", 14.5, 19.2, Vector2(30, 10))
+	_light("lighting/candelabra", 18.4, 16, Vector2(12, 8), "candle")
+	# storage along the north wall
+	_put("furniture/wardrobe", 22.4, 15.2, Vector2(48, 12))
+	_put("furniture/cabinet_gold", 24.6, 15.2, Vector2(56, 12))
+	_spr("castle/furniture/chest_blue", T(26.9, 15.1), Vector2(38, 10))
+	_spr("castle/furniture/chest_wood", T(28.6, 15.1), Vector2(30, 10))
+	# study: a writing desk on a blue rug, with a globe and a reading lamp
+	_put("furniture/desk_writing", 25.4, 20.2, Vector2(28, 10))
+	_put("furniture/chair_blue", 25.4, 19, Vector2(14, 6))
+	_put("library_props/globe_gold", 23.2, 20.4, Vector2(14, 6))
+	_put("library_props/bookshelf_wide", 28.2, 20.6, Vector2(56, 12))
+	_light("lighting/lamp_globe", 27.4, 22.6, Vector2(14, 8), "candle")
+	# the attendant's sleeping corner
+	_put("furniture/bed_single", 11.1, 29.2, Vector2(26, 34))
+	_put("furniture/nightstand", 12.6, 27.3, Vector2(22, 10))
+	_spr("castle/furniture/dresser", T(15.2, 26.9), Vector2(38, 10))
+	_light("lighting/candle_small", 12.6, 26.2, Vector2.ZERO, "candle", 30.0)
+	# entrance: planters either side of the door; the stair lit by candle stands
+	_put("vegetation/planter_tall", 18.1, 29.6, Vector2(16, 8))
+	_put("vegetation/planter_tall", 21.9, 29.6, Vector2(16, 8))
+	_light("lighting/candle_stand", 23.4, 27.2, Vector2(10, 6), "candle")
+	_light("lighting/candle_stand", 27.6, 27.2, Vector2(10, 6), "candle")
+	_put("vegetation/urn_flowers", 28.8, 29.6, Vector2(18, 8))
+	main._npc("guard", T(22.8, 28.6), "Royal guard", Story.GUARD_WEST_WING)
 
 	# Chapel and Armory open into the west gallery; the gallery opens onto the courtyard
 	var ch := _building(main, [10, 32, 22, 42], 96, [], Tiles.C_LIMESTONE, [["e", 36, 38]])
@@ -316,12 +376,15 @@ static func _west_side(main) -> void:
 	for y in [38.2, 39.6, 41.0]:
 		_spr("cit_pew", T(13.4, y), Vector2(64, 10))
 		_spr("cit_pew", T(18.6, y), Vector2(64, 10))
-	_put("lighting/candelabra_table", 12, 36.6, Vector2(14, 8))
-	_put("lighting/candelabra_table", 20, 36.6, Vector2(14, 8))
+	_light("lighting/candelabra_table", 12, 36.6, Vector2(14, 8), "candle")
+	_light("lighting/candelabra_table", 20, 36.6, Vector2(14, 8), "candle")
 	main._npc("court", T(16, 37.4), "Sister Maren", Story.PRIEST).variant = 2
 
 	var ar := _building(main, [10, 44, 22, 56], 96, [], Tiles.C_DARKSTONE, [["e", 48, 50]])
 	ar[0].rugs = [[load("res://art/castle2/rugs/rug_red_b.png"), T(15, 52)]]
+	ar[0].shafts = false   # no windows: lit only by its torches
+	for x in [13, 19]:
+		_wall_torch(x, 47)
 	for x in [12, 14.5, 17, 19.5]:
 		_put("prison_props/stand_iron", x, 47.6, Vector2(14, 8))
 	_put("banners/shield_crest", 12, 50.5, Vector2(20, 8))
@@ -334,8 +397,9 @@ static func _west_side(main) -> void:
 	var ga := _building(main, [22, 32, 28, 56], 96, [], Tiles.C_LIMESTONE, [["w", 36, 38], ["w", 48, 50], ["e", 40, 42]])
 	ga[0].carpet = TR(24.4, 35, 25.6, 51)
 	_put("banners/banner_red_a", 25, 35.4, Vector2(16, 6))
-	_put("lighting/candle_stand", 23, 44, Vector2(10, 6))
-	_put("lighting/candle_stand", 27, 44, Vector2(10, 6))
+	_light("lighting/candle_stand", 23, 44, Vector2(10, 6), "candle")
+	_light("lighting/candle_stand", 27, 44, Vector2(10, 6), "candle")
+	_wall_torch(25, 35)
 
 
 # ---------------------------------------------------------------- east side
@@ -343,17 +407,39 @@ static func _west_side(main) -> void:
 static func _east_side(main) -> void:
 	# East Royal Wing: entrance hall with the private stair (S2) up
 	var e := _building(main, [70, 10, 90, 30], 112, [80], Tiles.C_WOOD)
-	e[0].rugs = [[load("res://art/castle2/rugs/rug_red_c.png"), T(83, 21)], [load("res://art/castle2/rugs/rug_red_e.png"), T(83, 26)]]
-	_put("furniture/sofa_red", 86, 18, Vector2(36, 10))
-	_put("furniture/table_round", 83, 18.2, Vector2(24, 10))
-	_put("furniture/chair_blue", 80.5, 18, Vector2(14, 8))
-	_put("furniture/cabinet_gold", 87.8, 14.6, Vector2(30, 12))
-	_put("library_props/globe_gold", 72.6, 15, Vector2(16, 8))
-	_put("vegetation/urn_flowers", 71.4, 29.4, Vector2(18, 8))
-	_put("vegetation/urn_flowers", 88.6, 29.4, Vector2(18, 8))
-	_put("banners/banner_lion_b", 79.4, 14.8, Vector2(20, 8))
-	_put("lighting/candle_stand", 71.6, 25, Vector2(10, 6))
-	_put("lighting/candle_stand", 77.4, 25, Vector2(10, 6))
+	# the king's sister's household: a runner to the north wall, a fireplace sitting area
+	# (east), a small dining table (north-west), storage, and the private stair (S2, south-west)
+	e[0].carpet = TR(79.3, 15.6, 80.7, 30)
+	e[0].rugs = [[load("res://art/castle/rugs/rug_red_medallion.png"), T(85.5, 19.8)], [load("res://art/castle2/rugs/rug_red_a.png"), T(74.6, 19.6)],
+			[load("res://art/castle2/rugs/rug_red_c.png"), T(87, 27.6)]]
+	_hang("castle/decor/painting_castle", 73.5, 13.5, 32)
+	_hang(A + "banners/banner_lion", 80, 13.5, 6)
+	_hang("castle/decor/portrait_lady", 84, 13.5, 26)
+	_hang("castle/decor/portrait_king", 87, 13.5, 30)
+	# sitting area around the fireplace
+	_light("furniture/fireplace_stone", 85.5, 14.9, Vector2(56, 14), "fire", 22.0)
+	_put("furniture/sofa_red", 85.5, 21.4, Vector2(44, 12))
+	_put("furniture/chair_upholstered", 82.8, 19.6, Vector2(28, 10))
+	_put("furniture/chair_upholstered", 88.2, 19.6, Vector2(28, 10))
+	_put("furniture/table_round", 85.5, 19.2, Vector2(30, 10))
+	_light("lighting/candelabra", 81.6, 16, Vector2(12, 8), "candle")
+	# family dining table with chairs
+	_put("furniture/dining_table", 74.6, 20.2, Vector2(54, 14))
+	for x in [73.4, 75.8]:
+		_put("furniture/chair_blue", x, 18.6, Vector2(14, 6))
+	_light("lighting/candelabra_table", 77.4, 21.2, Vector2(14, 8), "candle")
+	# storage along the north wall
+	_put("furniture/cabinet_painted", 72.6, 15.2, Vector2(70, 12))
+	_put("library_props/bookshelf", 75.6, 15.2, Vector2(32, 10))
+	_put("library_props/bookshelf_b", 76.9, 15.2, Vector2(28, 10))
+	# a quiet corner: harp-side seat by the globe, flowers by the door
+	_put("library_props/globe_large", 88.4, 25.4, Vector2(18, 8))
+	_put("furniture/armchair_blue", 86.4, 25, Vector2(28, 10))
+	_put("vegetation/planter_tall", 78.1, 29.6, Vector2(16, 8))
+	_put("vegetation/planter_tall", 81.9, 29.6, Vector2(16, 8))
+	_put("vegetation/urn_flowers", 71.2, 29.6, Vector2(18, 8))
+	_light("lighting/candle_stand", 72.4, 27.2, Vector2(10, 6), "candle")
+	_light("lighting/candle_stand", 76.6, 27.2, Vector2(10, 6), "candle")
 	main._npc("guard", T(77.6, 28.4), "Guard", Story.GUARD_EAST_WING)
 
 	# Library and Archives
@@ -364,8 +450,9 @@ static func _east_side(main) -> void:
 	_put("furniture/desk_writing", 81, 37.6, Vector2(50, 12))
 	_put("library_props/globe_large", 79, 40, Vector2(18, 8))
 	_put("library_props/globe_blue", 84, 40, Vector2(14, 8))
-	_put("lighting/candelabra", 73.4, 41.4, Vector2(10, 6))
-	_put("lighting/candelabra", 88.6, 41.4, Vector2(10, 6))
+	_light("lighting/candelabra", 73.4, 41.4, Vector2(10, 6), "candle")
+	_light("lighting/candelabra", 88.6, 41.4, Vector2(10, 6), "candle")
+	_light("lighting/lamp_globe", 82.8, 37.4, Vector2.ZERO, "candle", 40.0)
 	main._npc("court", T(82.6, 38.8), "Archivist", Story.SCRIBE).variant = 2
 
 	# Council room
@@ -378,10 +465,15 @@ static func _east_side(main) -> void:
 	_put("banners/banner_lion", 72, 47.6, Vector2(20, 8))
 	_put("banners/banner_lion", 81, 47.6, Vector2(20, 8))
 	_put("library_props/treasure_map", 80.4, 53.4, Vector2(26, 8))
+	_light("lighting/candelabra_table", 74.4, 52.6, Vector2(14, 8), "candle")
+	_wall_torch(76.5, 47)
 	main._npc("court", T(73.6, 51.6), "Councillor", Story.COUNCILLOR).variant = 0
 
 	# Treasury entrance, with the stair down to the vaults (S4)
-	_building(main, [82, 44, 90, 56], 96, [86], Tiles.C_BLUESTONE)
+	var tr := _building(main, [82, 44, 90, 56], 96, [86], Tiles.C_BLUESTONE)
+	tr[0].shafts = false   # no windows into the treasury
+	_wall_torch(84, 47)
+	_wall_torch(88.4, 47)
 	_put("treasury_props/gold_pile", 83.6, 50.6, Vector2(26, 10))
 	_put("treasury_props/gold_table", 84.2, 53.6, Vector2(36, 10))
 	_put("treasury_props/cabinet_treasure", 89.2, 47.6, Vector2(16, 8))
@@ -390,23 +482,50 @@ static func _east_side(main) -> void:
 
 # ---------------------------------------------------------------- gardens and courtyard
 
-static func _garden(x0: float, y0: float) -> void:
-	# a 9 x 10 tile garden: fountain in the middle, trees, hedges, planters and benches
-	var cx := x0 + 4.5
-	var cy := y0 + 5
-	_put("vegetation/fountain", cx, cy + 1.6, Vector2(50, 18))
-	for k in [[x0 + 1, y0 + 1.6], [x0 + 8, y0 + 1.6], [x0 + 1, y0 + 9.4], [x0 + 8, y0 + 9.4]]:
-		_put("vegetation/tree_round", k[0], k[1], Vector2(16, 8))
-	for k in [[x0 + 3.4, y0 + 1.6], [x0 + 5.6, y0 + 1.6], [x0 + 3.4, y0 + 9.4], [x0 + 5.6, y0 + 9.4]]:
-		_put("vegetation/hedge_flowers", k[0], k[1], Vector2(26, 10))
-	for k in [[x0 + 1, y0 + 4.4], [x0 + 1, y0 + 7], [x0 + 8, y0 + 4.4], [x0 + 8, y0 + 7]]:
-		_put("vegetation/planter_flowers", k[0], k[1], Vector2(22, 10))
-	_spr("cit_bench", T(cx, cy + 3.6), Vector2(44, 10))
-
-
+## Each 9 x 10 tile garden has its own planting; all keep a walkable gravel ring around
+## the centre and open edges, so Kael can cut through any of them.
 static func _gardens() -> void:
-	for g in [[31, 30], [60, 30], [31, 62], [60, 62]]:
-		_garden(g[0], g[1])
+	# NW: the rose garden, a fountain ringed by rose planters and flowering hedges
+	var x0 := 31.0
+	var y0 := 30.0
+	_put("vegetation/fountain", x0 + 4.5, y0 + 6.6, Vector2(50, 18))
+	for k in [[1.2, 2], [7.8, 2], [1.2, 9.4], [7.8, 9.4]]:
+		_put("vegetation/planter_pink", x0 + k[0], y0 + k[1], Vector2(26, 10))
+	for k in [[3.4, 1.8], [5.6, 1.8]]:
+		_put("vegetation/hedge_flowers", x0 + k[0], y0 + k[1], Vector2(26, 10))
+	for k in [[1, 5.6], [8, 5.6]]:
+		_put("vegetation/planter_flowers", x0 + k[0], y0 + k[1], Vector2(30, 10))
+	_spr("cit_bench", T(x0 + 4.5, y0 + 9.6), Vector2(44, 10))
+	# NE: the orchard, orange trees in rows around a statue
+	x0 = 60.0
+	_spr("cit_statue", T(x0 + 4.5, y0 + 6.4), Vector2(30, 12))
+	for k in [[1.2, 2.4], [4.5, 2.2], [7.8, 2.4], [1.2, 9.4], [7.8, 9.4]]:
+		_put("vegetation/tree_orange", x0 + k[0], y0 + k[1], Vector2(18, 8))
+	for k in [[1.4, 6], [7.6, 6]]:
+		_put("vegetation/tree_orange_small", x0 + k[0], y0 + k[1], Vector2(12, 6))
+	_spr("cit_bench", T(x0 + 4.5, y0 + 9.6), Vector2(44, 10))
+	_put("lighting/lamp_post", x0 + 3, y0 + 8.4, Vector2(8, 6))
+	# SW: the hedge garden, clipped hedges in an L around a fountain
+	x0 = 31.0
+	y0 = 62.0
+	_put("vegetation/fountain", x0 + 4.5, y0 + 6.6, Vector2(50, 18))
+	_put("vegetation/hedge_L", x0 + 1.4, y0 + 2.2, Vector2(66, 12))
+	_put("vegetation/hedge_block", x0 + 7.8, y0 + 2.2, Vector2(40, 12))
+	_put("vegetation/hedge_block", x0 + 1.2, y0 + 9.6, Vector2(40, 12))
+	_put("vegetation/hedge_small", x0 + 7.8, y0 + 9.6, Vector2(28, 10))
+	for k in [[1.2, 6], [7.8, 6]]:
+		_put("vegetation/tree_round", x0 + k[0], y0 + k[1], Vector2(16, 8))
+	# SE: the pine and herb garden, evergreens, herb boxes and an urn
+	x0 = 60.0
+	_put("vegetation/urn_flowers", x0 + 4.5, y0 + 6.2, Vector2(24, 10))
+	for k in [[1.2, 2.6], [7.8, 2.6]]:
+		_put("vegetation/tree_pine_a", x0 + k[0], y0 + k[1], Vector2(20, 8))
+	for k in [[1.2, 9.6], [7.8, 9.6]]:
+		_put("vegetation/tree_pine_b", x0 + k[0], y0 + k[1], Vector2(18, 8))
+	for k in [[3.6, 2], [5.4, 2]]:
+		_put("vegetation/planter_box", x0 + k[0], y0 + k[1], Vector2(36, 10))
+	_spr("cit_bench", T(x0 + 4.5, y0 + 9.6), Vector2(44, 10))
+	_put("lighting/lamp_post", x0 + 6, y0 + 8.4, Vector2(8, 6))
 
 
 static func _courtyard() -> void:
@@ -426,8 +545,8 @@ static func _courtyard() -> void:
 	# statues and braziers flank the avenue at the steps, the arena and the gate
 	for side in [-1, 1]:
 		_spr("cit_statue", T(50 + side * 4.6, 31.6), Vector2(30, 12))
-		_put("lighting/brazier_gold", 50 + side * 4.6, 64.8, Vector2(18, 8))
-		_put("lighting/brazier_gold", 50 + side * 4.6, 80.6, Vector2(18, 8))
+		_light("lighting/brazier_gold", 50 + side * 4.6, 64.8, Vector2(18, 8), "brazier", 50.0)
+		_light("lighting/brazier_gold", 50 + side * 4.6, 80.6, Vector2(18, 8), "brazier", 50.0)
 		_put("lighting/lamp_post", 50 + side * 3.6, 72, Vector2(8, 6))
 		# flags at the courtyard corners
 		_put("banners/flag_blue", 50 + side * 19, 29.4, Vector2(8, 6))
@@ -469,7 +588,7 @@ static func _stairs(main) -> void:
 		var from_north: bool = l[1] < f[1]   # landing above the footprint: walk south onto it
 		if s["dir"] == "up":
 			# a carpeted flight of stairs climbing north, rails on both sides
-			_spr(A + "stairs/stairs_red_carpet", Vector2(foot.get_center().x, foot.end.y), Vector2.ZERO, Vector2.INF, false)
+			_spr(A + "stairs/stairs_grand_red", Vector2(foot.get_center().x, foot.end.y), Vector2.ZERO, Vector2.INF, false)
 			_block(Rect2(foot.position.x, foot.position.y, 14, foot.size.y))
 			_block(Rect2(foot.end.x - 14, foot.position.y, 14, foot.size.y))
 			_block(Rect2(foot.position.x, foot.position.y - 8, foot.size.x, 12))
@@ -492,8 +611,11 @@ static func _stairs(main) -> void:
 				_block(Rect2(foot.position.x, foot.position.y, foot.size.x, 10))
 			var ty: float = foot.end.y - 48 if from_north else foot.position.y + 14
 			var trig := Rect2(foot.position.x + 14, ty, foot.size.x - 28, 34)
-			var label := "Service Floor" if key != "S4" else "Service Floor (the vaults come next)"
-			main.add_stairs(trig, Floors.DOWN_ARRIVE, "down", "", label)
+			if key == "S4":
+				# the vaults (lower floor) are not built yet: the stair is sealed, not re-routed
+				main.add_stairs(trig, Vector2.INF, "", "", "The vault stairs are sealed with an iron grate. (The lower floor comes in a later update.)")
+			else:
+				main.add_stairs(trig, Floors.DOWN_ARRIVE, "down", "", "Service Floor")
 		land = land   # landings are kept clear: nothing is placed on them
 
 

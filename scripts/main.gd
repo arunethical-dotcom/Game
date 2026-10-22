@@ -26,6 +26,7 @@ var ground_layer: Node2D
 var decal_layer: Node2D
 var entity_layer: Node2D
 var overlay_layer: Node2D
+var lights                    # light_layer.gd: warm local light from flames
 var player
 var haldor
 var hud
@@ -40,7 +41,9 @@ var leader_dead := false
 var moonsteel_drop := Vector2.INF
 var shake_amount := 0.0
 var cam_pos := Vector2.ZERO
-var camera_zones := []        # Rect2 areas the camera stays inside (see _update_camera)
+var camera_zones := []        # [Rect2, zoom] areas the camera stays inside (see _update_camera)
+var boss_focus: Node2D = null # set during a boss fight: the camera keeps Kael and the boss in view
+const INTERIOR_ZOOM := 1.5    # 1.5 x the 2x phone scale = exactly 3 screen pixels per art pixel
 var current_zone := Rect2()
 var zone_blend := 1.0
 var look_ahead := Vector2.ZERO
@@ -63,6 +66,8 @@ func _ready() -> void:
 	decal_layer = Node2D.new()
 	decal_layer.z_index = -5
 	add_child(decal_layer)
+	lights = preload("res://scripts/light_layer.gd").new()
+	add_child(lights)
 	entity_layer = Node2D.new()
 	entity_layer.y_sort_enabled = true
 	add_child(entity_layer)
@@ -232,14 +237,15 @@ func _process(delta: float) -> void:
 ##    past its edges, so small rooms sit still like a framed picture and big ones scroll
 ##  - moving into another zone glides the camera over instead of jumping
 ##  - in a conversation it frames Kael and the person he is talking to
-func add_camera_zone(r: Rect2) -> void:
-	camera_zones.append(r)
+func add_camera_zone(r: Rect2, zoom := 1.0) -> void:
+	camera_zones.append([r, zoom])
 
 
-func _zone_at(p: Vector2) -> Rect2:
-	var best := Rect2()
+func _zone_at(p: Vector2) -> Array:
+	var best := [Rect2(), 1.0]
 	for z in camera_zones:
-		if z.has_point(p) and (best.size == Vector2.ZERO or z.get_area() < best.get_area()):
+		var r: Rect2 = z[0]
+		if r.has_point(p) and (best[0].size == Vector2.ZERO or r.get_area() < best[0].get_area()):
 			best = z
 	return best
 
@@ -257,8 +263,17 @@ func _clamp_to_zone(t: Vector2, z: Rect2, view: Vector2) -> Vector2:
 
 
 func _update_camera(delta: float) -> void:
-	var view: Vector2 = get_viewport().get_visible_rect().size / camera.zoom
 	var p: Vector2 = player.global_position
+	var zone_info := _zone_at(p)
+	var zone: Rect2 = zone_info[0]
+	var want_zoom: float = zone_info[1]
+	# boss fight: frame Kael and the boss together inside the arena
+	if boss_focus != null and is_instance_valid(boss_focus):
+		want_zoom = 1.0
+	# ease the zoom (rooms are viewed closer, at an exact 3x pixel scale on phones)
+	var z := move_toward(camera.zoom.x, want_zoom, delta * 2.5)
+	camera.zoom = Vector2(z, z)
+	var view: Vector2 = get_viewport().get_visible_rect().size / camera.zoom
 	# look ahead in the walking direction (eased so it never snaps)
 	var ahead: Vector2 = player.velocity.limit_length(1.0) * 0.0
 	if player.velocity.length() > 10.0:
@@ -268,7 +283,8 @@ func _update_camera(delta: float) -> void:
 	# in a conversation, frame both speakers
 	if hud.is_busy() and talk_target != null and is_instance_valid(talk_target):
 		target = (p + talk_target.global_position) / 2.0 + Vector2(0, -20)
-	var zone := _zone_at(p)
+	if boss_focus != null and is_instance_valid(boss_focus):
+		target = (p + boss_focus.global_position) / 2.0 + Vector2(0, -24)
 	if zone != current_zone:
 		current_zone = zone
 		zone_blend = 0.0          # glide into the new area
@@ -300,7 +316,12 @@ func _check_stairs() -> void:
 	for s in stairs:
 		if s[0].has_point(p):
 			if _stairs_armed:
-				travel(s[1], s[2], s[4])
+				if s[1] == Vector2.INF:
+					# a staircase whose floor isn't built yet: it is sealed
+					_stairs_armed = false
+					hud.show_dialog([["", s[4]]])
+				else:
+					travel(s[1], s[2], s[4])
 			return
 	# Kael must step off the stairs before they work again
 	_stairs_armed = true

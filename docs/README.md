@@ -17,6 +17,7 @@ the team can see what was decided, why, and where it lives in the code.
 | 8 | [Colour correction](stages/08-colour-correction.md) | `f8f4452` | Diagnosed and fixed colours: importer, grade, lighting |
 | 9 | [CrossCode-style camera](stages/09-camera-zones.md) | `5281976` | Camera zones, look-ahead, framed rooms, conversation framing |
 | 10 | [Royal Citadel v2, main floor](stages/10-citadel-v2-main-floor.md) | `c95b8f4` | 100×90-tile citadel from the approved plan, atlas 2 imported, city grown 1.45× |
+| 11 | [Main-floor visual polish](stages/11-main-floor-polish.md) | (see git log) | Grand throne hall, furniture scale audit, zoned royal wings, unique gardens, local lighting, S4 sealed, interior camera |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.
