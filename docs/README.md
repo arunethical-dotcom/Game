@@ -1,6 +1,6 @@
 # Development log
 
-See also: [the world map](MAP.md).
+See also: [the world map](MAP.md) and [the Royal Citadel's dimensions](CITADEL_DIMENSIONS.md).
 
 This folder records how the game was built, one page per stage, so that anyone who joins
 the team can see what was decided, why, and where it lives in the code.
