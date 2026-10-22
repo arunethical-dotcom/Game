@@ -1,0 +1,4625 @@
+{
+ "banners/banner_large": {
+  "footprint": [
+   42,
+   24
+  ],
+  "pivot": [
+   26,
+   97
+  ],
+  "size": [
+   53,
+   97
+  ]
+ },
+ "banners/banner_lion": {
+  "footprint": [
+   35,
+   24
+  ],
+  "pivot": [
+   22,
+   89
+  ],
+  "size": [
+   44,
+   89
+  ]
+ },
+ "banners/banner_lion_b": {
+  "footprint": [
+   34,
+   24
+  ],
+  "pivot": [
+   21,
+   102
+  ],
+  "size": [
+   42,
+   102
+  ]
+ },
+ "banners/banner_lion_small": {
+  "footprint": [
+   26,
+   22
+  ],
+  "pivot": [
+   16,
+   75
+  ],
+  "size": [
+   33,
+   75
+  ]
+ },
+ "banners/banner_mini": {
+  "footprint": [
+   12,
+   10
+  ],
+  "pivot": [
+   7,
+   33
+  ],
+  "size": [
+   15,
+   33
+  ]
+ },
+ "banners/banner_pole_pink": {
+  "footprint": [
+   18,
+   18
+  ],
+  "pivot": [
+   11,
+   60
+  ],
+  "size": [
+   23,
+   60
+  ]
+ },
+ "banners/banner_pole_red": {
+  "footprint": [
+   19,
+   20
+  ],
+  "pivot": [
+   12,
+   66
+  ],
+  "size": [
+   24,
+   66
+  ]
+ },
+ "banners/banner_red_a": {
+  "footprint": [
+   8,
+   24
+  ],
+  "pivot": [
+   4,
+   95
+  ],
+  "size": [
+   9,
+   95
+  ]
+ },
+ "banners/banner_red_b": {
+  "footprint": [
+   23,
+   22
+  ],
+  "pivot": [
+   14,
+   75
+  ],
+  "size": [
+   29,
+   75
+  ]
+ },
+ "banners/banner_red_c": {
+  "footprint": [
+   33,
+   24
+  ],
+  "pivot": [
+   20,
+   94
+  ],
+  "size": [
+   41,
+   94
+  ]
+ },
+ "banners/banner_red_d": {
+  "footprint": [
+   28,
+   24
+  ],
+  "pivot": [
+   17,
+   94
+  ],
+  "size": [
+   35,
+   94
+  ]
+ },
+ "banners/banner_red_e": {
+  "footprint": [
+   17,
+   24
+  ],
+  "pivot": [
+   10,
+   82
+  ],
+  "size": [
+   21,
+   82
+  ]
+ },
+ "banners/banner_red_long": {
+  "footprint": [
+   18,
+   22
+  ],
+  "pivot": [
+   11,
+   72
+  ],
+  "size": [
+   22,
+   72
+  ]
+ },
+ "banners/banner_tiny": {
+  "footprint": [
+   13,
+   12
+  ],
+  "pivot": [
+   8,
+   39
+  ],
+  "size": [
+   16,
+   39
+  ]
+ },
+ "banners/banner_wall_tall": {
+  "footprint": [
+   30,
+   21
+  ],
+  "pivot": [
+   19,
+   71
+  ],
+  "size": [
+   38,
+   71
+  ]
+ },
+ "banners/crest_small": {
+  "footprint": [
+   18,
+   7
+  ],
+  "pivot": [
+   11,
+   22
+  ],
+  "size": [
+   22,
+   22
+  ]
+ },
+ "banners/flag_blue": {
+  "footprint": [
+   33,
+   24
+  ],
+  "pivot": [
+   20,
+   93
+  ],
+  "size": [
+   41,
+   93
+  ]
+ },
+ "banners/flag_pair": {
+  "footprint": [
+   38,
+   24
+  ],
+  "pivot": [
+   24,
+   92
+  ],
+  "size": [
+   48,
+   92
+  ]
+ },
+ "banners/pier_banner_a": {
+  "footprint": [
+   45,
+   22
+  ],
+  "pivot": [
+   28,
+   75
+  ],
+  "size": [
+   56,
+   75
+  ]
+ },
+ "banners/pier_banner_b": {
+  "footprint": [
+   33,
+   22
+  ],
+  "pivot": [
+   20,
+   74
+  ],
+  "size": [
+   41,
+   74
+  ]
+ },
+ "banners/pier_banner_c": {
+  "footprint": [
+   34,
+   22
+  ],
+  "pivot": [
+   21,
+   73
+  ],
+  "size": [
+   43,
+   73
+  ]
+ },
+ "banners/scroll": {
+  "footprint": [
+   27,
+   18
+  ],
+  "pivot": [
+   17,
+   61
+  ],
+  "size": [
+   34,
+   61
+  ]
+ },
+ "banners/scroll_b": {
+  "footprint": [
+   15,
+   20
+  ],
+  "pivot": [
+   9,
+   66
+  ],
+  "size": [
+   19,
+   66
+  ]
+ },
+ "banners/shield_crest": {
+  "footprint": [
+   32,
+   14
+  ],
+  "pivot": [
+   20,
+   48
+  ],
+  "size": [
+   40,
+   48
+  ]
+ },
+ "banners/wall_banner_small": {
+  "footprint": [
+   38,
+   21
+  ],
+  "pivot": [
+   24,
+   70
+  ],
+  "size": [
+   48,
+   70
+  ]
+ },
+ "banners/wall_banner_tile": {
+  "footprint": [
+   54,
+   21
+  ],
+  "pivot": [
+   34,
+   70
+  ],
+  "size": [
+   68,
+   70
+  ]
+ },
+ "bath_props/alcove_b": {
+  "footprint": [
+   29,
+   12
+  ],
+  "pivot": [
+   18,
+   41
+  ],
+  "size": [
+   36,
+   41
+  ]
+ },
+ "bath_props/bath_round": {
+  "footprint": [
+   28,
+   14
+  ],
+  "pivot": [
+   17,
+   45
+  ],
+  "size": [
+   35,
+   45
+  ]
+ },
+ "bath_props/bath_tub": {
+  "footprint": [
+   42,
+   11
+  ],
+  "pivot": [
+   26,
+   37
+  ],
+  "size": [
+   53,
+   37
+  ]
+ },
+ "bath_props/shrine_alcove": {
+  "footprint": [
+   27,
+   12
+  ],
+  "pivot": [
+   17,
+   40
+  ],
+  "size": [
+   34,
+   40
+  ]
+ },
+ "floors/cobble_wide": {
+  "footprint": [
+   65,
+   14
+  ],
+  "pivot": [
+   40,
+   47
+  ],
+  "size": [
+   81,
+   47
+  ]
+ },
+ "floors/courtyard_platform": {
+  "footprint": [
+   66,
+   24
+  ],
+  "pivot": [
+   41,
+   89
+  ],
+  "size": [
+   82,
+   89
+  ]
+ },
+ "floors/cracked_inlay": {
+  "footprint": [
+   34,
+   17
+  ],
+  "pivot": [
+   21,
+   58
+  ],
+  "size": [
+   43,
+   58
+  ]
+ },
+ "floors/dark_tile_a": {
+  "footprint": [
+   24,
+   9
+  ],
+  "pivot": [
+   15,
+   30
+  ],
+  "size": [
+   30,
+   30
+  ]
+ },
+ "floors/dark_tile_b": {
+  "footprint": [
+   23,
+   7
+  ],
+  "pivot": [
+   14,
+   22
+  ],
+  "size": [
+   29,
+   22
+  ]
+ },
+ "floors/drain_tile": {
+  "footprint": [
+   30,
+   10
+  ],
+  "pivot": [
+   18,
+   33
+  ],
+  "size": [
+   37,
+   33
+  ]
+ },
+ "floors/dungeon_tile": {
+  "footprint": [
+   30,
+   10
+  ],
+  "pivot": [
+   18,
+   33
+  ],
+  "size": [
+   37,
+   33
+  ]
+ },
+ "floors/floor_banner_tile": {
+  "footprint": [
+   58,
+   20
+  ],
+  "pivot": [
+   36,
+   66
+  ],
+  "size": [
+   72,
+   66
+  ]
+ },
+ "floors/floor_stone_cave": {
+  "footprint": [
+   30,
+   14
+  ],
+  "pivot": [
+   19,
+   47
+  ],
+  "size": [
+   38,
+   47
+  ]
+ },
+ "floors/grate_tile": {
+  "footprint": [
+   30,
+   10
+  ],
+  "pivot": [
+   18,
+   33
+  ],
+  "size": [
+   37,
+   33
+  ]
+ },
+ "floors/limestone_4x": {
+  "footprint": [
+   46,
+   16
+  ],
+  "pivot": [
+   28,
+   55
+  ],
+  "size": [
+   57,
+   55
+  ]
+ },
+ "floors/limestone_big": {
+  "footprint": [
+   45,
+   19
+  ],
+  "pivot": [
+   28,
+   62
+  ],
+  "size": [
+   56,
+   62
+  ]
+ },
+ "floors/limestone_carved": {
+  "footprint": [
+   35,
+   13
+  ],
+  "pivot": [
+   22,
+   42
+  ],
+  "size": [
+   44,
+   42
+  ]
+ },
+ "floors/limestone_large": {
+  "footprint": [
+   43,
+   17
+  ],
+  "pivot": [
+   27,
+   57
+  ],
+  "size": [
+   54,
+   57
+  ]
+ },
+ "floors/limestone_slim": {
+  "footprint": [
+   14,
+   14
+  ],
+  "pivot": [
+   8,
+   45
+  ],
+  "size": [
+   17,
+   45
+  ]
+ },
+ "floors/medallion_blue": {
+  "footprint": [
+   43,
+   18
+  ],
+  "pivot": [
+   27,
+   60
+  ],
+  "size": [
+   54,
+   60
+  ]
+ },
+ "floors/slab_frame_a": {
+  "footprint": [
+   37,
+   14
+  ],
+  "pivot": [
+   23,
+   47
+  ],
+  "size": [
+   46,
+   47
+  ]
+ },
+ "floors/slab_frame_b": {
+  "footprint": [
+   35,
+   14
+  ],
+  "pivot": [
+   22,
+   47
+  ],
+  "size": [
+   44,
+   47
+  ]
+ },
+ "floors/star_inlay": {
+  "footprint": [
+   51,
+   19
+  ],
+  "pivot": [
+   32,
+   64
+  ],
+  "size": [
+   64,
+   64
+  ]
+ },
+ "floors/stone_block_a": {
+  "footprint": [
+   34,
+   12
+  ],
+  "pivot": [
+   21,
+   39
+  ],
+  "size": [
+   42,
+   39
+  ]
+ },
+ "floors/stone_block_b": {
+  "footprint": [
+   31,
+   11
+  ],
+  "pivot": [
+   19,
+   38
+  ],
+  "size": [
+   39,
+   38
+  ]
+ },
+ "floors/tile_pale": {
+  "footprint": [
+   27,
+   9
+  ],
+  "pivot": [
+   17,
+   30
+  ],
+  "size": [
+   34,
+   30
+  ]
+ },
+ "floors/tile_slate": {
+  "footprint": [
+   27,
+   9
+  ],
+  "pivot": [
+   17,
+   30
+  ],
+  "size": [
+   34,
+   30
+  ]
+ },
+ "furniture/altar_table": {
+  "footprint": [
+   51,
+   14
+  ],
+  "pivot": [
+   32,
+   45
+  ],
+  "size": [
+   64,
+   45
+  ]
+ },
+ "furniture/armchair_blue": {
+  "footprint": [
+   20,
+   10
+  ],
+  "pivot": [
+   12,
+   33
+  ],
+  "size": [
+   25,
+   33
+  ]
+ },
+ "furniture/bed_blue": {
+  "footprint": [
+   30,
+   18
+  ],
+  "pivot": [
+   18,
+   61
+  ],
+  "size": [
+   37,
+   61
+  ]
+ },
+ "furniture/bed_canopy": {
+  "footprint": [
+   52,
+   24
+  ],
+  "pivot": [
+   32,
+   97
+  ],
+  "size": [
+   65,
+   97
+  ]
+ },
+ "furniture/bed_double_stone": {
+  "footprint": [
+   46,
+   17
+  ],
+  "pivot": [
+   28,
+   57
+  ],
+  "size": [
+   57,
+   57
+  ]
+ },
+ "furniture/bed_red": {
+  "footprint": [
+   25,
+   16
+  ],
+  "pivot": [
+   15,
+   55
+  ],
+  "size": [
+   31,
+   55
+  ]
+ },
+ "furniture/bed_single": {
+  "footprint": [
+   15,
+   12
+  ],
+  "pivot": [
+   9,
+   41
+  ],
+  "size": [
+   19,
+   41
+  ]
+ },
+ "furniture/bed_white": {
+  "footprint": [
+   31,
+   12
+  ],
+  "pivot": [
+   19,
+   39
+  ],
+  "size": [
+   39,
+   39
+  ]
+ },
+ "furniture/bench": {
+  "footprint": [
+   25,
+   8
+  ],
+  "pivot": [
+   15,
+   27
+  ],
+  "size": [
+   31,
+   27
+  ]
+ },
+ "furniture/cabinet_gold": {
+  "footprint": [
+   33,
+   17
+  ],
+  "pivot": [
+   20,
+   57
+  ],
+  "size": [
+   41,
+   57
+  ]
+ },
+ "furniture/cabinet_map": {
+  "footprint": [
+   29,
+   13
+  ],
+  "pivot": [
+   18,
+   42
+  ],
+  "size": [
+   36,
+   42
+  ]
+ },
+ "furniture/cabinet_painted": {
+  "footprint": [
+   41,
+   18
+  ],
+  "pivot": [
+   25,
+   61
+  ],
+  "size": [
+   51,
+   61
+  ]
+ },
+ "furniture/cabinet_small": {
+  "footprint": [
+   17,
+   11
+  ],
+  "pivot": [
+   10,
+   37
+  ],
+  "size": [
+   21,
+   37
+  ]
+ },
+ "furniture/cabinet_stone": {
+  "footprint": [
+   22,
+   13
+  ],
+  "pivot": [
+   13,
+   44
+  ],
+  "size": [
+   27,
+   44
+  ]
+ },
+ "furniture/chair_blue": {
+  "footprint": [
+   10,
+   8
+  ],
+  "pivot": [
+   6,
+   26
+  ],
+  "size": [
+   13,
+   26
+  ]
+ },
+ "furniture/chair_blue_b": {
+  "footprint": [
+   11,
+   11
+  ],
+  "pivot": [
+   7,
+   36
+  ],
+  "size": [
+   14,
+   36
+  ]
+ },
+ "furniture/chair_blue_high": {
+  "footprint": [
+   21,
+   13
+  ],
+  "pivot": [
+   13,
+   43
+  ],
+  "size": [
+   26,
+   43
+  ]
+ },
+ "furniture/chair_blue_tall": {
+  "footprint": [
+   14,
+   15
+  ],
+  "pivot": [
+   8,
+   49
+  ],
+  "size": [
+   17,
+   49
+  ]
+ },
+ "furniture/chair_red_bench": {
+  "footprint": [
+   30,
+   10
+  ],
+  "pivot": [
+   18,
+   35
+  ],
+  "size": [
+   37,
+   35
+  ]
+ },
+ "furniture/chair_upholstered": {
+  "footprint": [
+   25,
+   10
+  ],
+  "pivot": [
+   15,
+   34
+  ],
+  "size": [
+   31,
+   34
+  ]
+ },
+ "furniture/chair_wood": {
+  "footprint": [
+   12,
+   11
+  ],
+  "pivot": [
+   7,
+   36
+  ],
+  "size": [
+   15,
+   36
+  ]
+ },
+ "furniture/cupboard": {
+  "footprint": [
+   16,
+   10
+  ],
+  "pivot": [
+   10,
+   33
+  ],
+  "size": [
+   20,
+   33
+  ]
+ },
+ "furniture/curtain_screen": {
+  "footprint": [
+   40,
+   14
+  ],
+  "pivot": [
+   25,
+   46
+  ],
+  "size": [
+   50,
+   46
+  ]
+ },
+ "furniture/desk_alchemy": {
+  "footprint": [
+   39,
+   17
+  ],
+  "pivot": [
+   24,
+   58
+  ],
+  "size": [
+   49,
+   58
+  ]
+ },
+ "furniture/desk_dark": {
+  "footprint": [
+   35,
+   7
+  ],
+  "pivot": [
+   22,
+   23
+  ],
+  "size": [
+   44,
+   23
+  ]
+ },
+ "furniture/desk_items": {
+  "footprint": [
+   39,
+   13
+  ],
+  "pivot": [
+   24,
+   44
+  ],
+  "size": [
+   49,
+   44
+  ]
+ },
+ "furniture/desk_small": {
+  "footprint": [
+   26,
+   8
+  ],
+  "pivot": [
+   16,
+   28
+  ],
+  "size": [
+   33,
+   28
+  ]
+ },
+ "furniture/desk_writing": {
+  "footprint": [
+   23,
+   11
+  ],
+  "pivot": [
+   14,
+   37
+  ],
+  "size": [
+   29,
+   37
+  ]
+ },
+ "furniture/dining_table": {
+  "footprint": [
+   46,
+   11
+  ],
+  "pivot": [
+   28,
+   37
+  ],
+  "size": [
+   57,
+   37
+  ]
+ },
+ "furniture/display_case": {
+  "footprint": [
+   33,
+   14
+  ],
+  "pivot": [
+   20,
+   45
+  ],
+  "size": [
+   41,
+   45
+  ]
+ },
+ "furniture/dresser_dark": {
+  "footprint": [
+   22,
+   12
+  ],
+  "pivot": [
+   13,
+   41
+  ],
+  "size": [
+   27,
+   41
+  ]
+ },
+ "furniture/fireplace_stone": {
+  "footprint": [
+   33,
+   12
+  ],
+  "pivot": [
+   20,
+   39
+  ],
+  "size": [
+   41,
+   39
+  ]
+ },
+ "furniture/hearth_grate": {
+  "footprint": [
+   31,
+   12
+  ],
+  "pivot": [
+   19,
+   41
+  ],
+  "size": [
+   39,
+   41
+  ]
+ },
+ "furniture/nightstand": {
+  "footprint": [
+   15,
+   8
+  ],
+  "pivot": [
+   9,
+   27
+  ],
+  "size": [
+   19,
+   27
+  ]
+ },
+ "furniture/secretary_desk": {
+  "footprint": [
+   20,
+   14
+  ],
+  "pivot": [
+   12,
+   45
+  ],
+  "size": [
+   25,
+   45
+  ]
+ },
+ "furniture/sofa_red": {
+  "footprint": [
+   26,
+   9
+  ],
+  "pivot": [
+   16,
+   31
+  ],
+  "size": [
+   33,
+   31
+  ]
+ },
+ "furniture/stool_red": {
+  "footprint": [
+   10,
+   6
+  ],
+  "pivot": [
+   6,
+   17
+  ],
+  "size": [
+   13,
+   17
+  ]
+ },
+ "furniture/table_chest": {
+  "footprint": [
+   30,
+   9
+  ],
+  "pivot": [
+   19,
+   31
+  ],
+  "size": [
+   38,
+   31
+  ]
+ },
+ "furniture/table_round": {
+  "footprint": [
+   20,
+   8
+  ],
+  "pivot": [
+   12,
+   27
+  ],
+  "size": [
+   25,
+   27
+  ]
+ },
+ "furniture/wardrobe": {
+  "footprint": [
+   28,
+   15
+  ],
+  "pivot": [
+   17,
+   49
+  ],
+  "size": [
+   35,
+   49
+  ]
+ },
+ "furniture/wardrobe_tall": {
+  "footprint": [
+   12,
+   13
+  ],
+  "pivot": [
+   7,
+   42
+  ],
+  "size": [
+   15,
+   42
+  ]
+ },
+ "furniture/workbench": {
+  "footprint": [
+   29,
+   12
+  ],
+  "pivot": [
+   18,
+   39
+  ],
+  "size": [
+   36,
+   39
+  ]
+ },
+ "gates/door_arch_blue": {
+  "footprint": [
+   26,
+   16
+  ],
+  "pivot": [
+   16,
+   53
+  ],
+  "size": [
+   32,
+   53
+  ]
+ },
+ "gates/door_arch_wood": {
+  "footprint": [
+   43,
+   19
+  ],
+  "pivot": [
+   27,
+   64
+  ],
+  "size": [
+   54,
+   64
+  ]
+ },
+ "gates/door_double_stone": {
+  "footprint": [
+   42,
+   20
+  ],
+  "pivot": [
+   26,
+   66
+  ],
+  "size": [
+   52,
+   66
+  ]
+ },
+ "gates/door_stone_star": {
+  "footprint": [
+   38,
+   18
+  ],
+  "pivot": [
+   23,
+   60
+  ],
+  "size": [
+   47,
+   60
+  ]
+ },
+ "gates/gate_arch_roofed": {
+  "footprint": [
+   50,
+   24
+  ],
+  "pivot": [
+   31,
+   79
+  ],
+  "size": [
+   62,
+   79
+  ]
+ },
+ "gates/gate_banner_narrow": {
+  "footprint": [
+   27,
+   20
+  ],
+  "pivot": [
+   17,
+   68
+  ],
+  "size": [
+   34,
+   68
+  ]
+ },
+ "gates/gate_banner_pair": {
+  "footprint": [
+   49,
+   17
+  ],
+  "pivot": [
+   30,
+   58
+  ],
+  "size": [
+   61,
+   58
+  ]
+ },
+ "gates/gate_banner_small": {
+  "footprint": [
+   30,
+   21
+  ],
+  "pivot": [
+   18,
+   69
+  ],
+  "size": [
+   37,
+   69
+  ]
+ },
+ "gates/gate_blue_banners": {
+  "footprint": [
+   92,
+   22
+  ],
+  "pivot": [
+   57,
+   73
+  ],
+  "size": [
+   115,
+   73
+  ]
+ },
+ "gates/gate_gold": {
+  "footprint": [
+   45,
+   21
+  ],
+  "pivot": [
+   28,
+   70
+  ],
+  "size": [
+   56,
+   70
+  ]
+ },
+ "gates/gate_iron_ornate": {
+  "footprint": [
+   47,
+   24
+  ],
+  "pivot": [
+   29,
+   80
+  ],
+  "size": [
+   59,
+   80
+  ]
+ },
+ "gates/gate_iron_small": {
+  "footprint": [
+   42,
+   20
+  ],
+  "pivot": [
+   26,
+   68
+  ],
+  "size": [
+   52,
+   68
+  ]
+ },
+ "gates/gate_portcullis": {
+  "footprint": [
+   92,
+   22
+  ],
+  "pivot": [
+   57,
+   74
+  ],
+  "size": [
+   115,
+   74
+  ]
+ },
+ "gates/gate_portcullis_small": {
+  "footprint": [
+   40,
+   22
+  ],
+  "pivot": [
+   25,
+   74
+  ],
+  "size": [
+   50,
+   74
+  ]
+ },
+ "gates/gate_wood_pillars": {
+  "footprint": [
+   62,
+   22
+  ],
+  "pivot": [
+   39,
+   75
+  ],
+  "size": [
+   78,
+   75
+  ]
+ },
+ "gates/gate_wooden_double": {
+  "footprint": [
+   89,
+   23
+  ],
+  "pivot": [
+   55,
+   77
+  ],
+  "size": [
+   111,
+   77
+  ]
+ },
+ "gates/gatehouse_twin": {
+  "footprint": [
+   93,
+   22
+  ],
+  "pivot": [
+   58,
+   75
+  ],
+  "size": [
+   116,
+   75
+  ]
+ },
+ "kitchen_props/barrel": {
+  "footprint": [
+   19,
+   13
+  ],
+  "pivot": [
+   12,
+   43
+  ],
+  "size": [
+   24,
+   43
+  ]
+ },
+ "kitchen_props/barrel_red": {
+  "footprint": [
+   18,
+   12
+  ],
+  "pivot": [
+   11,
+   41
+  ],
+  "size": [
+   22,
+   41
+  ]
+ },
+ "kitchen_props/barrels_pair": {
+  "footprint": [
+   17,
+   8
+  ],
+  "pivot": [
+   10,
+   25
+  ],
+  "size": [
+   21,
+   25
+  ]
+ },
+ "kitchen_props/bucket": {
+  "footprint": [
+   9,
+   6
+  ],
+  "pivot": [
+   5,
+   17
+  ],
+  "size": [
+   11,
+   17
+  ]
+ },
+ "kitchen_props/cauldron": {
+  "footprint": [
+   15,
+   6
+  ],
+  "pivot": [
+   9,
+   19
+  ],
+  "size": [
+   19,
+   19
+  ]
+ },
+ "kitchen_props/crate_small": {
+  "footprint": [
+   9,
+   6
+  ],
+  "pivot": [
+   5,
+   17
+  ],
+  "size": [
+   11,
+   17
+  ]
+ },
+ "kitchen_props/jar": {
+  "footprint": [
+   8,
+   6
+  ],
+  "pivot": [
+   5,
+   17
+  ],
+  "size": [
+   10,
+   17
+  ]
+ },
+ "kitchen_props/pot": {
+  "footprint": [
+   8,
+   6
+  ],
+  "pivot": [
+   4,
+   11
+  ],
+  "size": [
+   9,
+   11
+  ]
+ },
+ "kitchen_props/sack": {
+  "footprint": [
+   8,
+   6
+  ],
+  "pivot": [
+   4,
+   13
+  ],
+  "size": [
+   9,
+   13
+  ]
+ },
+ "kitchen_props/shelf_bottles": {
+  "footprint": [
+   20,
+   14
+  ],
+  "pivot": [
+   12,
+   46
+  ],
+  "size": [
+   25,
+   46
+  ]
+ },
+ "kitchen_props/shelf_potions": {
+  "footprint": [
+   20,
+   14
+  ],
+  "pivot": [
+   12,
+   47
+  ],
+  "size": [
+   25,
+   47
+  ]
+ },
+ "kitchen_props/shelf_potions_long": {
+  "footprint": [
+   44,
+   13
+  ],
+  "pivot": [
+   27,
+   44
+  ],
+  "size": [
+   55,
+   44
+  ]
+ },
+ "library_props/bookshelf": {
+  "footprint": [
+   28,
+   14
+  ],
+  "pivot": [
+   17,
+   47
+  ],
+  "size": [
+   35,
+   47
+  ]
+ },
+ "library_props/bookshelf_b": {
+  "footprint": [
+   25,
+   12
+  ],
+  "pivot": [
+   15,
+   40
+  ],
+  "size": [
+   31,
+   40
+  ]
+ },
+ "library_props/bookshelf_wide": {
+  "footprint": [
+   49,
+   12
+  ],
+  "pivot": [
+   30,
+   41
+  ],
+  "size": [
+   61,
+   41
+  ]
+ },
+ "library_props/globe_blue": {
+  "footprint": [
+   12,
+   8
+  ],
+  "pivot": [
+   7,
+   27
+  ],
+  "size": [
+   15,
+   27
+  ]
+ },
+ "library_props/globe_gold": {
+  "footprint": [
+   15,
+   9
+  ],
+  "pivot": [
+   9,
+   31
+  ],
+  "size": [
+   19,
+   31
+  ]
+ },
+ "library_props/globe_green": {
+  "footprint": [
+   14,
+   10
+  ],
+  "pivot": [
+   9,
+   34
+  ],
+  "size": [
+   18,
+   34
+  ]
+ },
+ "library_props/globe_large": {
+  "footprint": [
+   25,
+   13
+  ],
+  "pivot": [
+   15,
+   43
+  ],
+  "size": [
+   31,
+   43
+  ]
+ },
+ "library_props/globe_small": {
+  "footprint": [
+   13,
+   8
+  ],
+  "pivot": [
+   8,
+   25
+  ],
+  "size": [
+   16,
+   25
+  ]
+ },
+ "library_props/treasure_map": {
+  "footprint": [
+   26,
+   12
+  ],
+  "pivot": [
+   16,
+   40
+  ],
+  "size": [
+   33,
+   40
+  ]
+ },
+ "lighting/brazier_gold": {
+  "footprint": [
+   58,
+   19
+  ],
+  "pivot": [
+   36,
+   62
+  ],
+  "size": [
+   72,
+   62
+  ]
+ },
+ "lighting/brazier_large": {
+  "footprint": [
+   30,
+   20
+  ],
+  "pivot": [
+   18,
+   66
+  ],
+  "size": [
+   37,
+   66
+  ]
+ },
+ "lighting/brazier_small": {
+  "footprint": [
+   18,
+   14
+  ],
+  "pivot": [
+   11,
+   45
+  ],
+  "size": [
+   22,
+   45
+  ]
+ },
+ "lighting/candelabra": {
+  "footprint": [
+   18,
+   17
+  ],
+  "pivot": [
+   11,
+   58
+  ],
+  "size": [
+   23,
+   58
+  ]
+ },
+ "lighting/candelabra_table": {
+  "footprint": [
+   30,
+   24
+  ],
+  "pivot": [
+   19,
+   79
+  ],
+  "size": [
+   38,
+   79
+  ]
+ },
+ "lighting/candle_lantern": {
+  "footprint": [
+   10,
+   13
+  ],
+  "pivot": [
+   6,
+   44
+  ],
+  "size": [
+   12,
+   44
+  ]
+ },
+ "lighting/candle_pillar": {
+  "footprint": [
+   14,
+   15
+  ],
+  "pivot": [
+   9,
+   51
+  ],
+  "size": [
+   18,
+   51
+  ]
+ },
+ "lighting/candle_red": {
+  "footprint": [
+   10,
+   12
+  ],
+  "pivot": [
+   6,
+   39
+  ],
+  "size": [
+   12,
+   39
+  ]
+ },
+ "lighting/candle_small": {
+  "footprint": [
+   12,
+   14
+  ],
+  "pivot": [
+   7,
+   46
+  ],
+  "size": [
+   15,
+   46
+  ]
+ },
+ "lighting/candle_stand": {
+  "footprint": [
+   15,
+   15
+  ],
+  "pivot": [
+   9,
+   50
+  ],
+  "size": [
+   19,
+   50
+  ]
+ },
+ "lighting/lamp_globe": {
+  "footprint": [
+   22,
+   16
+  ],
+  "pivot": [
+   13,
+   54
+  ],
+  "size": [
+   27,
+   54
+  ]
+ },
+ "lighting/lamp_post": {
+  "footprint": [
+   14,
+   24
+  ],
+  "pivot": [
+   9,
+   80
+  ],
+  "size": [
+   18,
+   80
+  ]
+ },
+ "lighting/lantern_gold": {
+  "footprint": [
+   23,
+   16
+  ],
+  "pivot": [
+   14,
+   55
+  ],
+  "size": [
+   29,
+   55
+  ]
+ },
+ "lighting/wall_torch": {
+  "footprint": [
+   27,
+   14
+  ],
+  "pivot": [
+   17,
+   47
+  ],
+  "size": [
+   34,
+   47
+  ]
+ },
+ "misc/obj_181": {
+  "footprint": [
+   20,
+   14
+  ],
+  "pivot": [
+   12,
+   48
+  ],
+  "size": [
+   25,
+   48
+  ]
+ },
+ "misc/obj_207": {
+  "footprint": [
+   37,
+   14
+  ],
+  "pivot": [
+   23,
+   47
+  ],
+  "size": [
+   46,
+   47
+  ]
+ },
+ "misc/obj_208": {
+  "footprint": [
+   86,
+   14
+  ],
+  "pivot": [
+   53,
+   48
+  ],
+  "size": [
+   107,
+   48
+  ]
+ },
+ "misc/obj_209": {
+  "footprint": [
+   8,
+   11
+  ],
+  "pivot": [
+   4,
+   37
+  ],
+  "size": [
+   8,
+   37
+  ]
+ },
+ "misc/obj_211": {
+  "footprint": [
+   10,
+   13
+  ],
+  "pivot": [
+   6,
+   43
+  ],
+  "size": [
+   13,
+   43
+  ]
+ },
+ "misc/obj_215": {
+  "footprint": [
+   26,
+   12
+  ],
+  "pivot": [
+   16,
+   41
+  ],
+  "size": [
+   33,
+   41
+  ]
+ },
+ "misc/obj_224": {
+  "footprint": [
+   13,
+   6
+  ],
+  "pivot": [
+   8,
+   19
+  ],
+  "size": [
+   16,
+   19
+  ]
+ },
+ "misc/obj_254": {
+  "footprint": [
+   9,
+   13
+  ],
+  "pivot": [
+   5,
+   42
+  ],
+  "size": [
+   11,
+   42
+  ]
+ },
+ "misc/obj_270": {
+  "footprint": [
+   21,
+   12
+  ],
+  "pivot": [
+   13,
+   40
+  ],
+  "size": [
+   26,
+   40
+  ]
+ },
+ "misc/obj_274": {
+  "footprint": [
+   18,
+   10
+  ],
+  "pivot": [
+   11,
+   34
+  ],
+  "size": [
+   23,
+   34
+  ]
+ },
+ "misc/obj_275": {
+  "footprint": [
+   15,
+   10
+  ],
+  "pivot": [
+   9,
+   34
+  ],
+  "size": [
+   19,
+   34
+  ]
+ },
+ "misc/obj_276": {
+  "footprint": [
+   12,
+   7
+  ],
+  "pivot": [
+   7,
+   22
+  ],
+  "size": [
+   15,
+   22
+  ]
+ },
+ "misc/obj_277": {
+  "footprint": [
+   12,
+   7
+  ],
+  "pivot": [
+   7,
+   23
+  ],
+  "size": [
+   15,
+   23
+  ]
+ },
+ "misc/obj_278": {
+  "footprint": [
+   11,
+   7
+  ],
+  "pivot": [
+   7,
+   22
+  ],
+  "size": [
+   14,
+   22
+  ]
+ },
+ "misc/obj_279": {
+  "footprint": [
+   14,
+   6
+  ],
+  "pivot": [
+   9,
+   18
+  ],
+  "size": [
+   18,
+   18
+  ]
+ },
+ "misc/obj_280": {
+  "footprint": [
+   22,
+   6
+  ],
+  "pivot": [
+   14,
+   21
+  ],
+  "size": [
+   28,
+   21
+  ]
+ },
+ "misc/obj_329": {
+  "footprint": [
+   8,
+   7
+  ],
+  "pivot": [
+   1,
+   24
+  ],
+  "size": [
+   3,
+   24
+  ]
+ },
+ "misc/obj_330": {
+  "footprint": [
+   10,
+   6
+  ],
+  "pivot": [
+   6,
+   11
+  ],
+  "size": [
+   12,
+   11
+  ]
+ },
+ "misc/obj_331": {
+  "footprint": [
+   8,
+   6
+  ],
+  "pivot": [
+   5,
+   10
+  ],
+  "size": [
+   10,
+   10
+  ]
+ },
+ "prison_props/cell_bars": {
+  "footprint": [
+   35,
+   19
+  ],
+  "pivot": [
+   22,
+   63
+  ],
+  "size": [
+   44,
+   63
+  ]
+ },
+ "prison_props/cell_bars_b": {
+  "footprint": [
+   25,
+   19
+  ],
+  "pivot": [
+   15,
+   63
+  ],
+  "size": [
+   31,
+   63
+  ]
+ },
+ "prison_props/cell_bars_c": {
+  "footprint": [
+   28,
+   19
+  ],
+  "pivot": [
+   17,
+   62
+  ],
+  "size": [
+   35,
+   62
+  ]
+ },
+ "prison_props/cell_bars_small": {
+  "footprint": [
+   27,
+   16
+  ],
+  "pivot": [
+   17,
+   52
+  ],
+  "size": [
+   34,
+   52
+  ]
+ },
+ "prison_props/cell_bars_wide": {
+  "footprint": [
+   42,
+   19
+  ],
+  "pivot": [
+   26,
+   64
+  ],
+  "size": [
+   53,
+   64
+  ]
+ },
+ "prison_props/cell_door_a": {
+  "footprint": [
+   42,
+   21
+  ],
+  "pivot": [
+   26,
+   69
+  ],
+  "size": [
+   52,
+   69
+  ]
+ },
+ "prison_props/cell_door_b": {
+  "footprint": [
+   27,
+   19
+  ],
+  "pivot": [
+   17,
+   63
+  ],
+  "size": [
+   34,
+   63
+  ]
+ },
+ "prison_props/cell_rack": {
+  "footprint": [
+   21,
+   15
+  ],
+  "pivot": [
+   13,
+   49
+  ],
+  "size": [
+   26,
+   49
+  ]
+ },
+ "prison_props/cell_window": {
+  "footprint": [
+   24,
+   20
+  ],
+  "pivot": [
+   15,
+   65
+  ],
+  "size": [
+   30,
+   65
+  ]
+ },
+ "prison_props/stand_iron": {
+  "footprint": [
+   27,
+   15
+  ],
+  "pivot": [
+   17,
+   49
+  ],
+  "size": [
+   34,
+   49
+  ]
+ },
+ "prison_props/workbench_dungeon": {
+  "footprint": [
+   78,
+   16
+  ],
+  "pivot": [
+   49,
+   55
+  ],
+  "size": [
+   98,
+   55
+  ]
+ },
+ "roofs/chapel_tower_small": {
+  "footprint": [
+   18,
+   17
+  ],
+  "pivot": [
+   11,
+   57
+  ],
+  "size": [
+   23,
+   57
+  ]
+ },
+ "roofs/hall_double_gable": {
+  "footprint": [
+   102,
+   24
+  ],
+  "pivot": [
+   63,
+   114
+  ],
+  "size": [
+   127,
+   114
+  ]
+ },
+ "roofs/hall_facade": {
+  "footprint": [
+   164,
+   24
+  ],
+  "pivot": [
+   102,
+   167
+  ],
+  "size": [
+   205,
+   167
+  ]
+ },
+ "roofs/hall_gable_window": {
+  "footprint": [
+   40,
+   24
+  ],
+  "pivot": [
+   25,
+   122
+  ],
+  "size": [
+   50,
+   122
+  ]
+ },
+ "roofs/roof_flat_cross": {
+  "footprint": [
+   45,
+   14
+  ],
+  "pivot": [
+   28,
+   48
+  ],
+  "size": [
+   56,
+   48
+  ]
+ },
+ "roofs/roof_gable_a": {
+  "footprint": [
+   27,
+   22
+  ],
+  "pivot": [
+   17,
+   75
+  ],
+  "size": [
+   34,
+   75
+  ]
+ },
+ "roofs/roof_gable_b": {
+  "footprint": [
+   34,
+   23
+  ],
+  "pivot": [
+   21,
+   76
+  ],
+  "size": [
+   43,
+   76
+  ]
+ },
+ "roofs/roof_gable_door": {
+  "footprint": [
+   29,
+   24
+  ],
+  "pivot": [
+   18,
+   84
+  ],
+  "size": [
+   36,
+   84
+  ]
+ },
+ "roofs/roof_gable_small": {
+  "footprint": [
+   26,
+   24
+  ],
+  "pivot": [
+   16,
+   82
+  ],
+  "size": [
+   33,
+   82
+  ]
+ },
+ "roofs/roof_hip_large": {
+  "footprint": [
+   54,
+   24
+  ],
+  "pivot": [
+   34,
+   121
+  ],
+  "size": [
+   68,
+   121
+  ]
+ },
+ "roofs/roof_ridge_flat": {
+  "footprint": [
+   46,
+   13
+  ],
+  "pivot": [
+   29,
+   42
+  ],
+  "size": [
+   58,
+   42
+  ]
+ },
+ "roofs/roof_slope_narrow": {
+  "footprint": [
+   18,
+   24
+  ],
+  "pivot": [
+   11,
+   83
+  ],
+  "size": [
+   22,
+   83
+  ]
+ },
+ "roofs/roof_slope_tiny": {
+  "footprint": [
+   19,
+   14
+  ],
+  "pivot": [
+   12,
+   48
+  ],
+  "size": [
+   24,
+   48
+  ]
+ },
+ "roofs/roof_tower_block": {
+  "footprint": [
+   38,
+   24
+  ],
+  "pivot": [
+   23,
+   118
+  ],
+  "size": [
+   47,
+   118
+  ]
+ },
+ "royal_props/bust_stone": {
+  "footprint": [
+   24,
+   17
+  ],
+  "pivot": [
+   15,
+   57
+  ],
+  "size": [
+   30,
+   57
+  ]
+ },
+ "royal_props/cabinet_ornate": {
+  "footprint": [
+   30,
+   17
+  ],
+  "pivot": [
+   18,
+   58
+  ],
+  "size": [
+   37,
+   58
+  ]
+ },
+ "royal_props/clock_trio": {
+  "footprint": [
+   82,
+   22
+  ],
+  "pivot": [
+   51,
+   72
+  ],
+  "size": [
+   103,
+   72
+  ]
+ },
+ "royal_props/pillar_a": {
+  "footprint": [
+   29,
+   24
+  ],
+  "pivot": [
+   18,
+   87
+  ],
+  "size": [
+   36,
+   87
+  ]
+ },
+ "royal_props/pillar_b": {
+  "footprint": [
+   32,
+   24
+  ],
+  "pivot": [
+   20,
+   86
+  ],
+  "size": [
+   40,
+   86
+  ]
+ },
+ "royal_props/pillar_c": {
+  "footprint": [
+   26,
+   22
+  ],
+  "pivot": [
+   16,
+   74
+  ],
+  "size": [
+   32,
+   74
+  ]
+ },
+ "royal_props/pillar_d": {
+  "footprint": [
+   23,
+   22
+  ],
+  "pivot": [
+   14,
+   74
+  ],
+  "size": [
+   29,
+   74
+  ]
+ },
+ "royal_props/pillar_slim": {
+  "footprint": [
+   22,
+   21
+  ],
+  "pivot": [
+   13,
+   70
+  ],
+  "size": [
+   27,
+   70
+  ]
+ },
+ "royal_props/planter_column": {
+  "footprint": [
+   36,
+   24
+  ],
+  "pivot": [
+   22,
+   87
+  ],
+  "size": [
+   45,
+   87
+  ]
+ },
+ "royal_props/shrine_niche": {
+  "footprint": [
+   27,
+   22
+  ],
+  "pivot": [
+   17,
+   75
+  ],
+  "size": [
+   34,
+   75
+  ]
+ },
+ "royal_props/statue_small": {
+  "footprint": [
+   20,
+   20
+  ],
+  "pivot": [
+   12,
+   65
+  ],
+  "size": [
+   25,
+   65
+  ]
+ },
+ "royal_props/throne_pair": {
+  "footprint": [
+   86,
+   24
+  ],
+  "pivot": [
+   53,
+   88
+  ],
+  "size": [
+   107,
+   88
+  ]
+ },
+ "royal_props/throne_red": {
+  "footprint": [
+   58,
+   24
+  ],
+  "pivot": [
+   36,
+   126
+  ],
+  "size": [
+   72,
+   126
+  ]
+ },
+ "royal_props/throne_wood": {
+  "footprint": [
+   29,
+   17
+  ],
+  "pivot": [
+   18,
+   58
+  ],
+  "size": [
+   36,
+   58
+  ]
+ },
+ "rugs/rug_red_a": {
+  "footprint": null,
+  "pivot": [
+   33,
+   57
+  ],
+  "size": [
+   67,
+   57
+  ]
+ },
+ "rugs/rug_red_b": {
+  "footprint": null,
+  "pivot": [
+   16,
+   65
+  ],
+  "size": [
+   33,
+   65
+  ]
+ },
+ "rugs/rug_red_c": {
+  "footprint": null,
+  "pivot": [
+   30,
+   71
+  ],
+  "size": [
+   61,
+   71
+  ]
+ },
+ "rugs/rug_red_corner": {
+  "footprint": null,
+  "pivot": [
+   25,
+   55
+  ],
+  "size": [
+   51,
+   55
+  ]
+ },
+ "rugs/rug_red_d": {
+  "footprint": null,
+  "pivot": [
+   31,
+   78
+  ],
+  "size": [
+   62,
+   78
+  ]
+ },
+ "rugs/rug_red_e": {
+  "footprint": null,
+  "pivot": [
+   19,
+   70
+  ],
+  "size": [
+   38,
+   70
+  ]
+ },
+ "rugs/rug_red_pair": {
+  "footprint": null,
+  "pivot": [
+   77,
+   69
+  ],
+  "size": [
+   155,
+   69
+  ]
+ },
+ "rugs/rug_red_small": {
+  "footprint": null,
+  "pivot": [
+   27,
+   31
+  ],
+  "size": [
+   55,
+   31
+  ]
+ },
+ "rugs/rug_square_blue": {
+  "footprint": null,
+  "pivot": [
+   25,
+   58
+  ],
+  "size": [
+   51,
+   58
+  ]
+ },
+ "rugs/runner_blue_thin": {
+  "footprint": null,
+  "pivot": [
+   8,
+   66
+  ],
+  "size": [
+   16,
+   66
+  ]
+ },
+ "rugs/runner_red_b": {
+  "footprint": null,
+  "pivot": [
+   9,
+   58
+  ],
+  "size": [
+   18,
+   58
+  ]
+ },
+ "rugs/runner_red_thin": {
+  "footprint": null,
+  "pivot": [
+   10,
+   68
+  ],
+  "size": [
+   20,
+   68
+  ]
+ },
+ "rugs/runner_scroll": {
+  "footprint": null,
+  "pivot": [
+   29,
+   34
+  ],
+  "size": [
+   58,
+   34
+  ]
+ },
+ "secret_props/block_a": {
+  "footprint": [
+   18,
+   11
+  ],
+  "pivot": [
+   11,
+   38
+  ],
+  "size": [
+   22,
+   38
+  ]
+ },
+ "secret_props/block_b": {
+  "footprint": [
+   17,
+   11
+  ],
+  "pivot": [
+   10,
+   38
+  ],
+  "size": [
+   21,
+   38
+  ]
+ },
+ "secret_props/cave_rocks_beams": {
+  "footprint": [
+   102,
+   22
+  ],
+  "pivot": [
+   64,
+   75
+  ],
+  "size": [
+   128,
+   75
+  ]
+ },
+ "secret_props/cave_torch": {
+  "footprint": [
+   27,
+   17
+  ],
+  "pivot": [
+   17,
+   56
+  ],
+  "size": [
+   34,
+   56
+  ]
+ },
+ "secret_props/cave_wall": {
+  "footprint": [
+   38,
+   17
+  ],
+  "pivot": [
+   24,
+   57
+  ],
+  "size": [
+   48,
+   57
+  ]
+ },
+ "secret_props/cave_wall_torch": {
+  "footprint": [
+   66,
+   18
+  ],
+  "pivot": [
+   41,
+   61
+  ],
+  "size": [
+   82,
+   61
+  ]
+ },
+ "secret_props/dungeon_alcove": {
+  "footprint": [
+   49,
+   14
+  ],
+  "pivot": [
+   30,
+   46
+  ],
+  "size": [
+   61,
+   46
+  ]
+ },
+ "secret_props/dungeon_arch": {
+  "footprint": [
+   39,
+   18
+  ],
+  "pivot": [
+   24,
+   61
+  ],
+  "size": [
+   49,
+   61
+  ]
+ },
+ "secret_props/dungeon_arch_b": {
+  "footprint": [
+   47,
+   24
+  ],
+  "pivot": [
+   29,
+   108
+  ],
+  "size": [
+   59,
+   108
+  ]
+ },
+ "secret_props/dungeon_arch_c": {
+  "footprint": [
+   37,
+   24
+  ],
+  "pivot": [
+   23,
+   107
+  ],
+  "size": [
+   46,
+   107
+  ]
+ },
+ "secret_props/dungeon_arch_d": {
+  "footprint": [
+   40,
+   24
+  ],
+  "pivot": [
+   25,
+   110
+  ],
+  "size": [
+   50,
+   110
+  ]
+ },
+ "secret_props/dungeon_arch_set": {
+  "footprint": [
+   129,
+   24
+  ],
+  "pivot": [
+   80,
+   108
+  ],
+  "size": [
+   161,
+   108
+  ]
+ },
+ "secret_props/dungeon_arch_stone": {
+  "footprint": [
+   44,
+   24
+  ],
+  "pivot": [
+   27,
+   107
+  ],
+  "size": [
+   55,
+   107
+  ]
+ },
+ "secret_props/dungeon_bench": {
+  "footprint": [
+   28,
+   12
+  ],
+  "pivot": [
+   17,
+   40
+  ],
+  "size": [
+   35,
+   40
+  ]
+ },
+ "secret_props/dungeon_block": {
+  "footprint": [
+   27,
+   15
+  ],
+  "pivot": [
+   17,
+   49
+  ],
+  "size": [
+   34,
+   49
+  ]
+ },
+ "secret_props/dungeon_block_b": {
+  "footprint": [
+   13,
+   10
+  ],
+  "pivot": [
+   8,
+   35
+  ],
+  "size": [
+   16,
+   35
+  ]
+ },
+ "secret_props/dungeon_block_c": {
+  "footprint": [
+   27,
+   9
+  ],
+  "pivot": [
+   17,
+   30
+  ],
+  "size": [
+   34,
+   30
+  ]
+ },
+ "secret_props/dungeon_column": {
+  "footprint": [
+   26,
+   17
+  ],
+  "pivot": [
+   16,
+   56
+  ],
+  "size": [
+   32,
+   56
+  ]
+ },
+ "secret_props/dungeon_grate": {
+  "footprint": [
+   37,
+   16
+  ],
+  "pivot": [
+   23,
+   52
+  ],
+  "size": [
+   46,
+   52
+  ]
+ },
+ "secret_props/dungeon_shelf": {
+  "footprint": [
+   28,
+   20
+  ],
+  "pivot": [
+   17,
+   65
+  ],
+  "size": [
+   35,
+   65
+  ]
+ },
+ "secret_props/dungeon_torch": {
+  "footprint": [
+   30,
+   17
+  ],
+  "pivot": [
+   19,
+   57
+  ],
+  "size": [
+   38,
+   57
+  ]
+ },
+ "secret_props/dungeon_wall": {
+  "footprint": [
+   46,
+   16
+  ],
+  "pivot": [
+   29,
+   52
+  ],
+  "size": [
+   58,
+   52
+  ]
+ },
+ "secret_props/dungeon_wall_b": {
+  "footprint": [
+   36,
+   16
+  ],
+  "pivot": [
+   22,
+   52
+  ],
+  "size": [
+   45,
+   52
+  ]
+ },
+ "secret_props/dungeon_wall_c": {
+  "footprint": [
+   27,
+   15
+  ],
+  "pivot": [
+   17,
+   50
+  ],
+  "size": [
+   34,
+   50
+  ]
+ },
+ "secret_props/dungeon_wall_d": {
+  "footprint": [
+   45,
+   10
+  ],
+  "pivot": [
+   28,
+   32
+  ],
+  "size": [
+   56,
+   32
+  ]
+ },
+ "secret_props/mine_torch_wall": {
+  "footprint": [
+   72,
+   23
+  ],
+  "pivot": [
+   45,
+   77
+  ],
+  "size": [
+   90,
+   77
+  ]
+ },
+ "secret_props/pillar_dark": {
+  "footprint": [
+   16,
+   15
+  ],
+  "pivot": [
+   10,
+   51
+  ],
+  "size": [
+   20,
+   51
+  ]
+ },
+ "secret_props/pillar_thin": {
+  "footprint": [
+   10,
+   13
+  ],
+  "pivot": [
+   6,
+   44
+  ],
+  "size": [
+   13,
+   44
+  ]
+ },
+ "secret_props/pole": {
+  "footprint": [
+   8,
+   6
+  ],
+  "pivot": [
+   5,
+   21
+  ],
+  "size": [
+   10,
+   21
+  ]
+ },
+ "secret_props/rocks_a": {
+  "footprint": [
+   22,
+   10
+  ],
+  "pivot": [
+   14,
+   33
+  ],
+  "size": [
+   28,
+   33
+  ]
+ },
+ "secret_props/rocks_b": {
+  "footprint": [
+   33,
+   12
+  ],
+  "pivot": [
+   20,
+   41
+  ],
+  "size": [
+   41,
+   41
+  ]
+ },
+ "secret_props/rocks_c": {
+  "footprint": [
+   38,
+   9
+  ],
+  "pivot": [
+   24,
+   30
+  ],
+  "size": [
+   48,
+   30
+  ]
+ },
+ "secret_props/rubble": {
+  "footprint": [
+   29,
+   16
+  ],
+  "pivot": [
+   18,
+   53
+  ],
+  "size": [
+   36,
+   53
+  ]
+ },
+ "secret_props/tunnel_beams": {
+  "footprint": [
+   49,
+   17
+  ],
+  "pivot": [
+   30,
+   56
+  ],
+  "size": [
+   61,
+   56
+  ]
+ },
+ "secret_props/tunnel_crate_wall": {
+  "footprint": [
+   29,
+   15
+  ],
+  "pivot": [
+   18,
+   51
+  ],
+  "size": [
+   36,
+   51
+  ]
+ },
+ "secret_props/tunnel_entrance": {
+  "footprint": [
+   47,
+   24
+  ],
+  "pivot": [
+   29,
+   115
+  ],
+  "size": [
+   59,
+   115
+  ]
+ },
+ "secret_props/tunnel_torch": {
+  "footprint": [
+   49,
+   17
+  ],
+  "pivot": [
+   30,
+   56
+  ],
+  "size": [
+   61,
+   56
+  ]
+ },
+ "secret_props/tunnel_torch_b": {
+  "footprint": [
+   30,
+   16
+  ],
+  "pivot": [
+   18,
+   52
+  ],
+  "size": [
+   37,
+   52
+  ]
+ },
+ "stairs/dais_banner": {
+  "footprint": [
+   50,
+   22
+  ],
+  "pivot": [
+   31,
+   74
+  ],
+  "size": [
+   63,
+   74
+  ]
+ },
+ "stairs/stairs_carpet_side": {
+  "footprint": [
+   54,
+   20
+  ],
+  "pivot": [
+   34,
+   65
+  ],
+  "size": [
+   68,
+   65
+  ]
+ },
+ "stairs/stairs_grand_red": {
+  "footprint": [
+   65,
+   24
+  ],
+  "pivot": [
+   40,
+   79
+  ],
+  "size": [
+   81,
+   79
+  ]
+ },
+ "stairs/stairs_rail_a": {
+  "footprint": [
+   46,
+   21
+  ],
+  "pivot": [
+   29,
+   69
+  ],
+  "size": [
+   58,
+   69
+  ]
+ },
+ "stairs/stairs_rail_b": {
+  "footprint": [
+   36,
+   21
+  ],
+  "pivot": [
+   22,
+   70
+  ],
+  "size": [
+   45,
+   70
+  ]
+ },
+ "stairs/stairs_red_carpet": {
+  "footprint": [
+   52,
+   23
+  ],
+  "pivot": [
+   32,
+   77
+  ],
+  "size": [
+   65,
+   77
+  ]
+ },
+ "stairs/stairs_stone": {
+  "footprint": [
+   46,
+   23
+  ],
+  "pivot": [
+   28,
+   76
+  ],
+  "size": [
+   57,
+   76
+  ]
+ },
+ "stairs/stairs_stone_wide": {
+  "footprint": [
+   42,
+   19
+  ],
+  "pivot": [
+   26,
+   64
+  ],
+  "size": [
+   53,
+   64
+  ]
+ },
+ "stairs/stone_bench_steps": {
+  "footprint": [
+   40,
+   14
+  ],
+  "pivot": [
+   25,
+   48
+  ],
+  "size": [
+   50,
+   48
+  ]
+ },
+ "terrain/grass": {
+  "footprint": [
+   31,
+   11
+  ],
+  "pivot": [
+   19,
+   37
+  ],
+  "size": [
+   39,
+   37
+  ]
+ },
+ "terrain/grass_dry": {
+  "footprint": [
+   30,
+   9
+  ],
+  "pivot": [
+   19,
+   30
+  ],
+  "size": [
+   38,
+   30
+  ]
+ },
+ "terrain/sand": {
+  "footprint": [
+   56,
+   16
+  ],
+  "pivot": [
+   35,
+   53
+  ],
+  "size": [
+   70,
+   53
+  ]
+ },
+ "terrain/water_cave_edge": {
+  "footprint": [
+   92,
+   16
+  ],
+  "pivot": [
+   57,
+   53
+  ],
+  "size": [
+   115,
+   53
+  ]
+ },
+ "terrain/water_channel_b": {
+  "footprint": [
+   53,
+   23
+  ],
+  "pivot": [
+   33,
+   78
+  ],
+  "size": [
+   66,
+   78
+  ]
+ },
+ "terrain/water_channel_rocks": {
+  "footprint": [
+   60,
+   24
+  ],
+  "pivot": [
+   37,
+   153
+  ],
+  "size": [
+   75,
+   153
+  ]
+ },
+ "terrain/water_curve": {
+  "footprint": [
+   38,
+   24
+  ],
+  "pivot": [
+   24,
+   79
+  ],
+  "size": [
+   48,
+   79
+  ]
+ },
+ "terrain/water_pool_rock": {
+  "footprint": [
+   45,
+   22
+  ],
+  "pivot": [
+   28,
+   73
+  ],
+  "size": [
+   56,
+   73
+  ]
+ },
+ "terrain/water_rock_bend": {
+  "footprint": [
+   42,
+   22
+  ],
+  "pivot": [
+   26,
+   74
+  ],
+  "size": [
+   53,
+   74
+  ]
+ },
+ "terrain/water_rock_edge": {
+  "footprint": [
+   38,
+   20
+  ],
+  "pivot": [
+   24,
+   67
+  ],
+  "size": [
+   48,
+   67
+  ]
+ },
+ "terrain/water_rock_edge_b": {
+  "footprint": [
+   47,
+   20
+  ],
+  "pivot": [
+   29,
+   66
+  ],
+  "size": [
+   59,
+   66
+  ]
+ },
+ "terrain/water_small_a": {
+  "footprint": [
+   22,
+   15
+  ],
+  "pivot": [
+   14,
+   50
+  ],
+  "size": [
+   28,
+   50
+  ]
+ },
+ "terrain/water_small_b": {
+  "footprint": [
+   20,
+   15
+  ],
+  "pivot": [
+   12,
+   51
+  ],
+  "size": [
+   25,
+   51
+  ]
+ },
+ "terrain/water_strip": {
+  "footprint": [
+   26,
+   20
+  ],
+  "pivot": [
+   16,
+   68
+  ],
+  "size": [
+   33,
+   68
+  ]
+ },
+ "terrain/water_wall_corner": {
+  "footprint": [
+   38,
+   18
+  ],
+  "pivot": [
+   24,
+   60
+  ],
+  "size": [
+   48,
+   60
+  ]
+ },
+ "terrain/water_wall_edge": {
+  "footprint": [
+   38,
+   22
+  ],
+  "pivot": [
+   24,
+   72
+  ],
+  "size": [
+   48,
+   72
+  ]
+ },
+ "terrain/water_wall_edge_b": {
+  "footprint": [
+   36,
+   22
+  ],
+  "pivot": [
+   22,
+   73
+  ],
+  "size": [
+   45,
+   73
+  ]
+ },
+ "terrain/water_wall_end": {
+  "footprint": [
+   29,
+   18
+  ],
+  "pivot": [
+   18,
+   60
+  ],
+  "size": [
+   36,
+   60
+  ]
+ },
+ "terrain/waterfall": {
+  "footprint": [
+   38,
+   20
+  ],
+  "pivot": [
+   23,
+   66
+  ],
+  "size": [
+   47,
+   66
+  ]
+ },
+ "towers/tower_chapel_roof": {
+  "footprint": [
+   61,
+   24
+  ],
+  "pivot": [
+   38,
+   139
+  ],
+  "size": [
+   76,
+   139
+  ]
+ },
+ "towers/tower_pillar_small": {
+  "footprint": [
+   9,
+   22
+  ],
+  "pivot": [
+   5,
+   72
+  ],
+  "size": [
+   11,
+   72
+  ]
+ },
+ "towers/tower_round_door": {
+  "footprint": [
+   55,
+   24
+  ],
+  "pivot": [
+   34,
+   123
+  ],
+  "size": [
+   69,
+   123
+  ]
+ },
+ "towers/tower_round_large": {
+  "footprint": [
+   62,
+   24
+  ],
+  "pivot": [
+   38,
+   145
+  ],
+  "size": [
+   77,
+   145
+  ]
+ },
+ "towers/tower_round_window": {
+  "footprint": [
+   50,
+   24
+  ],
+  "pivot": [
+   31,
+   151
+  ],
+  "size": [
+   63,
+   151
+  ]
+ },
+ "towers/tower_slim_blue": {
+  "footprint": [
+   28,
+   24
+  ],
+  "pivot": [
+   17,
+   97
+  ],
+  "size": [
+   35,
+   97
+  ]
+ },
+ "towers/tower_spire": {
+  "footprint": [
+   30,
+   24
+  ],
+  "pivot": [
+   19,
+   132
+  ],
+  "size": [
+   38,
+   132
+  ]
+ },
+ "towers/tower_spire_tall": {
+  "footprint": [
+   36,
+   24
+  ],
+  "pivot": [
+   22,
+   140
+  ],
+  "size": [
+   45,
+   140
+  ]
+ },
+ "towers/tower_spire_thin": {
+  "footprint": [
+   30,
+   24
+  ],
+  "pivot": [
+   19,
+   137
+  ],
+  "size": [
+   38,
+   137
+  ]
+ },
+ "towers/tower_square_blue": {
+  "footprint": [
+   44,
+   24
+  ],
+  "pivot": [
+   27,
+   91
+  ],
+  "size": [
+   55,
+   91
+  ]
+ },
+ "towers/tower_turret": {
+  "footprint": [
+   33,
+   24
+  ],
+  "pivot": [
+   20,
+   138
+  ],
+  "size": [
+   41,
+   138
+  ]
+ },
+ "towers/turret_mini": {
+  "footprint": [
+   11,
+   18
+  ],
+  "pivot": [
+   7,
+   60
+  ],
+  "size": [
+   14,
+   60
+  ]
+ },
+ "towers/turret_pillar": {
+  "footprint": [
+   18,
+   23
+  ],
+  "pivot": [
+   11,
+   76
+  ],
+  "size": [
+   23,
+   76
+  ]
+ },
+ "towers/turret_slim": {
+  "footprint": [
+   13,
+   24
+  ],
+  "pivot": [
+   8,
+   80
+  ],
+  "size": [
+   16,
+   80
+  ]
+ },
+ "towers/turret_small": {
+  "footprint": [
+   15,
+   20
+  ],
+  "pivot": [
+   9,
+   66
+  ],
+  "size": [
+   19,
+   66
+  ]
+ },
+ "towers/turret_tiny": {
+  "footprint": [
+   14,
+   21
+  ],
+  "pivot": [
+   9,
+   70
+  ],
+  "size": [
+   18,
+   70
+  ]
+ },
+ "treasury_props/cabinet_treasure": {
+  "footprint": [
+   16,
+   11
+  ],
+  "pivot": [
+   10,
+   36
+  ],
+  "size": [
+   20,
+   36
+  ]
+ },
+ "treasury_props/gold_pile": {
+  "footprint": [
+   31,
+   12
+  ],
+  "pivot": [
+   19,
+   39
+  ],
+  "size": [
+   39,
+   39
+  ]
+ },
+ "treasury_props/gold_table": {
+  "footprint": [
+   48,
+   12
+  ],
+  "pivot": [
+   30,
+   39
+  ],
+  "size": [
+   60,
+   39
+  ]
+ },
+ "vegetation/fountain": {
+  "footprint": [
+   46,
+   22
+  ],
+  "pivot": [
+   28,
+   72
+  ],
+  "size": [
+   57,
+   72
+  ]
+ },
+ "vegetation/grass_flowers": {
+  "footprint": [
+   40,
+   19
+  ],
+  "pivot": [
+   25,
+   64
+  ],
+  "size": [
+   50,
+   64
+  ]
+ },
+ "vegetation/grass_patch": {
+  "footprint": [
+   58,
+   16
+  ],
+  "pivot": [
+   36,
+   53
+  ],
+  "size": [
+   73,
+   53
+  ]
+ },
+ "vegetation/hedge_L": {
+  "footprint": [
+   62,
+   18
+  ],
+  "pivot": [
+   38,
+   59
+  ],
+  "size": [
+   77,
+   59
+  ]
+ },
+ "vegetation/hedge_block": {
+  "footprint": [
+   36,
+   18
+  ],
+  "pivot": [
+   22,
+   60
+  ],
+  "size": [
+   45,
+   60
+  ]
+ },
+ "vegetation/hedge_flowers": {
+  "footprint": [
+   24,
+   14
+  ],
+  "pivot": [
+   15,
+   47
+  ],
+  "size": [
+   30,
+   47
+  ]
+ },
+ "vegetation/hedge_small": {
+  "footprint": [
+   25,
+   9
+  ],
+  "pivot": [
+   15,
+   31
+  ],
+  "size": [
+   31,
+   31
+  ]
+ },
+ "vegetation/planter_box": {
+  "footprint": [
+   34,
+   19
+  ],
+  "pivot": [
+   21,
+   64
+  ],
+  "size": [
+   42,
+   64
+  ]
+ },
+ "vegetation/planter_flowers": {
+  "footprint": [
+   38,
+   21
+  ],
+  "pivot": [
+   24,
+   71
+  ],
+  "size": [
+   48,
+   71
+  ]
+ },
+ "vegetation/planter_pink": {
+  "footprint": [
+   27,
+   19
+  ],
+  "pivot": [
+   17,
+   64
+  ],
+  "size": [
+   34,
+   64
+  ]
+ },
+ "vegetation/planter_tall": {
+  "footprint": [
+   18,
+   21
+  ],
+  "pivot": [
+   11,
+   69
+  ],
+  "size": [
+   22,
+   69
+  ]
+ },
+ "vegetation/tree_orange": {
+  "footprint": [
+   31,
+   17
+  ],
+  "pivot": [
+   19,
+   56
+  ],
+  "size": [
+   39,
+   56
+  ]
+ },
+ "vegetation/tree_orange_small": {
+  "footprint": [
+   20,
+   12
+  ],
+  "pivot": [
+   12,
+   39
+  ],
+  "size": [
+   25,
+   39
+  ]
+ },
+ "vegetation/tree_pine_a": {
+  "footprint": [
+   38,
+   22
+  ],
+  "pivot": [
+   24,
+   75
+  ],
+  "size": [
+   48,
+   75
+  ]
+ },
+ "vegetation/tree_pine_b": {
+  "footprint": [
+   30,
+   21
+  ],
+  "pivot": [
+   19,
+   69
+  ],
+  "size": [
+   38,
+   69
+  ]
+ },
+ "vegetation/tree_round": {
+  "footprint": [
+   33,
+   20
+  ],
+  "pivot": [
+   20,
+   65
+  ],
+  "size": [
+   41,
+   65
+  ]
+ },
+ "vegetation/urn_flowers": {
+  "footprint": [
+   28,
+   19
+  ],
+  "pivot": [
+   17,
+   62
+  ],
+  "size": [
+   35,
+   62
+  ]
+ },
+ "walls/wall_banner_long_b": {
+  "footprint": [
+   153,
+   20
+  ],
+  "pivot": [
+   76,
+   82
+  ],
+  "size": [
+   153,
+   82
+  ]
+ },
+ "walls/wall_banner_section": {
+  "footprint": [
+   131,
+   20
+  ],
+  "pivot": [
+   65,
+   69
+  ],
+  "size": [
+   131,
+   69
+  ]
+ },
+ "walls/wall_banners_long": {
+  "footprint": [
+   235,
+   20
+  ],
+  "pivot": [
+   117,
+   75
+  ],
+  "size": [
+   235,
+   75
+  ]
+ },
+ "walls/wall_buttress": {
+  "footprint": [
+   34,
+   20
+  ],
+  "pivot": [
+   17,
+   74
+  ],
+  "size": [
+   34,
+   74
+  ]
+ },
+ "walls/wall_corner_angle": {
+  "footprint": [
+   105,
+   20
+  ],
+  "pivot": [
+   52,
+   86
+  ],
+  "size": [
+   105,
+   86
+  ]
+ },
+ "walls/wall_corner_section": {
+  "footprint": [
+   124,
+   20
+  ],
+  "pivot": [
+   62,
+   81
+  ],
+  "size": [
+   124,
+   81
+  ]
+ },
+ "walls/wall_corner_tower": {
+  "footprint": [
+   79,
+   20
+  ],
+  "pivot": [
+   39,
+   89
+  ],
+  "size": [
+   79,
+   89
+  ]
+ },
+ "walls/wall_end_section": {
+  "footprint": [
+   96,
+   20
+  ],
+  "pivot": [
+   48,
+   78
+  ],
+  "size": [
+   96,
+   78
+  ]
+ },
+ "walls/wall_low": {
+  "footprint": [
+   104,
+   20
+  ],
+  "pivot": [
+   52,
+   43
+  ],
+  "size": [
+   104,
+   43
+  ]
+ },
+ "walls/wall_low_stub": {
+  "footprint": [
+   39,
+   20
+  ],
+  "pivot": [
+   19,
+   31
+  ],
+  "size": [
+   39,
+   31
+  ]
+ },
+ "walls/wall_pillar": {
+  "footprint": [
+   25,
+   20
+  ],
+  "pivot": [
+   12,
+   79
+  ],
+  "size": [
+   25,
+   79
+  ]
+ },
+ "walls/wall_tower_banner": {
+  "footprint": [
+   165,
+   20
+  ],
+  "pivot": [
+   82,
+   94
+  ],
+  "size": [
+   165,
+   94
+  ]
+ },
+ "walls/wall_tower_corner": {
+  "footprint": [
+   86,
+   20
+  ],
+  "pivot": [
+   43,
+   88
+  ],
+  "size": [
+   86,
+   88
+  ]
+ }
+}

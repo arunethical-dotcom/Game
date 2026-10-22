@@ -60,38 +60,25 @@ joystick and buttons appear automatically.
 
 ## The Royal Citadel
 
-Built by `scripts/citadel.gd` at the centre of the city, following the Royal Citadel blueprint.
+The Royal Citadel is built tile by tile (`scripts/citadel.gd`) from the approved plan in
+[docs/CITADEL_DIMENSIONS.md](docs/CITADEL_DIMENSIONS.md): a 100 × 90-tile castle (3200 × 2880 px)
+at the centre of the city.
+
+- **Throne hall:** the Grand Throne Hall on the north side, facing the gate.
+- **Courtyard:** the royal courtyard with four gardens and the battle arena, kept clear for the final fight.
+- **West side:** the West Royal Wing (grand stair up), the chapel, the armory, the west gallery
+  (service stair down) and the training yard.
+- **East side:** the East Royal Wing (private stair up), the Library and Archives, the council
+  room, the treasury (vault stair down) and the service yard.
+- **Other floors:** the stairs lead to the Royal Residence (`citadel_floors.gd`) and the Service
+  Floor with a quick fade and no loading screen.
+
 Every door is open for now (conditions and gameplay can be added later).
-
-**Main floor**
-- curtain wall with towers, a moat and the main gatehouse with its bridge (south)
-- the Royal Courtyard: flagstones in four layouts so the ground never repeats, a cobbled
-  avenue with dark kerbs, the battle arena with a rope fence (open on four sides),
-  irregular planting beds, statues, braziers and the red carpet up the grand steps
-- the Grand Throne Hall: the roof fades away when you walk in and a low cut-down front wall
-  appears (Kael walks behind it); checkered marble nave with inlaid borders, rugs, pillars,
-  statues and armour in the side aisles, wall torches, window light, the throne under a
-  velvet canopy, stairs up and stairs down
-- the West Wing (barracks and armory) and East Wing (banquet hall), both walk-in
-- the West and East Gardens and the Chapel (walk-in)
-
-**Royal Residence (stairs up)**: a long corridor with the King and Queen's chamber, the
-princes' room, the princess's room, the king's sister's rooms and the Royal Library.
-
-**Service Floor (stairs down)**: a service hall with the kitchen, storeroom and servants' quarters.
-
-Walking onto a staircase fades the screen out and in (about half a second, no loading
-screen). The other floors are built far away in the same world (`citadel_floors.gd`,
-`floor_plan.gd`), so moving between them is instant.
-
-Layers: ground (`cit_ground.gd`, `cit_interior.gd`, `floor_plan.gd`) is drawn under
-everything; buildings, furniture, people and Kael are y-sorted by their feet; collision
-boxes are separate from the art, so decorations never block doors, stairs or paths.
 
 ## Imported castle art (from an AI sheet)
 
 `tools/import_castle.py` turns `source_art/castle/sheet1.png` (objects on magenta) into
-game sprites: it removes the magenta and its pink fringe, cuts each object out, scales
+game sprites (and `sheet2.png` into 333 sprites in `art/castle2/`): it removes the magenta and its pink fringe, cuts each object out, scales
 everything by the same factor (so pixels match Kael) without inventing new colours
 (each pixel keeps a real colour from the sheet), and writes them in groups:
 

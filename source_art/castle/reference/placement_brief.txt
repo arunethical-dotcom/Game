@@ -1,0 +1,169 @@
+2. Exact map dimensions and coordinate system
+Use this as the initial target for your castle scene. All coordinates below are proposed placement coordinates, not measurements extracted from the artwork.
+Map width
+3,200 px
+100 tiles
+
+Map height
+2,880 px
+90 tiles
+
+Tile dimensions
+32 × 32 px
+
+Kael's height
+64 px
+
+
+
+Coordinate convention: (0, 0) is the upper-left corner of the map; X increases east and Y increases south. One coordinate unit in the tile plan equals one 32-pixel tile.
+
+Where the major components go
+The coordinate ranges use [start, end) notation: the starting tile is included and the ending tile is excluded.
+Component	Tile position (X, Y)	Size (W × H)
+Outer moat/map boundary	(0, 0)	100 × 90
+Outer curtain wall	(4, 6)	92 × 77
+Inner compound	(8, 8)	84 × 74
+Grand Throne Hall	(38, 8)	24 × 22
+Royal Courtyard	(30, 30)	40 × 48
+West royal family wing, upper floor	(10, 10)	22 × 22
+East royal family wing, upper floor	(68, 10)	22 × 22
+Chapel	(10, 32)	12 × 10
+Armory	(10, 44)	12 × 12
+Library and archives	(72, 32)	18 × 10
+Council room	(70, 44)	12 × 10
+Treasury access	(82, 44)	10 × 12
+Main kitchen, service floor	(10, 48)	10 × 12
+Secondary kitchen	(20, 48)	10 × 12
+Pantry and food storage	(10, 60)	10 × 10
+Dining hall	(20, 60)	12 × 10
+Servants' quarters	(68, 48)	12 × 12
+Bathing complex	(80, 48)	10 × 12
+Prison wing, lower floor	(68, 64)	22 × 12
+Main gate, south wall	(46, 82)	8 × 4
+
+The moat, curtain wall, and inner compound dimensions are based on the proposed blueprint scale. Adjust wall alignment to your actual 32-pixel grid before implementation.
+3. Copy this prompt into your AI coding assistant
+Attach your original castle blueprint, the generated magenta asset atlas, and the placement blueprint together with this prompt.
+PROJECT: ROYAL CITADEL — 2D PIXEL-ART IMPLEMENTATION
+You are working on an existing 2D top-down 3/4-view medieval fantasy RPG. Rebuild and polish the Royal Citadel using the attached original blueprint as the canonical design reference, the magenta-background atlas as the source of visual assets, and the placement blueprint as the layout guide.
+
+The castle must remain recognizably faithful to the reference. Do not redesign its layout or invent a different castle.
+1. VISUAL AND TECHNICAL RULES
+- Strictly 2D top-down 3/4 pixel art; no 3D models, 3D perspective renders, or isometric cutaway presentation.
+- Base tile size: 32 × 32 world pixels.
+- Kael's sprite height: approximately 64 world pixels.
+- Target map canvas: 3200 × 2880 world pixels, equivalent to 100 × 90 tiles.
+- Use crisp nearest-neighbour scaling for pixel-art textures.
+- Preserve the established royal palette: ivory limestone, royal blue, crimson, walnut brown, and gold.
+- Keep walls, floors, furniture, decorative props, and foreground elements on separate logical layers.
+2. IMPORT AND PREPARE THE ASSET ATLAS
+Use the provided castle asset atlas, whose background is intended to be #FF00FF.
+1. Extract each object into its own sprite file or usable atlas region.
+2. Remove the magenta background and create proper transparent alpha. Do not delete magenta-colored details inside an object.
+3. Preserve original sprite proportions, outlines, palette, and pixel detail.
+4. Do not stretch objects to fit room sizes.
+5. Organize the result into folders: terrain, floors, walls, towers, gates, roofs, stairs, banners, lighting, vegetation, furniture, royal props, kitchen props, library props, treasury props, prison props, bath props, and secret-passage props.
+6. Treat the atlas as a collection of assets, never as a single background image for the playable map.
+If automated cropping cannot reliably separate an object, create or refine its crop manually rather than accepting an incorrect sprite.
+3. MAP COORDINATES
+Use the upper-left of the castle map as the origin (0, 0). X increases east; Y increases south. One coordinate unit in the placement table is one 32-pixel tile.
+
+Start with these target footprints:
+- Map boundary: 100 × 90 tiles.
+- Outer curtain wall: 92 × 77 tiles, approximately starting at tile (4, 6).
+- Inner compound: 84 × 74 tiles, approximately starting at tile (8, 8).
+- Grand Throne Hall: tile rectangle (38, 8) to (62, 30).
+- Royal Courtyard: tile rectangle (30, 30) to (70, 78).
+- West royal family wing on the residential floor: tile rectangle (10, 10) to (32, 32).
+- East royal family wing on the residential floor: tile rectangle (68, 10) to (90, 32).
+- Chapel: tile rectangle (10, 32) to (22, 42).
+- Armory: tile rectangle (10, 44) to (22, 56).
+- Library and archives: tile rectangle (72, 32) to (90, 42).
+- Council room: tile rectangle (70, 44) to (82, 54).
+- Treasury access: tile rectangle (82, 44) to (92, 56).
+- Main gate: tile rectangle (46, 82) to (54, 86).
+The coordinates are design targets; verify the actual map boundaries and collision geometry before committing them.
+4. BUILD THE MAIN FLOOR
+Construct the main floor as a real tile-based level.
+- Place the moat around the outer fortified perimeter.
+- Construct continuous curtain walls with connected corners, battlements, and appropriately sized tower structures.
+- Put the main gate at the center of the south wall, connected to an exterior bridge.
+- Place the Grand Throne Hall centrally along the northern side.
+- Place the Royal Courtyard directly south of the throne hall.
+- Keep a large unobstructed central arena for the final Kael-versus-king battle.
+- Place the chapel and armory in the western wing.
+- Place the library, council room, and treasury entrance in the eastern wing.
+- Add four formal garden blocks around the courtyard, with fountains, hedges, flower beds, paths, and statues.
+- Make the central route from the south gate to the throne hall clear and continuous.
+- Keep wall thickness, door openings, stair landings, and collision boundaries consistent.
+Decorations must follow the architecture. Do not scatter banners, pillars, furniture, plants, or torches randomly.
+5. BUILD SEPARATE CONNECTED FLOORS
+Create separate 2D maps for the following levels. Each floor uses the same 100 × 90 tile coordinate system so that corresponding stairwells align.
+
+LEVEL 3 — ROYAL RESIDENTIAL FLOOR
+- West wing: king and queen's shared bedchamber, elder prince's room, younger prince's room, princess's room, family sitting room, dressing and washroom.
+- East wing: king's sister and her husband's shared chamber, their son's room, their daughter's room, family sitting room, dressing and washroom.
+- Include a guarded private corridor, attendants' rooms, doors, and stairs.
+LEVEL 2 — MAIN FLOOR
+- Grand Throne Hall, Royal Courtyard, chapel, armory, library and archives, council room, treasury entrance, public corridors, and main gate.
+LEVEL 1 — SERVICE FLOOR
+- Main kitchen, secondary kitchen, pantry, food storage, dining hall, servants' quarters, service corridor, utility rooms, and cellar stairs.
+LEVEL 0 — LOWER FLOOR
+- Royal treasury vaults, storage vaults, prison wing, dungeon cells, bathing complex, and secure access corridors.
+LEVEL 4 — ROOFTOP AND TOWERS
+- Tower interiors, spiral stairs, guard posts, walkways, and restricted roof access.
+LEVEL -1 — UNDERPASSAGES
+- Separate underground map with hidden tunnels and exits to the forest, eastern road, old ruins, and coastal cave.
+6. PLACE OBJECTS INTENTIONALLY
+- Use large floor tiles and structural wall sprites first.
+- Add room-specific flooring: decorative pale stone for the throne hall, stone walkways in the courtyard, timber in residential rooms, practical stone in kitchens, and dark stone in dungeons.
+- Put carpets along the throne hall's central axis, ending at the throne platform.
+- Align banners on walls and beside entrances.
+- Place torches at doorways, architectural intervals, and important landmarks.
+- Use shelves and desks along library walls while keeping clear access aisles.
+- Place kitchen workstations near hearths, with food storage and pantry access.
+- Group treasury chests in protected vault areas, not randomly across the floor.
+- Keep prison cells along the outer walls of the secure wing.
+- Place garden fountains symmetrically, leaving walking routes around them.
+- Keep the central courtyard combat arena free from furniture, statues, fountains, and other collision obstacles.
+7. ALIGN VERTICAL CONNECTIONS
+Create staircases and doors as real interactive map connections, not decorative images.
+- The main staircase connects the main and residential levels.
+- Private staircases provide guarded access to royal suites.
+- Service stairs connect kitchens and servants' areas to the lower floor.
+- Tower spiral stairs connect interior levels to tower and rooftop maps.
+- Hidden entrances in the library, treasury, kitchen cellar, and prison connect to the underpassage map.
+Use the same tile coordinates for each staircase on connected floors. Verify both the visible stairs and the movement/collision data.
+8. REQUIRED IMPLEMENTATION ORDER
+1. Import and validate the asset sprites.
+2. Build the castle perimeter, gate, main pathways, and structural wall layers.
+3. Build the throne hall and courtyard.
+4. Add the chapel, armory, library, council room, and treasury access.
+5. Create the residential, service, and lower-floor maps.
+6. Build the rooftop and underground maps.
+7. Add furniture, decorations, lighting, interactions, and collision data.
+8. Test every door, stair, level transition, and hidden passage.
+First inspect the existing project and report which files, scenes, and rendering systems will be modified. Preserve the player controller, combat, quests, inventory, and unrelated game systems. Build in small, testable stages and run the game after each major stage.
+
+The result must be a playable, connected 2D Royal Citadel made from individual sprites and tiles—not a flattened illustration of the blueprint.
+
+
+
+
+4. Placement rules that will prevent common AI mistakes
+Grid first
+
+Place floors on the 32-pixel grid. Walls, large buildings, and props can span multiple tiles but must retain their native proportions.
+
+
+
+Structure before decoration
+
+Establish the moat, walls, rooms, doors, and corridors before placing furniture, plants, carpets, banners, and lights.
+
+
+
+Keep navigation clear
+
+Kael needs a continuous path through the gate, courtyard, rooms, and stairs. Decorations should not obstruct walking or combat.

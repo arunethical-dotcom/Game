@@ -18,6 +18,7 @@ const THICK := 28        # thickness of the walkway on top
 var length := 100        # along x for horizontal, along y for vertical
 var vertical := false
 var front_battlements := true
+var thick := THICK      # walkway width of vertical walls
 
 
 func _ready() -> void:
@@ -27,7 +28,7 @@ func _ready() -> void:
 	var cs := CollisionShape2D.new()
 	var r := RectangleShape2D.new()
 	if vertical:
-		r.size = Vector2(THICK, length)
+		r.size = Vector2(thick, length)
 		cs.position = Vector2(0, -length / 2.0)
 	else:
 		r.size = Vector2(length, 24)
@@ -70,7 +71,7 @@ func _draw_horizontal() -> void:
 
 
 func _draw_vertical() -> void:
-	var w := THICK
+	var w := thick
 	var x0 := -w / 2
 	var y0 := -length - HEIGHT
 	_tile(T_TOP, Rect2(x0, y0, w, length))

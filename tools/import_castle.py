@@ -217,13 +217,13 @@ def despill(rgb, bg):
     return out, bg | hard
 
 
-def segment(path):
+def segment(path, dilate=3):
     img = Image.open(path).convert('RGB')
     rgb = np.array(img).astype(int)
     bg = background(rgb)
     rgb, bg = despill(rgb, bg)
     fg = ndimage.binary_opening(~bg, iterations=1)
-    lab, _ = ndimage.label(ndimage.binary_dilation(fg, iterations=3))
+    lab, _ = ndimage.label(ndimage.binary_dilation(fg, iterations=dilate))
     boxes = []
     for i, s in enumerate(ndimage.find_objects(lab)):
         h = s[0].stop - s[0].start
@@ -362,7 +362,44 @@ def build():
     return manifest
 
 
+# ---------------------------------------------------------------- sheet 2 (architecture + full castle kit)
+# Objects are named in source_art/castle/sheet2_names.json ("group/name": [cx, cy, box]).
+# Architecture is kept at its native size; furniture-scale props are drawn larger on
+# the sheet, so they are scaled by 2/3 to sit right next to Kael (64 px tall).
+OUT2 = '../art/castle2/'
+SCALE2 = {'furniture': 2 / 3, 'library_props': 2 / 3, 'kitchen_props': 2 / 3, 'treasury_props': 2 / 3,
+          'bath_props': 2 / 3, 'misc': 2 / 3}
+
+
+def build_sheet2():
+    names = json.load(open(SRC + 'sheet2_names.json'))
+    rgb, fg, lab, boxes = segment(SRC + 'sheet2.png', dilate=1)
+    boxes = [b for b in boxes if (b[2] - b[0]) * (b[3] - b[1]) >= 200]
+    by_box = {tuple(b[:4]): b for b in boxes}
+    manifest = {}
+    for key, (cx, cy, box) in names.items():
+        b = by_box.get(tuple(box))
+        if b is None:   # fall back to the box whose centre is nearest
+            b = min(boxes, key=lambda q: abs((q[0] + q[2]) / 2 - cx) + abs((q[1] + q[3]) / 2 - cy))
+        group, name = key.split('/')
+        c, a = cut(rgb, fg, lab, b)
+        im = to_image(c, a > 0.5)
+        s = SCALE2.get(group, 1.0)
+        if s != 1.0:
+            # scale with nearest sampling so every pixel keeps a real colour from the sheet
+            w, h = max(1, round(im.width * s)), max(1, round(im.height * s))
+            im = im.resize((w, h), Image.Resampling.NEAREST)
+        os.makedirs(OUT2 + group, exist_ok=True)
+        im.save(OUT2 + '%s/%s.png' % (group, name))
+        manifest[key] = {'size': [im.width, im.height], 'pivot': [im.width // 2, im.height],
+                         'footprint': footprint(group, im.width, im.height)}
+    json.dump(manifest, open(OUT2 + 'manifest.json', 'w'), indent=1, sort_keys=True)
+    return manifest
+
+
 if __name__ == '__main__':
+    man2 = build_sheet2()
+    print(len(man2), 'sprites from sheet 2')
     man = build()
     print(len(man), 'sprites')
     # preview of everything, by group

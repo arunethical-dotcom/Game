@@ -144,6 +144,22 @@ const STEWARD := [
 	["Steward", "On feast days the whole court dines here. The king at the head, his sister at his right hand."],
 ]
 
+const ARMOURER := [
+	["Armourer", "Every blade the royal guard carries passes through this room. Half of them came from Haldor's forge."],
+]
+
+const COUNCILLOR := [
+	["Councillor", "The council meets when the king calls. Lately he calls for nothing but taxes and soldiers."],
+]
+
+const TREASURY_GUARD := [
+	["Treasury guard", "The stairs behind me go down to the vaults. You may look today. Touch a single coin and you won't see tomorrow."],
+]
+
+const DRILL_SERGEANT := [
+	["Drill sergeant", "Feet apart, shield up! ...You're not a recruit? Then stop standing in my yard like one."],
+]
+
 const PRIEST := [
 	["Sister Maren", "Peace be with you. Even the conquered may pray here, though few dare to."],
 	["Sister Maren", "The king's sister comes every morning. She prays for both kingdoms. Don't repeat that."],

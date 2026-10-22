@@ -15,7 +15,8 @@ the team can see what was decided, why, and where it lives in the code.
 | 6 | [Royal Citadel, main floor](stages/06-royal-citadel.md) | `c6f7849` | The castle at the centre of Akropolis Aigidos |
 | 7 | [Citadel visual upgrade](stages/07-citadel-visual-upgrade.md) | `9f75ca1` | Imported castle art, working stairs, 3 floors, open interiors |
 | 8 | [Colour correction](stages/08-colour-correction.md) | `f8f4452` | Diagnosed and fixed colours: importer, grade, lighting |
-| 9 | [CrossCode-style camera](stages/09-camera-zones.md) | (this commit) | Camera zones, look-ahead, framed rooms, conversation framing |
+| 9 | [CrossCode-style camera](stages/09-camera-zones.md) | `5281976` | Camera zones, look-ahead, framed rooms, conversation framing |
+| 10 | [Royal Citadel v2, main floor](stages/10-citadel-v2-main-floor.md) | (this commit) | 100×90-tile citadel from the approved plan, atlas 2 imported, city grown 1.45× |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.

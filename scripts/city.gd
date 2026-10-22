@@ -12,7 +12,7 @@ const ResourceScript = preload("res://scripts/resource_node.gd")
 const PropScript = preload("res://scripts/prop.gd")
 const DecoScript = preload("res://scripts/deco.gd")
 
-const WALL_SEGMENTS := 216
+const WALL_SEGMENTS := 312   # grown with the city (geo.gd K)
 const SLATE := 4   # roof index for wealthy houses near the castle
 
 
@@ -71,7 +71,7 @@ static func _cliff_edge(main) -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = 1
 	body.collision_mask = 0
-	var n := 360
+	var n := 522
 	var r := Geo.R_CLIFF + 20.0
 	for i in n:
 		var a0 := TAU * i / n
@@ -148,10 +148,10 @@ static func _market(layer: Node2D) -> void:
 	# Market square inside the north gate: rows of striped stalls around a well
 	var well = PropScript.new()
 	well.kind = "well"
-	well.position = (Vector2.from_angle(-1.37) * 2270.0).round()
+	well.position = (Vector2.from_angle(-1.37) * 2270.0 * Geo.K).round()
 	layer.add_child(well)
 	var i := 0
-	for r in [2090.0, 2270.0, 2450.0]:
+	for r in [2090.0 * Geo.K, 2200.0 * Geo.K, 2310.0 * Geo.K, 2450.0 * Geo.K]:
 		var a: float = -1.47
 		while a < -1.27:
 			var pos: Vector2 = (Vector2.from_angle(a) * r).round()
@@ -211,7 +211,7 @@ static func _places(layer: Node2D) -> void:
 
 static func _houses(layer: Node2D, main, rng: RandomNumberGenerator) -> void:
 	var yard := Geo.YARD_RECT.grow(70)
-	var step := 115.0
+	var step := 125.0
 	var y := -Geo.R_WALL
 	while y < Geo.R_WALL:
 		var x := -Geo.R_WALL

@@ -25,8 +25,10 @@ const DOWN_O := Vector2(20000, 4000)  # and of the service floor
 # where Kael arrives on each floor, and back in the throne hall
 const UP_ARRIVE := UP_O + Vector2(-588, 132)
 const DOWN_ARRIVE := DOWN_O + Vector2(-392, 118)
-const HALL_FROM_UP := Vector2(-274, -770)
-const HALL_FROM_DOWN := Vector2(274, -736)
+# back on the main floor: the landings of S1 (grand stair) and S3 (service stair),
+# plan tiles (25.5, 28) and (24.5, 52) - see STAIRS in citadel.gd
+const HALL_FROM_UP := Vector2(-784, -544)
+const HALL_FROM_DOWN := Vector2(-816, 224)
 
 const STRIP := FloorPlan.STRIP
 
@@ -142,7 +144,7 @@ static func _residence(main) -> void:
 	fp.floor_items.append([load("res://art/dec_stairs_down.png"), Vector2(-636, 2)])
 	_block(fp, Rect2(-636, 0, 10, 96))
 	_block(fp, Rect2(-550, 0, 10, 96))
-	main.add_stairs(Rect2(o + Vector2(-620, 8), Vector2(64, 44)), HALL_FROM_UP, "", "up", "Grand Throne Hall")
+	main.add_stairs(Rect2(o + Vector2(-620, 8), Vector2(64, 44)), HALL_FROM_UP, "", "up", "Main floor")
 
 	# King and Queen's chamber
 	_room_windows(fp, king, 96, "castle/decor/portrait_lady")
@@ -237,7 +239,7 @@ static func _service(main) -> void:
 	fp.floor_items.append([load("res://art/castle/walls/stairs_worn.png"), Vector2(-440, -36)])
 	_block(fp, Rect2(-440, 0, 14, 78))
 	_block(fp, Rect2(-358, 0, 14, 78))
-	main.add_stairs(Rect2(o + Vector2(-424, 0), Vector2(64, 30)), HALL_FROM_DOWN, "", "down", "Grand Throne Hall")
+	main.add_stairs(Rect2(o + Vector2(-424, 0), Vector2(64, 30)), HALL_FROM_DOWN, "", "down", "Main floor")
 	_put("castle/kitchen/barrel_small", Vector2(440, 40), Vector2(18, 8))
 	_put("castle/kitchen/barrel_sack", Vector2(400, 44), Vector2(40, 12))
 	_put("castle/furniture/kitchen_table", Vector2(200, 130), Vector2(84, 14))

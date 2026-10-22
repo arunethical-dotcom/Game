@@ -30,6 +30,8 @@ var big_door := false
 var enterable := false
 var keep_spire := false     # a tall tower rising from the middle of the roof
 var banners := true
+var side_doors := []        # ["w" or "e", world y of the door's centre, width]
+var facade: Texture2D      # grand entrance drawn over the front (the throne hall)
 var interior: Node2D        # the floor node, created by the builder
 var cutaway: Node2D         # low front wall shown while Kael is inside
 var fade := 1.0
@@ -44,8 +46,17 @@ func _ready() -> void:
 		add_to_group("enterable_buildings")
 		# side and back walls, and the front wall broken by the doors
 		_box(Rect2(f.position.x, f.position.y, f.size.x, WALL))
-		_box(Rect2(f.position.x, f.position.y, WALL, f.size.y))
-		_box(Rect2(f.end.x - WALL, f.position.y, WALL, f.size.y))
+		for side in ["w", "e"]:
+			var x := f.position.x if side == "w" else f.end.x - WALL
+			var ys := [f.position.y]
+			for sd in side_doors:
+				if sd[0] == side:
+					ys.append(sd[1] - position.y - sd[2] / 2.0)
+					ys.append(sd[1] - position.y + sd[2] / 2.0)
+			ys.append(f.end.y)
+			for i in range(0, ys.size(), 2):
+				if ys[i + 1] > ys[i]:
+					_box(Rect2(x, ys[i], WALL, ys[i + 1] - ys[i]))
 		var gap := 60.0 if not big_door else 76.0
 		var xs := [f.position.x]
 		for d in doors:
@@ -215,6 +226,16 @@ func _draw() -> void:
 		var fx := roundf(lerpf(x0 + hip, x1 - hip, i / 4.0))
 		draw_rect(Rect2(fx - 1, ridge - 8, 2, 8), Color(0.85, 0.66, 0.3))
 		draw_rect(Rect2(fx - 2, ridge - 10, 4, 3), Color(1.0, 0.85, 0.45))
+	# side doors: a stone step and a dark doorway at the foot of the wall
+	for sd in side_doors:
+		var dy: float = sd[1] - position.y
+		var dh: float = sd[2]
+		var sx: float = (x0 - o - 14) if sd[0] == "w" else (x1 + o)
+		_tile(T_TOP, Rect2(sx, dy - dh / 2.0, 14, dh))
+		draw_rect(Rect2(sx, dy - dh / 2.0, 14, dh), Color(0.15, 0.12, 0.1), false, 1.0)
+		draw_rect(Rect2(sx + (10 if sd[0] == "w" else 0), dy - dh / 2.0 + 4, 4, dh - 8), Color(0.12, 0.08, 0.06))
+	if facade != null:
+		draw_texture(facade, Vector2(roundf(-facade.get_width() / 2.0), y1 - facade.get_height()))
 	if keep_spire:
 		var kw := KEEP.get_width()
 		var kh := KEEP.get_height()

@@ -6,47 +6,67 @@ extends RefCounted
 ##   City (inside the outer wall) -> Plateau (grass ring) -> Cliffs -> Lowlands below
 ##   The only way down the cliffs is the Serpent's Way, starting at the north gate.
 
-# The Royal Citadel fills the centre of the city (see citadel.gd).
-const CIT_WALL := Rect2(-1100, -1000, 2200, 1920)   # curtain wall line
-const CIT_MOAT := Rect2(-1190, -1150, 2380, 2170)   # outer edge of the moat
-const CIT_GATE := Vector2(0, 920)                    # main gate, south
-const CIT_BRIDGE := Rect2(-64, 920, 128, 100)
+# The city was grown 1.45x around the larger Royal Citadel (stage 10). Positions designed
+# for the first, smaller city are multiplied by K; sizes (yards, road widths) stay the same.
+const K := 1.45
 
-const R_WALL := 2600.0       # outer city wall
-const R_CLIFF := 3250.0      # edge of the plateau
+# The Royal Citadel fills the centre of the city (see citadel.gd). It is designed on a
+# 100 x 90 tile plan (32 px tiles) whose top-left corner is CIT_ORIGIN, so plan tile
+# (50, 45) is the city centre (0, 0).
+const TILE := 32
+const CIT_ORIGIN := Vector2(-1600, -1440)
+const CIT_MOAT := Rect2(-1600, -1440, 3200, 2880)    # (0,0)-(100,90): outer edge of the moat
+const CIT_WALL := Rect2(-1440, -1248, 2880, 2496)    # (5,6)-(95,84): curtain wall line
+const CIT_GATE := Vector2(0, 1248)                   # main gate in the south wall
+const CIT_BRIDGE := Rect2(-96, 1312, 192, 128)       # (47,86)-(53,90)
+
+const R_WALL := 2600.0 * K       # outer city wall
+const R_CLIFF := 3250.0 * K      # edge of the plateau
 const CLIFF_HALF := 70.0
-const RING_ROAD := 1720.0    # ring street around the citadel moat
-const WORLD_HALF := 5600.0
-const MARKET_R := Vector2(2000.0, 2540.0)   # inner and outer radius of market and fields
+const RING_ROAD := 1720.0 * K    # ring street around the citadel moat
+const WORLD_HALF := 5600.0 * K
+const MARKET_R := Vector2(2000.0, 2540.0) * K   # inner and outer radius of market and fields
 
-const GATE_IN := Vector2(0, -2520)
-const GATE_OUT := Vector2(0, -2700)
-const SOUTH_GATE := Vector2(0, 2600)
+const GATE_IN := Vector2(0, -2520) * K
+const GATE_OUT := Vector2(0, -2700) * K
+const SOUTH_GATE := Vector2(0, 2600) * K
 
-# Haldor's walled neighbourhood beside the north gate road
-const YARD_RECT := Rect2(-520, -2410, 460, 310)
-const FORGE_POS := Vector2(-220, -2280)
-const HALDOR_POS := Vector2(-160, -2226)
-const YARD_DOOR := Vector2(-60, -2255)   # gap in the yard fence
+# Haldor's walled neighbourhood beside the north gate road (moved north with the gate)
+const YARD_SHIFT := Vector2(0, -2410.0 * (K - 1.0))
+const YARD_RECT := Rect2(Vector2(-520, -2410) + YARD_SHIFT, Vector2(460, 310))
+const FORGE_POS := Vector2(-220, -2280) + YARD_SHIFT
+const HALDOR_POS := Vector2(-160, -2226) + YARD_SHIFT
+const YARD_DOOR := Vector2(-60, -2255) + YARD_SHIFT   # gap in the yard fence
 
 const SERPENT_WAY := [
-	Vector2(0, -2500), Vector2(0, -2900), Vector2(180, -3130), Vector2(420, -3350),
-	Vector2(560, -3580), Vector2(450, -3800), Vector2(800, -4100), Vector2(1350, -4350),
-	Vector2(2100, -4500), Vector2(3000, -4800), Vector2(5500, -4900)]
+	Vector2(0, -2500) * K, Vector2(0, -2900) * K, Vector2(180, -3130) * K, Vector2(420, -3350) * K,
+	Vector2(560, -3580) * K, Vector2(450, -3800) * K, Vector2(800, -4100) * K, Vector2(1350, -4350) * K,
+	Vector2(2100, -4500) * K, Vector2(3000, -4800) * K, Vector2(5500, -4900) * K]
 const ELDER_PATH := [
-	Vector2(560, -3580), Vector2(100, -3700), Vector2(-500, -3820),
-	Vector2(-1100, -3960), Vector2(-1700, -4100)]
+	Vector2(560, -3580) * K, Vector2(100, -3700) * K, Vector2(-500, -3820) * K,
+	Vector2(-1100, -3960) * K, Vector2(-1700, -4100) * K]
 
 # Places from the city plan
-const INN_POS := Vector2(1390, -1260)
-const OUTPOST_POS := Vector2(-980, -3760)
-const MINE_POS := Vector2(1260, -3670)
-const WATCHTOWERS := [Vector2(-300, -2900), Vector2(340, -2840), Vector2(2950, 0), Vector2(-2950, 0), Vector2(0, 2950)]
+const INN_POS := Vector2(1390, -1260) * K
+const OUTPOST_POS := Vector2(-980, -3760) * K
+const MINE_POS := Vector2(1260, -3670) * K
+const WATCHTOWERS := [Vector2(-300, -2900) * K, Vector2(340, -2840) * K, Vector2(2950, 0) * K, Vector2(-2950, 0) * K, Vector2(0, 2950) * K]
 ## Areas kept clear of random houses, trees and rocks: [centre, radius]
 const RESERVED := [
-	[INN_POS, 120.0], [OUTPOST_POS, 150.0], [Vector2(1180, -3600), 230.0],
-	[Vector2(-300, -2900), 60.0], [Vector2(340, -2840), 60.0], [Vector2(2950, 0), 60.0],
-	[Vector2(-2950, 0), 60.0], [Vector2(0, 2950), 60.0]]
+	[INN_POS, 120.0], [OUTPOST_POS, 150.0], [Vector2(1180, -3600) * K, 230.0],
+	[Vector2(-300, -2900) * K, 60.0], [Vector2(340, -2840) * K, 60.0], [Vector2(2950, 0) * K, 60.0],
+	[Vector2(-2950, 0) * K, 60.0], [Vector2(0, 2950) * K, 60.0],
+	[Vector2(150, -3100) * K, 140.0], [Vector2(560, -3580) * K, 160.0]]   # top and foot of the ramp
+
+
+## World position of a citadel plan tile (top-left corner of the tile).
+static func tile(x: float, y: float) -> Vector2:
+	return CIT_ORIGIN + Vector2(x, y) * TILE
+
+
+## World rect of a citadel plan tile range [x0, x1) x [y0, y1).
+static func trect(x0: float, y0: float, x1: float, y1: float) -> Rect2:
+	return Rect2(tile(x0, y0), Vector2(x1 - x0, y1 - y0) * TILE)
 
 
 static func in_citadel(p: Vector2, pad := 0.0) -> bool:
@@ -60,10 +80,10 @@ static func reserved(p: Vector2, pad := 0.0) -> bool:
 	return false
 
 
-const RAMP_TOP := Vector2(150, -3100)
-const RAMP_BOTTOM := Vector2(560, -3580)
-const QUARRY := Vector2(1100, -3550)
-const DEN := Vector2(-1800, -4150)
+const RAMP_TOP := Vector2(150, -3100) * K
+const RAMP_BOTTOM := Vector2(560, -3580) * K
+const QUARRY := Vector2(1100, -3550) * K
+const DEN := Vector2(-1800, -4150) * K
 
 
 static func dist_to_path(p: Vector2, path: Array) -> float:
@@ -124,13 +144,13 @@ static func biome(p: Vector2) -> String:
 		return "cliff"
 	if r < R_CLIFF:
 		return "plateau"
-	if absf(p.y - (-4950.0 + sin(p.x / 480.0) * 160.0)) < 36.0:
+	if absf(p.y - (-4950.0 * K + sin(p.x / 480.0) * 160.0)) < 36.0:
 		return "stream"
 	var wob := sin(p.y / 230.0) * 120.0 + sin(p.y / 97.0 + 1.3) * 50.0
 	var wob2 := sin(p.x / 210.0) * 110.0 + sin(p.x / 83.0) * 45.0
-	if p.x < -300.0 + wob and p.y < 3000.0 + wob2:
+	if p.x < -300.0 * K + wob and p.y < 3000.0 * K + wob2:
 		return "elder"
-	if r < 4000.0 and p.y < -400.0 and p.x > -300.0:
+	if r < 4000.0 * K and p.y < -400.0 * K and p.x > -300.0 * K:
 		return "foothills"
 	return "lowlands"
 
@@ -160,14 +180,17 @@ static func next_waypoint(from: Vector2, target: Vector2) -> Vector2:
 		return inside_spot
 	var zf := zone(from)
 	var zt := zone(target)
+	var on_ramp_now := dist_to_path(from, SERPENT_WAY) < 90.0 and from.y < -3050.0 * K and from.y > -3620.0 * K
+	if zf == 2 and zt == 2 and on_ramp_now and from.distance_to(RAMP_BOTTOM) > 110.0 and target.distance_to(RAMP_BOTTOM) < from.distance_to(target) + 400.0:
+		return RAMP_BOTTOM   # finish walking down the ramp before turning off it
 	if zf == 2:
 		var goal := target if zt == 2 else RAMP_BOTTOM
-		if (from.x < -300.0 or goal.x < -300.0) and from.distance_to(goal) > 350.0:
+		if (from.x < -300.0 * K or goal.x < -300.0 * K) and from.distance_to(goal) > 350.0:
 			return follow_path(from, goal, ELDER_PATH)
 	if zf == zt:
 		return around_citadel(from, target) if zf == 0 else target
-	var in_gate := absf(from.x) < 90.0 and from.y < -2440.0 and from.y > -2780.0
-	var on_ramp := dist_to_path(from, SERPENT_WAY) < 90.0 and from.y < -3050.0 and from.y > -3620.0
+	var in_gate := absf(from.x) < 90.0 and from.y < -2440.0 * K and from.y > -2780.0 * K
+	var on_ramp := dist_to_path(from, SERPENT_WAY) < 90.0 and from.y < -3050.0 * K and from.y > -3620.0 * K
 	if zf < zt:
 		if zf == 0:
 			return around_citadel(from, GATE_OUT if in_gate else GATE_IN)
@@ -180,7 +203,7 @@ static func next_waypoint(from: Vector2, target: Vector2) -> Vector2:
 ## Inside the city the citadel is in the way: go out of its gate, then around its moat.
 static func around_citadel(from: Vector2, goal: Vector2) -> Vector2:
 	if in_citadel(from) and not in_citadel(goal):
-		return Vector2(0, 1130) if from.y < 1060.0 else Vector2(0, 1180)
+		return Vector2(0, CIT_MOAT.end.y + 110.0) if from.y < CIT_MOAT.end.y + 40.0 else Vector2(0, CIT_MOAT.end.y + 160.0)
 	var box := CIT_MOAT.grow(70)
 	var blocked := false
 	for i in range(1, 20):

@@ -166,9 +166,9 @@ func _place_people() -> void:
 
 	# Kingdom A captives hauling stone near the castle, watched by a guard
 	for i in 3:
-		var w = _npc("worker", Vector2(-1960 - i * 40, 300 + i * 30), "Captive", Story.WORKER if i == 0 else [])
+		var w = _npc("worker", Vector2(-1960 * Geo.K - i * 40, 300 * Geo.K + i * 30), "Captive", Story.WORKER if i == 0 else [])
 		w.patrol_b = w.position + Vector2(-60, 220)
-	_npc("guard", Vector2(-1880, 420), "Overseer", Story.GUARD_CASTLE)
+	_npc("guard", Vector2(-1880 * Geo.K, 420 * Geo.K), "Overseer", Story.GUARD_CASTLE)
 
 	# The inn, the watchtowers, the forest outpost and the mining settlement
 	_npc("villager", Geo.INN_POS + Vector2(0, 40), "Innkeeper", Story.INNKEEPER).variant = 3

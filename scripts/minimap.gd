@@ -2,7 +2,7 @@ extends Control
 ## Small map in the corner, centred on the player.
 
 const Geo = preload("res://scripts/geo.gd")
-const VIEW := 4400.0   # world units shown across the map
+const VIEW := 4400.0 * 1.45   # world units shown across the map
 
 var main
 
@@ -32,7 +32,7 @@ func _draw() -> void:
 	var s := size.x / VIEW
 	draw_rect(Rect2(Vector2.ZERO, size), Color(0.36, 0.48, 0.28))
 	# Forest of Elders
-	draw_circle(_w2m(Vector2(-2600, -3700)), 1500 * s, Color(0.2, 0.33, 0.18))
+	draw_circle(_w2m(Vector2(-2600, -3700) * 1.45), 1500 * 1.45 * s, Color(0.2, 0.33, 0.18))
 	# Plateau, cliffs, city
 	draw_circle(_w2m(Vector2.ZERO), (Geo.R_CLIFF + 70) * s, Color(0.3, 0.27, 0.24))
 	draw_circle(_w2m(Vector2.ZERO), (Geo.R_CLIFF - 70) * s, Color(0.42, 0.53, 0.3))

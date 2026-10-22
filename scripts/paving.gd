@@ -41,7 +41,7 @@ func _build() -> void:
 	# City streets: 8 spokes from the castle to the wall, the ring road, the castle ring
 	for k in 8:
 		var d := Vector2.from_angle(-PI / 2.0 + k * PI / 4.0)
-		var start := 1000.0 if k == 4 else Geo.RING_ROAD   # the south avenue runs to the citadel gate
+		var start := Geo.CIT_BRIDGE.end.y if k == 4 else Geo.RING_ROAD   # the south avenue runs to the citadel gate
 		streets.append(PackedVector2Array([(d * start).round(), (d * (Geo.R_WALL + 40.0)).round()]))
 	# rings are drawn as four overlapping arcs (a closed loop would fill its middle)
 	for q in 4:

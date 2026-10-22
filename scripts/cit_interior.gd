@@ -26,6 +26,7 @@ var bands := []                # [Rect2, atlas row] inlaid border bands
 var rugs := []                 # [Texture2D, centre]
 var pools := []                # [centre, radius] warm light on the floor
 var shafts := true             # daylight falling from the back-wall windows
+var side_gaps := []            # ["w"/"e", y0, y1] doorways through the side walls (world y)
 
 
 func _ready() -> void:
@@ -101,7 +102,21 @@ func _draw() -> void:
 		px += 24
 	# side walls seen from above
 	for x in [f.position.x - 6, f.end.x - 14]:
-		_tile(T_STONE, Rect2(x, back.position.y - 8, 20, f.size.y + h + 8), Color(0.9, 0.87, 0.82))
+		var side := "w" if x < f.get_center().x else "e"
+		var segs := [back.position.y - 8]
+		for g in side_gaps:
+			if g[0] == side:
+				segs.append(g[1])
+				segs.append(g[2])
+		segs.append(f.end.y)
+		for i in range(0, segs.size(), 2):
+			if segs[i + 1] > segs[i]:
+				_tile(T_STONE, Rect2(x, segs[i], 20, segs[i + 1] - segs[i]), Color(0.9, 0.87, 0.82))
+		for g in side_gaps:
+			if g[0] == side:
+				Tiles.fill(self, Rect2(x, g[1], 20, g[2] - g[1]), tile_row if tile_row >= 0 else Tiles.FLAG, [0, 1])
+				draw_rect(Rect2(x, g[1], 20, 2), Color(0.2, 0.15, 0.12))
+				draw_rect(Rect2(x, g[2] - 2, 20, 2), Color(0.2, 0.15, 0.12))
 		_tile(T_TOP, Rect2(x, back.position.y - 8, 20, 6))
 		var inner: float = x + 20 if x < f.get_center().x else x - 6
 		draw_rect(Rect2(inner, back.end.y, 6, f.size.y), Color(0, 0, 0, 0.22))   # shadow on the floor
