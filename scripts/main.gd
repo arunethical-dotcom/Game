@@ -203,6 +203,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Esc closes the game on a computer
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and not OS.has_feature("mobile"):
 		get_tree().quit()
+	# F3 (computer only, for testing): jump to the Royal Castle's north gate and back
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F3 and not OS.has_feature("mobile"):
+		var gate := Geo.ct(168, 8)
+		var dest: Vector2 = Geo.HALDOR_POS + Vector2(-70, 40) if player.global_position.distance_to(gate) < 3000.0 else gate
+		player.global_position = dest
+		cam_pos = dest
+		world.update_chunks(dest)
+		float_text("Royal Castle" if dest == gate else "Haldor's forge", dest + Vector2(0, -90), Color(1, 0.9, 0.6))
 	# F2 cycles the time of day (for checking the lighting; a day/night cycle can drive it later)
 	if event is InputEventKey and event.pressed and event.keycode == KEY_F2:
 		time_of_day = TIMES[(TIMES.find(time_of_day) + 1) % TIMES.size()]

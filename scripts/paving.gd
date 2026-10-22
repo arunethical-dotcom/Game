@@ -50,6 +50,9 @@ func _build() -> void:
 	roads.append(PackedVector2Array(Geo.SERPENT_WAY))
 	roads.append(PackedVector2Array(Geo.ELDER_PATH))
 	roads.append(PackedVector2Array(Geo.SOUTH_ROAD))
+	# the town square in the city centre (where the old citadel stood)
+	var sq := Geo.TOWN_SQUARE
+	areas.append([PackedVector2Array([sq.position, Vector2(sq.end.x, sq.position.y), sq.end, Vector2(sq.position.x, sq.end.y)]), "plaza", "kerb"])
 	# Castle courtyard (cobbles), market square (pale stone), fields
 	var m := _arc(Geo.MARKET_R.x + 5.0, -1.50, -1.24, 30)
 	m.append_array(_arc(Geo.MARKET_R.y - 2.0, -1.24, -1.50, 40))
