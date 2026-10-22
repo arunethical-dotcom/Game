@@ -5,6 +5,11 @@ Akropolis Aigidos. This build covers Mission 1: Kael wakes at Haldor's forge, le
 to mine iron ore at the foot of the cliffs, forges his first sword, then takes a moonsteel stone
 from the beast pack leader in the Forest of Elders.
 
+## Development log
+
+Every stage of the game is documented in [docs/](docs/README.md): what was built, why,
+where it lives in the code and how it was checked.
+
 ## Run it on your computer
 
 1. Download Godot 4.3 or newer (Standard version, free) from godotengine.org.
@@ -87,7 +92,8 @@ boxes are separate from the art, so decorations never block doors, stairs or pat
 
 `tools/import_castle.py` turns `source_art/castle/sheet1.png` (objects on magenta) into
 game sprites: it removes the magenta and its pink fringe, cuts each object out, scales
-everything by the same factor (so pixels match Kael), and writes them in groups:
+everything by the same factor (so pixels match Kael) without inventing new colours
+(each pixel keeps a real colour from the sheet), and writes them in groups:
 
 | Folder | Contents | Pivot |
 |--------|----------|-------|

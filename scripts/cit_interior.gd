@@ -76,13 +76,13 @@ func _draw() -> void:
 				var wx := roundf(f.position.x + (i + 0.5) * f.size.x / n)
 				var l := minf(f.size.y * 0.5, 260.0)
 				draw_colored_polygon(PackedVector2Array([Vector2(wx - 10, f.position.y), Vector2(wx + 10, f.position.y),
-						Vector2(wx + 10 + l * 0.35, f.position.y + l), Vector2(wx - 10 + l * 0.35, f.position.y + l)]), Color(1.0, 0.92, 0.7, 0.07))
+						Vector2(wx + 10 + l * 0.35, f.position.y + l), Vector2(wx - 10 + l * 0.35, f.position.y + l)]), Color(1.0, 0.86, 0.55, 0.05))
 	for p in pools:
-		draw_circle(p[0], p[1], Color(1.0, 0.72, 0.35, 0.06))
-		draw_circle(p[0], p[1] * 0.6, Color(1.0, 0.75, 0.4, 0.07))
+		draw_circle(p[0], p[1], Color(1.0, 0.6, 0.22, 0.06))
+		draw_circle(p[0], p[1] * 0.55, Color(1.0, 0.68, 0.3, 0.07))
 	# back wall, inner face
 	var back := Rect2(f.position.x, f.position.y - h, f.size.x, h)
-	_tile(T_STONE, back, Color(0.82, 0.8, 0.78))
+	_tile(T_STONE, back, Color(1.0, 0.98, 0.94))
 	draw_rect(Rect2(back.position.x, back.end.y - 6, back.size.x, 6), Color(0, 0, 0, 0.25))
 	_tile(T_TOP, Rect2(back.position.x - 4, back.position.y - 8, back.size.x + 8, 8))
 	for i in n:
@@ -101,7 +101,7 @@ func _draw() -> void:
 		px += 24
 	# side walls seen from above
 	for x in [f.position.x - 6, f.end.x - 14]:
-		_tile(T_STONE, Rect2(x, back.position.y - 8, 20, f.size.y + h + 8), Color(0.72, 0.7, 0.68))
+		_tile(T_STONE, Rect2(x, back.position.y - 8, 20, f.size.y + h + 8), Color(0.9, 0.87, 0.82))
 		_tile(T_TOP, Rect2(x, back.position.y - 8, 20, 6))
 		var inner: float = x + 20 if x < f.get_center().x else x - 6
 		draw_rect(Rect2(inner, back.end.y, 6, f.size.y), Color(0, 0, 0, 0.22))   # shadow on the floor

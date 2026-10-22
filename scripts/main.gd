@@ -275,6 +275,16 @@ func travel(dest: Vector2, to_floor: String, place: String) -> void:
 	tw.tween_callback(func(): traveling = false)
 
 
+## True when Kael is under a roof: inside a citadel building or on another floor.
+func is_indoors() -> bool:
+	if floor_name != "":
+		return true
+	for b in get_tree().get_nodes_in_group("enterable_buildings"):
+		if b.fade < 0.5:
+			return true
+	return false
+
+
 func is_world_paused() -> bool:
 	return hud != null and hud.is_busy()
 

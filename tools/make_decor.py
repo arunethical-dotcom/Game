@@ -128,7 +128,7 @@ def tile_marble(v):
     img = new(T, T)
     p = img.load()
     cream = v < 2
-    base = [hexc('dcd5c8'), hexc('e2dccf')] if cream else [hexc('a7b0bf'), hexc('b1b9c6')]
+    base = [hexc('ece4d2'), hexc('f1eadb')] if cream else [hexc('7590cb'), hexc('7d97cf')]
     for y in range(T):
         for x in range(T):
             c = base[(x * 7 + y * 3) % 5 == 0]
@@ -150,12 +150,12 @@ def tile_marble_border(v):
     """Inlaid border band: dark blue-grey marble with a gold line and a repeating diamond."""
     img = new(T, T)
     d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, T - 1, T - 1], fill=hexc('5e6878'))
-    d.rectangle([0, 3, T - 1, T - 4], fill=hexc('6e7888'))
+    d.rectangle([0, 0, T - 1, T - 1], fill=hexc('1f2f66'))
+    d.rectangle([0, 3, T - 1, T - 4], fill=hexc('2a3f84'))
     d.line([(0, 2), (T - 1, 2)], fill=GOLD[2])
     d.line([(0, T - 3), (T - 1, T - 3)], fill=GOLD[2])
     cx, cy = 16, 16
-    d.polygon([(cx, cy - 8), (cx + 8, cy), (cx, cy + 8), (cx - 8, cy)], fill=hexc('dcd5c8'))
+    d.polygon([(cx, cy - 8), (cx + 8, cy), (cx, cy + 8), (cx - 8, cy)], fill=GOLD[3])
     d.polygon([(cx, cy - 5), (cx + 5, cy), (cx, cy + 5), (cx - 5, cy)], fill=BLUE[2])
     d.point((cx, cy), fill=GOLD[3])
     if v % 2:

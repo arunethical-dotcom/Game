@@ -8,13 +8,16 @@ shader_type canvas_item;
 uniform sampler2D screen_texture : hint_screen_texture, filter_nearest;
 uniform vec2 cam_pos = vec2(0.0);       // world position of the screen's top-left corner
 uniform vec2 view_size = vec2(960.0, 540.0);
-uniform float saturation = 0.92;
-uniform float warmth = 0.05;
-uniform float contrast = 1.05;
-uniform float vignette = 0.32;
-uniform vec3 sun_color = vec3(1.0, 0.86, 0.58);
-uniform float shaft_strength = 0.30;
-uniform float glow_strength = 0.30;
+// Kept gentle on purpose: the art's own colours are the reference, so the grade must not
+// shift hues (no colour cast on shadows, no desaturation) or wash the image out.
+uniform float saturation = 1.0;
+uniform float warmth = 0.025;
+uniform float contrast = 1.03;
+uniform float vignette = 0.16;
+uniform vec3 sun_color = vec3(1.0, 0.88, 0.62);
+uniform float shaft_strength = 0.22;
+uniform float glow_strength = 0.16;
+uniform float indoor = 0.0;             // 0 outside, 1 inside a building or on another floor
 
 float hash(float n) { return fract(sin(n) * 43758.5453); }
 float hash2(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -52,14 +55,14 @@ void fragment() {
 	vec2 mote = cell * 36.0 + vec2(hash2(cell + 1.0), hash2(cell + 2.0)) * 30.0 + drift;
 	float dust = has * step(length(world - mote), 1.1) * (0.5 + 0.5 * sin(TIME * 2.0 + hash2(cell) * 20.0));
 
-	vec3 light = sun_color * (shaft * shaft_strength + glow * glow_strength) + sun_color * dust * shaft * 0.9 * step(0.01, shaft_strength);
+	float sky = 1.0 - indoor;   // no sun beams, sky glow or dust under a roof
+	vec3 light = sky * (sun_color * (shaft * shaft_strength + glow * glow_strength) + sun_color * dust * shaft * 0.9);
 	c = c + light * (1.0 - c);   // screen blend: brightens without blowing out
 
 	// --- colour grade
 	float l = dot(c, vec3(0.299, 0.587, 0.114));
 	c = mix(vec3(l), c, saturation);
-	c += vec3(warmth, warmth * 0.55, -warmth * 0.5) * smoothstep(0.25, 0.85, l);
-	c += vec3(0.015, 0.0, 0.035) * (1.0 - smoothstep(0.0, 0.4, l));
+	c += sky * vec3(warmth, warmth * 0.55, -warmth * 0.5) * smoothstep(0.35, 0.9, l);
 	c = (c - 0.5) * contrast + 0.5;
 	vec2 d = SCREEN_UV - 0.5;
 	c *= 1.0 - dot(d, d) * vignette;

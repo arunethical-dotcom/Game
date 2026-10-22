@@ -41,6 +41,7 @@ func _ready() -> void:
 	collision_mask = 0
 	var f := _local(footprint)
 	if enterable:
+		add_to_group("enterable_buildings")
 		# side and back walls, and the front wall broken by the doors
 		_box(Rect2(f.position.x, f.position.y, f.size.x, WALL))
 		_box(Rect2(f.position.x, f.position.y, WALL, f.size.y))

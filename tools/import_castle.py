@@ -25,7 +25,7 @@ import json
 import os
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 from scipy import ndimage
 
 SRC = '../source_art/castle/'
@@ -179,14 +179,15 @@ NAMES_1 = {
 
 
 # tile atlas rows (4 variants each) used by scripts/tiles.gd
+# ":x" / ":y" / ":xy" = the same tile mirrored, so a row of one tile still varies
 TILE_ROWS = [
-    ('limestone', ['limestone_a', 'limestone_b', 'limestone_c', 'limestone_a']),
+    ('limestone', ['limestone_a', 'limestone_b', 'limestone_c', 'limestone_a:xy']),
     ('limestone_deco', ['limestone_cross', 'limestone_inlay', 'limestone_frame', 'limestone_frame_b']),
     ('marble_deco', ['marble_diamond', 'marble_medallion', 'marble_cross', 'blue_gold']),
-    ('wood', ['wood_planks', 'wood_parquet', 'wood_planks', 'wood_parquet']),
-    ('wood_chevron', ['wood_chevron', 'wood_chevron', 'wood_chevron', 'wood_chevron']),
-    ('darkstone', ['darkstone', 'darkstone', 'darkstone', 'darkstone']),
-    ('bluestone', ['bluestone', 'bluestone', 'bluestone', 'bluestone']),
+    ('wood', ['wood_planks', 'wood_planks:x', 'wood_planks:y', 'wood_planks:xy']),
+    ('wood_chevron', ['wood_chevron', 'wood_chevron:x', 'wood_chevron', 'wood_chevron:x']),
+    ('darkstone', ['darkstone', 'darkstone:x', 'darkstone:y', 'darkstone:xy']),
+    ('bluestone', ['bluestone', 'bluestone:x', 'bluestone:y', 'bluestone:xy']),
 ]
 
 
@@ -201,10 +202,26 @@ def background(rgb):
     return core | fringe
 
 
+def despill(rgb, bg):
+    """Near the background, take the magenta tint back out of edge pixels (AI images blend
+    the background colour into the outline); strongly tinted ones become background."""
+    near = ndimage.binary_dilation(bg, iterations=3) & ~bg
+    r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+    spill = np.minimum(r, b) - g
+    hard = near & (spill > 70) & (np.abs(r - b) < 90)
+    soft = near & (spill > 25) & ~hard
+    out = rgb.copy()
+    k = np.where(soft, spill - 25, 0)
+    out[..., 0] -= k
+    out[..., 2] -= k
+    return out, bg | hard
+
+
 def segment(path):
     img = Image.open(path).convert('RGB')
     rgb = np.array(img).astype(int)
     bg = background(rgb)
+    rgb, bg = despill(rgb, bg)
     fg = ndimage.binary_opening(~bg, iterations=1)
     lab, _ = ndimage.label(ndimage.binary_dilation(fg, iterations=3))
     boxes = []
@@ -226,7 +243,39 @@ def cut(rgb, fg, lab, box):
 
 
 def shrink(c, a, f):
-    """Scale down by an integer factor, averaging colour only over opaque pixels."""
+    """Scale down by an integer factor without inventing colours: each output pixel takes
+    the real source pixel closest to its block's median, so highlights, shadows and
+    outlines keep their original values (averaging would blur them into muddy in-betweens)."""
+    h, w = a.shape
+    H, W = (h + f - 1) // f, (w + f - 1) // f
+    pad_c = np.zeros((H * f, W * f, 3))
+    pad_a = np.zeros((H * f, W * f))
+    pad_c[:h, :w] = c
+    pad_a[:h, :w] = a
+    blocks_c = pad_c.reshape(H, f, W, f, 3).transpose(0, 2, 1, 3, 4).reshape(H, W, f * f, 3)
+    blocks_a = pad_a.reshape(H, f, W, f).transpose(0, 2, 1, 3).reshape(H, W, f * f)
+    opaque = blocks_a > 0.5
+    masked = np.where(opaque[..., None], blocks_c, np.nan)
+    import warnings
+    warnings.simplefilter('ignore', RuntimeWarning)
+    with np.errstate(all='ignore'):
+        med = np.nanmedian(masked, axis=2) if True else None
+    med = np.nan_to_num(med)
+    dist = ((blocks_c - med[:, :, None, :]) ** 2).sum(-1)
+    dist = np.where(opaque, dist, np.inf)
+    pick = np.argmin(dist, axis=2)
+    col = np.take_along_axis(blocks_c, pick[..., None, None], axis=2)[:, :, 0, :]
+    alpha = opaque.sum(-1) >= (f * f) / 2.0
+    # drop leftover pink fringe on the outline (magenta mixed into an edge pixel)
+    edge = alpha & ndimage.binary_dilation(~alpha)
+    r, g, b = col[..., 0], col[..., 1], col[..., 2]
+    pink = (np.minimum(r, b) - g > 55) & (np.abs(r - b) < 90)
+    alpha = alpha & ~(edge & pink)
+    return col, alpha
+
+
+def shrink_average(c, a, f):
+    """(old method, kept for comparison) average colour over opaque pixels."""
     h, w = a.shape
     H, W = (h + f - 1) // f, (w + f - 1) // f
     pad_c = np.zeros((H * f, W * f, 3))
@@ -241,21 +290,32 @@ def shrink(c, a, f):
     return col, alpha
 
 
-def to_image(col, alpha):
+def to_image(col, alpha, colours=0):
     out = np.zeros(col.shape[:2] + (4,), dtype=np.uint8)
     out[..., :3] = np.clip(col, 0, 255).astype(np.uint8)
     out[..., 3] = np.where(alpha, 255, 0)
     im = Image.fromarray(out, 'RGBA')
+    if colours:
+        # reduce to a small palette of the object's own colours, like hand-made pixel art
+        rgb = im.convert('RGB').quantize(colors=colours, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).convert('RGB')
+        q = np.array(rgb)
+        out[..., :3] = q
+        im = Image.fromarray(out, 'RGBA')
     bb = im.getbbox()
     return im.crop(bb) if bb else im
 
 
 def tile_image(c, a):
-    """Floor tiles: trim the soft edge, then resample to exactly 32x32."""
+    """Floor tiles: trim the soft edge, resample to exactly 32x32, then snap every pixel
+    back to the tile's own source palette so the joints and highlights stay crisp."""
     ys, xs = np.nonzero(a)
-    t = c[ys.min() + 3:ys.max() - 2, xs.min() + 3:xs.max() - 2]
-    im = Image.fromarray(np.clip(t, 0, 255).astype(np.uint8), 'RGB')
-    return im.resize((TILE, TILE), Image.Resampling.BOX).convert('RGBA')
+    # skip the drawn frame around each tile too, so tiles join without a visible grid
+    m = 9
+    t = c[ys.min() + m:ys.max() - m + 1, xs.min() + m:xs.max() - m + 1]
+    src = Image.fromarray(np.clip(t, 0, 255).astype(np.uint8), 'RGB')
+    pal = src.quantize(colors=20, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    small = src.resize((TILE, TILE), Image.Resampling.LANCZOS).filter(ImageFilter.UnsharpMask(1, 120, 0))
+    return small.quantize(palette=pal, dither=Image.Dither.NONE).convert('RGBA')
 
 
 def footprint(group, w, h):
@@ -279,7 +339,7 @@ def build():
             im = tile_image(c, a)
             tiles[name] = im
         else:
-            im = to_image(*shrink(c, a, SCALE))
+            im = to_image(*shrink(c, a, SCALE), colours=0)
         os.makedirs(OUT + group, exist_ok=True)
         im.save(OUT + '%s/%s.png' % (group, name))
         manifest['%s/%s' % (group, name)] = {
@@ -290,7 +350,13 @@ def build():
     atlas = Image.new('RGBA', (TILE * 4, TILE * len(TILE_ROWS)))
     for r, (_, names) in enumerate(TILE_ROWS):
         for v, n in enumerate(names):
-            atlas.paste(tiles[n], (v * TILE, r * TILE))
+            name, _, flip = n.partition(':')
+            t = tiles[name]
+            if 'x' in flip:
+                t = t.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+            if 'y' in flip:
+                t = t.transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+            atlas.paste(t, (v * TILE, r * TILE))
     atlas.save(OUT + 'tiles.png')
     json.dump(manifest, open(OUT + 'manifest.json', 'w'), indent=1, sort_keys=True)
     return manifest

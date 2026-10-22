@@ -2,6 +2,7 @@ extends CanvasLayer
 ## Full-screen sunlight and colour grade, between the world and the interface.
 
 var mat: ShaderMaterial
+var indoor := 0.0
 
 
 func _ready() -> void:
@@ -23,7 +24,8 @@ func _process(_delta: float) -> void:
 	var size := get_viewport().get_visible_rect().size / cam.zoom
 	mat.set_shader_parameter("view_size", size)
 	mat.set_shader_parameter("cam_pos", cam.get_screen_center_position() - size * 0.5)
-	# no sky indoors: turn the sun shafts and dust off on the citadel's other floors
+	# no sky indoors: fade the sun shafts, sky glow and warm cast out under a roof
 	var main = get_parent()
-	var indoors: bool = main != null and main.get("floor_name") != null and main.floor_name != ""
-	mat.set_shader_parameter("shaft_strength", 0.0 if indoors else 0.30)
+	var target := 1.0 if main != null and main.has_method("is_indoors") and main.is_indoors() else 0.0
+	indoor = move_toward(indoor, target, _delta * 3.0)
+	mat.set_shader_parameter("indoor", indoor)

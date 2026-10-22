@@ -117,7 +117,7 @@ func _draw() -> void:
 		var x: float = s[0]
 		var y: float = s[1]
 		var l: float = s[2]
-		draw_colored_polygon(PackedVector2Array([Vector2(x - 12, y), Vector2(x + 12, y), Vector2(x + 12 + l * 0.35, y + l), Vector2(x - 12 + l * 0.35, y + l)]), Color(1.0, 0.92, 0.7, 0.07))
+		draw_colored_polygon(PackedVector2Array([Vector2(x - 12, y), Vector2(x + 12, y), Vector2(x + 12 + l * 0.35, y + l), Vector2(x - 12 + l * 0.35, y + l)]), Color(1.0, 0.86, 0.55, 0.05))
 	# soft shadow where floors meet the walls
 	for rm in rooms:
 		var r: Rect2 = rm["rect"]
@@ -130,7 +130,7 @@ func _draw() -> void:
 		var r: Rect2 = rm["rect"]
 		var h: float = rm["h"]
 		var face := Rect2(r.position.x - STRIP, r.position.y - h, r.size.x + STRIP * 2, h)
-		_tile(T_STONE, face, Color(0.86, 0.84, 0.8))
+		_tile(T_STONE, face, Color(1.0, 0.98, 0.94))
 		# wainscot: a walnut panel along the bottom of the wall, with a gold rail
 		draw_rect(Rect2(face.position.x, face.end.y - 26, face.size.x, 26), Color(0.33, 0.22, 0.13))
 		draw_rect(Rect2(face.position.x, face.end.y - 26, face.size.x, 2), Color(0.85, 0.66, 0.3))
@@ -146,7 +146,7 @@ func _draw() -> void:
 			if cap == _walls(rm)[0]:
 				cap = Rect2(w.position.x, w.position.y, w.size.x, STRIP)
 			for part in _cut(cap):
-				_tile(T_TOP, part, Color(0.92, 0.9, 0.86))
+				_tile(T_TOP, part)
 				draw_rect(part, Color(0.12, 0.1, 0.08), false, 1.0)
 
 	# doorways: cut the face away and frame the opening
@@ -168,8 +168,8 @@ func _draw() -> void:
 	for f in floor_items:
 		draw_texture(f[0], f[1])
 	for l in pools:
-		draw_circle(l[0], l[1], Color(1.0, 0.72, 0.35, 0.06))
-		draw_circle(l[0], l[1] * 0.6, Color(1.0, 0.75, 0.4, 0.07))
+		draw_circle(l[0], l[1], Color(1.0, 0.6, 0.22, 0.06))
+		draw_circle(l[0], l[1] * 0.55, Color(1.0, 0.68, 0.3, 0.07))
 
 
 ## The parts of a wall top that are not cut by a doorway.

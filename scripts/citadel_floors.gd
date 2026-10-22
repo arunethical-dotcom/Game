@@ -218,7 +218,7 @@ static func _service(main) -> void:
 	fp.z_index = -6
 	var hall: Rect2 = fp.room(Rect2(-480, 0, 960, 160), Tiles.C_LIMESTONE, 96, [], Color(0.9, 0.88, 0.84))
 	var kitchen: Rect2 = fp.room(Rect2(-480, -420, 360, 300), Tiles.C_DARKSTONE, 96)
-	var store: Rect2 = fp.room(Rect2(-96, -420, 240, 300), Tiles.FLAG, 96, [], Color(0.8, 0.78, 0.74))
+	var store: Rect2 = fp.room(Rect2(-96, -420, 240, 300), Tiles.FLAG, 96, [], Color(0.94, 0.92, 0.88))
 	var quarters: Rect2 = fp.room(Rect2(168, -420, 312, 300), Tiles.WOOD, 96)
 	var door_h := -kitchen.end.y + 4
 	_door(fp, Rect2(-328, -124, 56, door_h + 4), Tiles.FLAG, "Kitchen", Story.SIGN_KITCHEN)
