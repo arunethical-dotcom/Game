@@ -41,7 +41,7 @@ func _build() -> void:
 	# City streets: 8 spokes from the castle to the wall, the ring road, the castle ring
 	for k in 8:
 		var d := Vector2.from_angle(-PI / 2.0 + k * PI / 4.0)
-		var start := Geo.CIT_BRIDGE.end.y if k == 4 else Geo.RING_ROAD   # the south avenue runs to the citadel gate
+		var start := Geo.TOWN_SQUARE.end.y if k % 2 == 0 else Geo.RING_ROAD   # the four avenues run to the town square
 		streets.append(PackedVector2Array([(d * start).round(), (d * (Geo.R_WALL + 40.0)).round()]))
 	# rings are drawn as four overlapping arcs (a closed loop would fill its middle)
 	for q in 4:
@@ -49,6 +49,7 @@ func _build() -> void:
 	# Dirt roads outside the walls
 	roads.append(PackedVector2Array(Geo.SERPENT_WAY))
 	roads.append(PackedVector2Array(Geo.ELDER_PATH))
+	roads.append(PackedVector2Array(Geo.SOUTH_ROAD))
 	# Castle courtyard (cobbles), market square (pale stone), fields
 	var m := _arc(Geo.MARKET_R.x + 5.0, -1.50, -1.24, 30)
 	m.append_array(_arc(Geo.MARKET_R.y - 2.0, -1.24, -1.50, 40))

@@ -57,8 +57,9 @@ static func _outer_wall(layer: Node2D) -> void:
 		var c := -PI / 2.0 + i * step
 		var pa := Vector2.from_angle(c - step * 0.5) * Geo.R_WALL
 		var pb := Vector2.from_angle(c + step * 0.5) * Geo.R_WALL
-		_wall(layer, pa, pb, i == half)  # south gate: sealed
-	var towers := [WALL_SEGMENTS - 1, 2, half, half + 1]
+		if i == half or i == half - 1:
+			continue  # south gate: open, the road to the Royal Castle
+	var towers := [WALL_SEGMENTS - 1, 2, half - 1, half + 1]
 	for k in range(6, WALL_SEGMENTS, 12):
 		towers.append(k)
 	for k in towers:
@@ -79,7 +80,7 @@ static func _cliff_edge(main) -> void:
 		var pa := Vector2.from_angle(a0) * r
 		var pb := Vector2.from_angle(a1) * r
 		var mid := (pa + pb) * 0.5
-		if Geo.dist_to_path(mid, Geo.SERPENT_WAY) < 75.0:
+		if Geo.dist_to_path(mid, Geo.SERPENT_WAY) < 75.0 or Geo.dist_to_path(mid, Geo.SOUTH_ROAD) < 75.0:
 			continue
 		var cs := CollisionShape2D.new()
 		var rect := RectangleShape2D.new()

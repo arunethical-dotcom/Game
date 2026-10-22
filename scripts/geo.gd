@@ -24,7 +24,7 @@ const R_WALL := 2600.0 * K       # outer city wall
 const R_CLIFF := 3250.0 * K      # edge of the plateau
 const CLIFF_HALF := 70.0
 const RING_ROAD := 1720.0 * K    # ring street around the citadel moat
-const WORLD_HALF := 5600.0 * K
+const WORLD_HALF := 14000.0      # grown south for the Royal Castle on its lake (stage 13)
 const MARKET_R := Vector2(2000.0, 2540.0) * K   # inner and outer radius of market and fields
 
 const GATE_IN := Vector2(0, -2520) * K
@@ -50,12 +50,12 @@ const ELDER_PATH := [
 const INN_POS := Vector2(1390, -1260) * K
 const OUTPOST_POS := Vector2(-980, -3760) * K
 const MINE_POS := Vector2(1260, -3670) * K
-const WATCHTOWERS := [Vector2(-300, -2900) * K, Vector2(340, -2840) * K, Vector2(2950, 0) * K, Vector2(-2950, 0) * K, Vector2(0, 2950) * K]
+const WATCHTOWERS := [Vector2(-300, -2900) * K, Vector2(340, -2840) * K, Vector2(2950, 0) * K, Vector2(-2950, 0) * K, Vector2(260, 2950) * K]
 ## Areas kept clear of random houses, trees and rocks: [centre, radius]
 const RESERVED := [
 	[INN_POS, 120.0], [OUTPOST_POS, 150.0], [Vector2(1180, -3600) * K, 230.0],
 	[Vector2(-300, -2900) * K, 60.0], [Vector2(340, -2840) * K, 60.0], [Vector2(2950, 0) * K, 60.0],
-	[Vector2(-2950, 0) * K, 60.0], [Vector2(0, 2950) * K, 60.0],
+	[Vector2(-2950, 0) * K, 60.0], [Vector2(260, 2950) * K, 60.0],
 	[Vector2(150, -3100) * K, 140.0], [Vector2(560, -3580) * K, 160.0]]   # top and foot of the ramp
 
 
@@ -69,11 +69,39 @@ static func trect(x0: float, y0: float, x1: float, y1: float) -> Rect2:
 	return Rect2(tile(x0, y0), Vector2(x1 - x0, y1 - y0) * TILE)
 
 
+# The city centre is now a town square (the castle moved to its own lake, stage 13).
+const TOWN_SQUARE := Rect2(-640, -640, 1280, 1280)
+
+# The Royal Castle stands on its own lake south of the city (castle_outer.gd). Its plan is
+# a CASTLE_TILES grid of 32 px tiles whose top-left corner is CASTLE_O; plan tile (168, x)
+# lines up with the city's south gate road at world x = 0.
+const CASTLE_O := Vector2(-5376, 5616)
+const CASTLE_TILES := Vector2(336, 224)
+const CASTLE_AREA := Rect2(-5376, 5616, 10752, 7168)
+# the road from the city's south gate, down the cliffs, to the castle's north bridge
+const SOUTH_ROAD := [Vector2(0, 2600 * K - 20), Vector2(0, 4300), Vector2(0, 5200), Vector2(0, 6000)]
+
+
+## World position of a castle plan tile (its top-left corner).
+static func ct(x: float, y: float) -> Vector2:
+	return CASTLE_O + Vector2(x, y) * TILE
+
+
+static func ctr(x0: float, y0: float, x1: float, y1: float) -> Rect2:
+	return Rect2(ct(x0, y0), Vector2(x1 - x0, y1 - y0) * TILE)
+
+
+static func in_castle(p: Vector2, pad := 0.0) -> bool:
+	return CASTLE_AREA.grow(pad).has_point(p)
+
+
 static func in_citadel(p: Vector2, pad := 0.0) -> bool:
-	return CIT_MOAT.grow(pad).has_point(p)
+	return TOWN_SQUARE.grow(pad).has_point(p)
 
 
 static func reserved(p: Vector2, pad := 0.0) -> bool:
+	if in_castle(p, pad + 200.0) or dist_to_path(p, SOUTH_ROAD) < 60.0 + pad:
+		return true
 	for r in RESERVED:
 		if p.distance_to(r[0]) < r[1] + pad:
 			return true
@@ -97,7 +125,7 @@ static func dist_to_path(p: Vector2, path: Array) -> float:
 
 
 static func road_dist(p: Vector2) -> float:
-	return minf(dist_to_path(p, SERPENT_WAY), dist_to_path(p, ELDER_PATH))
+	return minf(minf(dist_to_path(p, SERPENT_WAY), dist_to_path(p, ELDER_PATH)), dist_to_path(p, SOUTH_ROAD))
 
 
 ## Distance to the nearest of the 8 streets that run out from the castle.
@@ -127,7 +155,7 @@ static func biome(p: Vector2) -> String:
 		return "mountain"
 	var r := p.length()
 	if in_citadel(p):
-		return "citadel"
+		return "market"
 	if r < R_WALL + 30.0:
 		if (spoke_dist(p) < 34.0 and r > RING_ROAD) or absf(r - RING_ROAD) < 32.0 or (absf(p.x) < 34.0 and p.y > 0.0):
 			return "street"
@@ -202,6 +230,7 @@ static func next_waypoint(from: Vector2, target: Vector2) -> Vector2:
 
 ## Inside the city the citadel is in the way: go out of its gate, then around its moat.
 static func around_citadel(from: Vector2, goal: Vector2) -> Vector2:
+	return goal   # the town square is open ground: nothing to walk around
 	if in_citadel(from) and not in_citadel(goal):
 		return Vector2(0, CIT_MOAT.end.y + 110.0) if from.y < CIT_MOAT.end.y + 40.0 else Vector2(0, CIT_MOAT.end.y + 160.0)
 	var box := CIT_MOAT.grow(70)

@@ -58,22 +58,20 @@ joystick and buttons appear automatically.
 - Soft shadows under everything come from `scripts/shadow.gd`.
 - Interface frames and buttons: `art/ui_*.png`.
 
-## The Royal Citadel
+## The Royal Castle
 
-The Royal Citadel is built tile by tile (`scripts/citadel.gd`) from the approved plan in
-[docs/CITADEL_DIMENSIONS.md](docs/CITADEL_DIMENSIONS.md): a 100 × 90-tile castle (3200 × 2880 px)
-at the centre of the city.
+Rebuilt from scratch in stage 13 (`scripts/castle_outer.gd`). The castle stands on its own lake
+south of the city, at a realistic scale (about 250 m wide).
+- **Getting there:** a road leaves the city's open south gate, runs down the cliffs to the castle's north bridge.
+- **Outer layer (built):**
+  - The main curtain wall with 21 towers and two gatehouses.
+  - Four side bridges.
+  - The barbican wall across the lake, with a torch-lit causeway to the south shore.
+  - Cliffs, pines and waterfalls around the shore.
+- **Inner ward:** to be built next.
 
-- **Throne hall:** the Grand Throne Hall on the north side, facing the gate.
-- **Courtyard:** the royal courtyard with four gardens and the battle arena, kept clear for the final fight.
-- **West side:** the West Royal Wing (grand stair up), the chapel, the armory, the west gallery
-  (service stair down) and the training yard.
-- **East side:** the East Royal Wing (private stair up), the Library and Archives, the council
-  room, the treasury (vault stair down) and the service yard.
-- **Other floors:** the stairs lead to the Royal Residence (`citadel_floors.gd`) and the Service
-  Floor with a quick fade and no loading screen.
-
-Every door is open for now (conditions and gameplay can be added later).
+The kit is imported by `tools/import_castle3.py` into `art/castle3/`. The old city-centre citadel
+is gone; the city centre is now a town square. See [docs/stages/13-royal-castle-outer.md](docs/stages/13-royal-castle-outer.md).
 
 ## Imported castle art (from an AI sheet)
 

@@ -1,6 +1,6 @@
 # Development log
 
-See also: [the world map](MAP.md) and [the Royal Citadel's dimensions](CITADEL_DIMENSIONS.md).
+See also: [the world map](MAP.md). (CITADEL_DIMENSIONS.md describes the previous citadel, replaced in stage 13.)
 
 This folder records how the game was built, one page per stage, so that anyone who joins
 the team can see what was decided, why, and where it lives in the code.
@@ -18,7 +18,8 @@ the team can see what was decided, why, and where it lives in the code.
 | 9 | [CrossCode-style camera](stages/09-camera-zones.md) | `5281976` | Camera zones, look-ahead, framed rooms, conversation framing |
 | 10 | [Royal Citadel v2, main floor](stages/10-citadel-v2-main-floor.md) | `c95b8f4` | 100×90-tile citadel from the approved plan, atlas 2 imported, city grown 1.45× |
 | 11 | [Main-floor visual polish](stages/11-main-floor-polish.md) | `4b6061a` | Grand throne hall, furniture scale audit, zoned royal wings, unique gardens, local lighting, S4 sealed, interior camera |
-| 12 | [Living colour grading](stages/12-colour-grading.md) | (see git log) | Per-room grading profiles, local flame lighting on every floor, time of day (day/afternoon/sunset/night) |
+| 12 | [Living colour grading](stages/12-colour-grading.md) | `5868244` | Per-room grading profiles, local flame lighting on every floor, time of day (day/afternoon/sunset/night) |
+| 13 | [Royal Castle from scratch: outer layer](stages/13-royal-castle-outer.md) | (see git log) | Castle on its own lake south of the city at real scale, walls, towers, barbican, bridges, waterfalls; city centre becomes a town square |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.

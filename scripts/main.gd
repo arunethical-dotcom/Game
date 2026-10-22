@@ -5,7 +5,7 @@ extends Node2D
 
 const Geo = preload("res://scripts/geo.gd")
 const City = preload("res://scripts/city.gd")
-const Citadel = preload("res://scripts/citadel.gd")
+const Castle = preload("res://scripts/castle_outer.gd")
 const WorldScript = preload("res://scripts/world.gd")
 const PlayerScript = preload("res://scripts/player.gd")
 const NpcScript = preload("res://scripts/npc.gd")
@@ -86,7 +86,7 @@ func _ready() -> void:
 
 	City.build(self)
 	_place_people()
-	Citadel.build(self)
+	Castle.build(self)
 
 	player = PlayerScript.new()
 	player.main = self

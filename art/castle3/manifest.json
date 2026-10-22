@@ -1,0 +1,452 @@
+{
+ "cliffs/cliff_a": {
+  "pivot": [
+   103,
+   270
+  ],
+  "size": [
+   207,
+   270
+  ]
+ },
+ "cliffs/cliff_b": {
+  "pivot": [
+   150,
+   258
+  ],
+  "size": [
+   300,
+   258
+  ]
+ },
+ "cliffs/cliff_c": {
+  "pivot": [
+   85,
+   312
+  ],
+  "size": [
+   171,
+   312
+  ]
+ },
+ "cliffs/cliff_d": {
+  "pivot": [
+   132,
+   225
+  ],
+  "size": [
+   264,
+   225
+  ]
+ },
+ "decor/angel_a": {
+  "pivot": [
+   49,
+   144
+  ],
+  "size": [
+   98,
+   144
+  ]
+ },
+ "decor/angel_b": {
+  "pivot": [
+   38,
+   152
+  ],
+  "size": [
+   76,
+   152
+  ]
+ },
+ "decor/banner_pole": {
+  "pivot": [
+   24,
+   102
+  ],
+  "size": [
+   48,
+   102
+  ]
+ },
+ "decor/flag": {
+  "pivot": [
+   45,
+   210
+  ],
+  "size": [
+   90,
+   210
+  ]
+ },
+ "decor/lamp_a": {
+  "pivot": [
+   15,
+   142
+  ],
+  "size": [
+   30,
+   142
+  ]
+ },
+ "decor/lamp_b": {
+  "pivot": [
+   14,
+   126
+  ],
+  "size": [
+   28,
+   126
+  ]
+ },
+ "decor/lamp_c": {
+  "pivot": [
+   18,
+   116
+  ],
+  "size": [
+   36,
+   116
+  ]
+ },
+ "decor/torch": {
+  "pivot": [
+   16,
+   110
+  ],
+  "size": [
+   32,
+   110
+  ]
+ },
+ "gates/gate_arch": {
+  "pivot": [
+   139,
+   189
+  ],
+  "size": [
+   279,
+   189
+  ]
+ },
+ "gates/gate_door_l": {
+  "pivot": [
+   45,
+   189
+  ],
+  "size": [
+   90,
+   189
+  ]
+ },
+ "gates/gate_door_r": {
+  "pivot": [
+   43,
+   189
+  ],
+  "size": [
+   87,
+   189
+  ]
+ },
+ "gates/gate_twin": {
+  "pivot": [
+   135,
+   288
+  ],
+  "size": [
+   270,
+   288
+  ]
+ },
+ "gates/gatehouse": {
+  "pivot": [
+   178,
+   312
+  ],
+  "size": [
+   357,
+   312
+  ]
+ },
+ "stairs/stairs_narrow": {
+  "pivot": [
+   88,
+   150
+  ],
+  "size": [
+   177,
+   150
+  ]
+ },
+ "stairs/stairs_wide": {
+  "pivot": [
+   184,
+   126
+  ],
+  "size": [
+   369,
+   126
+  ]
+ },
+ "towers/tower_battlement": {
+  "pivot": [
+   73,
+   327
+  ],
+  "size": [
+   147,
+   327
+  ]
+ },
+ "towers/tower_battlement_b": {
+  "pivot": [
+   60,
+   357
+  ],
+  "size": [
+   120,
+   357
+  ]
+ },
+ "towers/tower_blue_a": {
+  "pivot": [
+   76,
+   366
+  ],
+  "size": [
+   153,
+   366
+  ]
+ },
+ "towers/tower_blue_b": {
+  "pivot": [
+   76,
+   372
+  ],
+  "size": [
+   153,
+   372
+  ]
+ },
+ "towers/tower_blue_c": {
+  "pivot": [
+   114,
+   390
+  ],
+  "size": [
+   228,
+   390
+  ]
+ },
+ "towers/tower_blue_d": {
+  "pivot": [
+   70,
+   387
+  ],
+  "size": [
+   141,
+   387
+  ]
+ },
+ "towers/tower_cone_a": {
+  "pivot": [
+   108,
+   321
+  ],
+  "size": [
+   216,
+   321
+  ]
+ },
+ "towers/tower_cone_b": {
+  "pivot": [
+   91,
+   276
+  ],
+  "size": [
+   183,
+   276
+  ]
+ },
+ "towers/tower_flag": {
+  "pivot": [
+   73,
+   549
+  ],
+  "size": [
+   147,
+   549
+  ]
+ },
+ "towers/tower_flag_b": {
+  "pivot": [
+   70,
+   564
+  ],
+  "size": [
+   141,
+   564
+  ]
+ },
+ "towers/tower_round": {
+  "pivot": [
+   67,
+   276
+  ],
+  "size": [
+   135,
+   276
+  ]
+ },
+ "towers/tower_tall": {
+  "pivot": [
+   78,
+   510
+  ],
+  "size": [
+   156,
+   510
+  ]
+ },
+ "trees/bush_round": {
+  "pivot": [
+   51,
+   96
+  ],
+  "size": [
+   102,
+   96
+  ]
+ },
+ "trees/cypress": {
+  "pivot": [
+   34,
+   228
+  ],
+  "size": [
+   69,
+   228
+  ]
+ },
+ "trees/cypress_b": {
+  "pivot": [
+   36,
+   216
+  ],
+  "size": [
+   72,
+   216
+  ]
+ },
+ "trees/pine_a": {
+  "pivot": [
+   39,
+   153
+  ],
+  "size": [
+   78,
+   153
+  ]
+ },
+ "trees/pine_b": {
+  "pivot": [
+   37,
+   156
+  ],
+  "size": [
+   75,
+   156
+  ]
+ },
+ "trees/pine_big": {
+  "pivot": [
+   43,
+   177
+  ],
+  "size": [
+   87,
+   177
+  ]
+ },
+ "trees/pine_pair": {
+  "pivot": [
+   76,
+   153
+  ],
+  "size": [
+   153,
+   153
+  ]
+ },
+ "trees/pine_small": {
+  "pivot": [
+   30,
+   129
+  ],
+  "size": [
+   60,
+   129
+  ]
+ },
+ "walls/walkway": {
+  "pivot": [
+   132,
+   96
+  ],
+  "size": [
+   264,
+   96
+  ]
+ },
+ "walls/wall_banner": {
+  "pivot": [
+   241,
+   303
+  ],
+  "size": [
+   483,
+   303
+  ]
+ },
+ "walls/wall_end": {
+  "pivot": [
+   147,
+   324
+  ],
+  "size": [
+   294,
+   324
+  ]
+ },
+ "water/waterfall_big": {
+  "pivot": [
+   178,
+   366
+  ],
+  "size": [
+   357,
+   366
+  ]
+ },
+ "water/waterfall_mid": {
+  "pivot": [
+   147,
+   408
+  ],
+  "size": [
+   294,
+   408
+  ]
+ },
+ "water/waterfall_small": {
+  "pivot": [
+   76,
+   258
+  ],
+  "size": [
+   153,
+   258
+  ]
+ }
+}

@@ -38,12 +38,16 @@ func _draw() -> void:
 	draw_circle(_w2m(Vector2.ZERO), (Geo.R_CLIFF - 70) * s, Color(0.42, 0.53, 0.3))
 	draw_circle(_w2m(Vector2.ZERO), Geo.R_WALL * s, Color(0.5, 0.52, 0.36))
 	draw_arc(_w2m(Vector2.ZERO), Geo.R_WALL * s, 0, TAU, 64, Color(0.82, 0.78, 0.68), 3.0)
-	var moat := Geo.CIT_MOAT
-	draw_rect(Rect2(_w2m(moat.position), moat.size * s), Color(0.3, 0.5, 0.65))
-	var cw := Geo.CIT_WALL
-	draw_rect(Rect2(_w2m(cw.position), cw.size * s), Color(0.62, 0.6, 0.56))
+	var sq := Geo.TOWN_SQUARE
+	draw_rect(Rect2(_w2m(sq.position), sq.size * s), Color(0.72, 0.68, 0.6))
+	# the Royal Castle on its lake
+	var lake := Geo.ctr(8, 12, 328, 212)
+	draw_rect(Rect2(_w2m(lake.position), lake.size * s), Color(0.3, 0.5, 0.68))
+	var isl := Geo.ctr(26, 26, 310, 142)
+	draw_rect(Rect2(_w2m(isl.position), isl.size * s), Color(0.66, 0.63, 0.58))
+	draw_rect(Rect2(_w2m(isl.position), isl.size * s), Color(0.85, 0.82, 0.74), false, 2.0)
 	# Roads
-	for path in [Geo.SERPENT_WAY, Geo.ELDER_PATH]:
+	for path in [Geo.SERPENT_WAY, Geo.ELDER_PATH, Geo.SOUTH_ROAD]:
 		var pts := PackedVector2Array()
 		for p in path:
 			pts.append(_w2m(p))

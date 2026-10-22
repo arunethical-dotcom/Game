@@ -160,6 +160,14 @@ const DRILL_SERGEANT := [
 	["Drill sergeant", "Feet apart, shield up! ...You're not a recruit? Then stop standing in my yard like one."],
 ]
 
+const CASTLE_GATE_GUARD := [
+	["Castle guard", "The Royal Castle of Aigidos. Two walls, a moat and a lake, boy. No army has ever crossed this causeway."],
+]
+
+const CASTLE_NORTH_GUARD := [
+	["Castle guard", "The north gate, for the city road. State your business... Haldor's lad? Go on, then."],
+]
+
 const PRIEST := [
 	["Sister Maren", "Peace be with you. Even the conquered may pray here, though few dare to."],
 	["Sister Maren", "The king's sister comes every morning. She prays for both kingdoms. Don't repeat that."],
