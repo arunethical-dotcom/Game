@@ -1,6 +1,6 @@
 # Stage 8: Colour correction
 
-**Date:** 2026-10-22
+**Commit:** `f8f4452` · **Date:** 2026-10-22
 
 ## Goal
 In the game, the imported castle art didn't match the colours of the approved reference sheet.
