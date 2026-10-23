@@ -105,7 +105,14 @@ def build():
     depth = np.zeros((N, N, 4), np.uint8)
     depth[..., 0] = (base >> 8) & 255
     depth[..., 1] = base & 255
-    depth[..., 2] = np.where(up, 255, np.where(water, 128, 0))
+    kind = np.where(up, 255, np.where(water, 128, 0))
+    # pixels covered by a crisp castle5 sprite: the sprite (y-sorted) handles drawing over Kael
+    try:
+        cover = np.array(Image.open('../art/castle5/cover.png')) > 0
+        kind = np.where(cover & up, 64, kind)
+    except FileNotFoundError:
+        pass
+    depth[..., 2] = kind
     depth[..., 3] = 255
     Image.fromarray(depth, 'RGBA').save(OUT + 'ref_depth.png')
     boxes = []

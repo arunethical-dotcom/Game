@@ -78,6 +78,7 @@ static func build(main) -> void:
 	follow.sprite = occluder
 	main.add_child(follow)
 	_collision()
+	_sprites()
 	# the camera never looks past the edge of the painting
 	main.add_camera_zone(Rect2(Geo.CASTLE_O, Vector2(864, 864) * S))
 	_lights(main)
@@ -97,6 +98,24 @@ static func _sprite(sh: Shader, mode: int) -> Sprite2D:
 	mat.set_shader_parameter("mode", mode)
 	s.material = mat
 	return s
+
+
+## Crisp buildings and towers from the castle kit, over the map's own copy of each
+## (tools/castle_sprites5.py). Each is y-sorted at its base, so Kael walks behind it.
+static func _sprites() -> void:
+	var list = JSON.parse_string(FileAccess.get_file_as_string("res://art/castle5/sprites.json"))
+	for e in list:
+		var tex: Texture2D = load("res://art/castle5/%s.png" % e["tex"])
+		var sp := Sprite2D.new()
+		sp.texture = tex
+		sp.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		sp.scale = Vector2(2, 2)
+		sp.centered = false
+		sp.offset = Vector2(-tex.get_width() / 2.0, -tex.get_height())
+		var holder := Node2D.new()
+		holder.position = Vector2(e["x"], e["y"])
+		holder.add_child(sp)
+		layer.add_child(holder)
 
 
 static func _collision() -> void:
