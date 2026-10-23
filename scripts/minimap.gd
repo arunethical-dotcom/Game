@@ -43,7 +43,7 @@ func _draw() -> void:
 	# the Royal Castle on its lake
 	var lake := Geo.CASTLE_AREA
 	draw_rect(Rect2(_w2m(lake.position), lake.size * s), Color(0.3, 0.5, 0.68))
-	var keep := Rect2(Geo.rp(230, 110), Geo.rp(1306, 716) - Geo.rp(230, 110))
+	var keep := Rect2(Geo.rp(60, 120), Geo.rp(804, 620) - Geo.rp(60, 120))
 	draw_rect(Rect2(_w2m(keep.position), keep.size * s), Color(0.7, 0.66, 0.6))
 	# Roads
 	for path in [Geo.SERPENT_WAY, Geo.ELDER_PATH, Geo.SOUTH_ROAD]:

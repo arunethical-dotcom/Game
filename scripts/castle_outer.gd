@@ -2,7 +2,7 @@ extends RefCounted
 ## The Royal Castle, drawn from the reference painting itself so it matches it exactly:
 ## every tower, wall, roof, building, garden and tree is where the painting has it.
 ##
-## source_art/castle3/reference_map.png is shown at 3x (nearest neighbour, crisp pixels;
+## art/castle4/castle_map.png (cleaned by tools/castle_mask4.py) is shown at 5x (nearest neighbour, crisp pixels;
 ## the castle kit is drawn at the same scale). tools/castle_mask.py works out from the
 ## painting which pixels are walkable ground, water, or upright things (walls, towers,
 ## trees, statues) and where each upright thing stands (art/castle3/ref_depth.png), plus
@@ -18,16 +18,16 @@ extends RefCounted
 const Geo = preload("res://scripts/geo.gd")
 const Spr = preload("res://scripts/cit_sprite.gd")
 const Story = preload("res://scripts/story.gd")
-const REF = preload("res://art/castle3/castle_painting.png")
-const DEPTH = preload("res://art/castle3/ref_depth.png")
-const S := 3.0
+const REF = preload("res://art/castle4/castle_map.png")
+const DEPTH = preload("res://art/castle4/ref_depth.png")
+const S := 5.0
 
 const SHADER := """
 shader_type canvas_item;
 uniform sampler2D depth_tex : filter_nearest;
 uniform int mode = 0;               // 0 = ground layer, 1 = occluder above the characters
 uniform vec2 player = vec2(0.0);    // Kael's feet in painting px
-uniform float reach = 30.0;         // occluder radius around Kael in painting px
+uniform float reach = 18.0;         // occluder radius around Kael in map px
 varying vec2 px;
 void vertex() { px = VERTEX; }
 void fragment() {
@@ -44,7 +44,7 @@ void fragment() {
 	} else {
 		float base = floor(d.r * 255.0 + 0.5) * 256.0 + floor(d.g * 255.0 + 0.5);
 		vec2 p = UV * vec2(textureSize(TEXTURE, 0));
-		vec2 rel = p - (player + vec2(0.0, -10.0));
+		vec2 rel = p - (player + vec2(0.0, -6.0));
 		bool near = abs(rel.x) < reach && rel.y > -reach * 1.2 && rel.y < reach * 0.6;
 		if (kind < 0.9 || base <= player.y + 0.5 || !near) {
 			discard;
@@ -79,7 +79,7 @@ static func build(main) -> void:
 	main.add_child(follow)
 	_collision()
 	# the camera never looks past the edge of the painting
-	main.add_camera_zone(Rect2(Geo.CASTLE_O, Vector2(1536, 1024) * S))
+	main.add_camera_zone(Rect2(Geo.CASTLE_O, Vector2(864, 864) * S))
 	_lights(main)
 	_people(main)
 
@@ -103,7 +103,7 @@ static func _collision() -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = 1
 	body.collision_mask = 0
-	var boxes = JSON.parse_string(FileAccess.get_file_as_string("res://art/castle3/ref_collision.json"))
+	var boxes = JSON.parse_string(FileAccess.get_file_as_string("res://art/castle4/ref_collision.json"))
 	for b in boxes:
 		var cs := CollisionShape2D.new()
 		var r := RectangleShape2D.new()
@@ -115,19 +115,19 @@ static func _collision() -> void:
 
 
 static func _lights(main) -> void:
-	# torches along the causeway and lamps in the gardens, where the painting has them
-	for y in [744, 813, 871, 967]:
-		for x in [722, 814]:
-			main.lights.add(Geo.rp(x, y) - Vector2(0, 24), "torch")
-	for p in [[702, 452], [834, 452], [722, 262], [814, 262], [756, 196], [780, 196]]:
-		main.lights.add(Geo.rp(p[0], p[1]), "candle")
+	# torches along the causeway and braziers in the gardens, where the map has them
+	for y in [633, 676, 715, 787, 835]:
+		for x in [406, 458]:
+			main.lights.add(Geo.rp(x, y) - Vector2(0, 30), "torch")
+	for p in [[388, 430], [476, 430], [400, 300], [464, 300]]:
+		main.lights.add(Geo.rp(p[0], p[1]), "brazier")
 
 
 static func _people(main) -> void:
-	main._npc("guard", Geo.rp(750, 985), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(786, 985), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(752, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
-	main._npc("guard", Geo.rp(784, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(424, 850), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(440, 850), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(410, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(454, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
 
 
 static func _town_square() -> void:
@@ -146,7 +146,7 @@ static func _town_square() -> void:
 ## Keeps the occluder's shader told where Kael's feet are.
 class _Follow extends Node:
 	const Geo = preload("res://scripts/geo.gd")
-	const S := 3.0
+	const S := 5.0
 	var main
 	var sprite: Sprite2D
 
