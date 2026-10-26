@@ -25,9 +25,9 @@ for Haldor the blacksmith in Kingdom B's capital. Part 1 has no magic.
 |------|------|
 | `scripts/main.gd` | Builds the scene, runs the mission, camera zones, stairs/floors. `CASTLE_ONLY := true` shows only the castle |
 | `scripts/geo.gd` | Layout constants. Castle map origin `CASTLE_O`, scale `CASTLE_S`, `Geo.rp(x, y)` converts castle-map px to world px |
-| `scripts/castle_outer.gd` | The Royal Castle: map ground, occluder shader, collision, kit sprites |
-| `tools/castle_mask4.py` | Cleans the castle map and generates walk, water and depth data plus collision (`art/castle4/`) |
-| `tools/castle_sprites5.py` | Places crisp kit sprites over the map (`source_art/castle5/placements.json` → `art/castle5/`) |
+| `scripts/castle_outer.gd` | The Royal Castle: loads the composited chunks (`art/castle7/out/`), occluder shader, collision, lights |
+| `tools/castle7_layout.py` | Where every castle piece stands (1728-map px). Edit this, then run `python3 castle7_build.py` in `tools/` |
+| `tools/castle7_build.py` | Composites the castle into one image + depth + collision (`art/castle7/out/`) |
 | `tools/import_castle*.py` | Magenta-sheet importers (background removal, cutting, scaling) |
 | `scripts/light_layer.gd`, `grade.gd` | Warm local lights and per-room colour grading |
 | `docs/` | Development log, one page per stage |
@@ -50,5 +50,5 @@ for Haldor the blacksmith in Kingdom B's capital. Part 1 has no magic.
   `get_viewport().get_texture().get_image()` in `_process` after `RenderingServer.frame_post_draw`.
   Use 2392×1080 for the phone (Nothing Phone 3a Pro).
 
-## Current task
-See `docs/TASK_CASTLE6.md`.
+## Current state
+The castle6 task is done (stage 17). The next steps are in `docs/stages/17-castle-from-kit6.md`, under Known limits.

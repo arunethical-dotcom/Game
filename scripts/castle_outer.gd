@@ -1,51 +1,50 @@
 extends RefCounted
-## The Royal Castle, drawn from the reference painting itself so it matches it exactly:
-## every tower, wall, roof, building, garden and tree is where the painting has it.
+## The Royal Castle (stage 17): one seamless 4572 x 4572 px image at Kael's pixel size,
+## built from the castle6 sheets by tools/castle7_build.py and laid out on the castle map.
 ##
-## art/castle4/castle_map.png (cleaned by tools/castle_mask4.py) is shown at 5x (nearest neighbour, crisp pixels;
-## the castle kit is drawn at the same scale). tools/castle_mask.py works out from the
-## painting which pixels are walkable ground, water, or upright things (walls, towers,
-## trees, statues) and where each upright thing stands (art/castle3/ref_depth.png), plus
-## the collision boxes (art/castle3/ref_collision.json).
+## art/castle7/out/ holds it in 6 x 6 chunks:
+##   col_R_C.png  the picture (castle pieces drawn at whole-number scales, never resampled)
+##   dep_R_C.png  per pixel: R,G = the y where the thing drawn there stands (its base line,
+##                in castle px), B = what it is (0 ground, 32 flat floor, 128 water, 255 upright)
+##   collision.json  solid boxes (castle px) around everything Kael cannot walk on
+##   lights.json     torches and braziers found in the picture
 ##
 ## In game:
-##  - the painting is the ground layer (water pixels shimmer gently);
-##  - an occluder copy of the painting is drawn above the characters, showing only the
-##    upright pixels whose base is south of Kael's feet, near Kael, so he walks behind
-##    towers, trees and statues and in front of them;
-##  - the collision boxes keep him on the paths, courtyards, terraces, stairs and causeway.
+##  - the picture is the ground layer (water pixels shimmer gently);
+##  - an occluder copy is drawn above the characters, showing only the upright pixels near
+##    Kael that stand south of his feet, so he walks behind towers, walls, statues and trees
+##    and in front of them;
+##  - the collision boxes keep him on the paving, lawns, causeway and stairs.
 
 const Geo = preload("res://scripts/geo.gd")
 const Spr = preload("res://scripts/cit_sprite.gd")
 const Story = preload("res://scripts/story.gd")
-const REF = preload("res://art/castle4/castle_map.png")
-const DEPTH = preload("res://art/castle4/ref_depth.png")
-const S := 5.0
+const DIR := "res://art/castle7/out/"
+const CHUNK := 762
+const N := 6
 
 const SHADER := """
 shader_type canvas_item;
 uniform sampler2D depth_tex : filter_nearest;
 uniform int mode = 0;               // 0 = ground layer, 1 = occluder above the characters
-uniform vec2 player = vec2(0.0);    // Kael's feet in painting px
-uniform float reach = 18.0;         // occluder radius around Kael in map px
-varying vec2 px;
-void vertex() { px = VERTEX; }
+uniform vec2 player = vec2(-9999.0);   // Kael's feet in castle px
+uniform vec2 origin = vec2(0.0);    // this chunk's top-left in castle px
+uniform vec2 reach = vec2(46.0, 100.0);
 void fragment() {
 	vec4 d = texture(depth_tex, UV);
 	float kind = d.b;
 	vec4 c = texture(TEXTURE, UV);
+	vec2 p = origin + UV * vec2(textureSize(TEXTURE, 0));
 	if (mode == 0) {
 		if (kind > 0.4 && kind < 0.6) {
-			// water: a slow shimmer
-			float w = sin(TIME * 1.3 + px.x * 0.09 + px.y * 0.05) * sin(TIME * 0.9 - px.y * 0.07);
+			float w = sin(TIME * 1.3 + p.x * 0.035 + p.y * 0.02) * sin(TIME * 0.9 - p.y * 0.028);
 			c.rgb += vec3(0.02, 0.035, 0.05) * w;
 		}
 		COLOR = c;
 	} else {
 		float base = floor(d.r * 255.0 + 0.5) * 256.0 + floor(d.g * 255.0 + 0.5);
-		vec2 p = UV * vec2(textureSize(TEXTURE, 0));
-		vec2 rel = p - (player + vec2(0.0, -6.0));
-		bool near = abs(rel.x) < reach && rel.y > -reach * 1.2 && rel.y < reach * 0.6;
+		vec2 rel = p - player;
+		bool near = abs(rel.x) < reach.x && rel.y > -reach.y && rel.y < 10.0;
 		if (kind < 0.9 || base <= player.y + 0.5 || !near) {
 			discard;
 		}
@@ -56,97 +55,79 @@ void fragment() {
 
 static var main_ref
 static var layer: Node2D
-static var occluder: Sprite2D
+static var occluders := []
 
 
 static func build(main) -> void:
 	main_ref = main
 	layer = main.entity_layer
+	occluders = []
 	_town_square()
 	var sh := Shader.new()
 	sh.code = SHADER
-	# the painting as the ground
-	var ground := _sprite(sh, 0)
-	main.ground_layer.add_child(ground)
-	# the occluder above the characters (redraws towers, trees, statues in front of Kael)
-	occluder = _sprite(sh, 1)
-	occluder.z_index = 12
-	occluder.z_as_relative = false
-	main.add_child(occluder)
+	for r in N:
+		for c in N:
+			var col: Texture2D = load(DIR + "col_%d_%d.png" % [r, c])
+			var dep: Texture2D = load(DIR + "dep_%d_%d.png" % [r, c])
+			var origin := Vector2(c * CHUNK, r * CHUNK)
+			main.ground_layer.add_child(_chunk(sh, col, dep, origin, 0))
+			var occ := _chunk(sh, col, dep, origin, 1)
+			occ.z_index = 12
+			occ.z_as_relative = false
+			main.add_child(occ)
+			occluders.append(occ)
 	var follow := _Follow.new()
 	follow.main = main
-	follow.sprite = occluder
+	follow.occ = occluders
 	main.add_child(follow)
 	_collision()
-	_sprites()
-	# the camera never looks past the edge of the painting
-	main.add_camera_zone(Rect2(Geo.CASTLE_O, Vector2(864, 864) * S))
+	# the camera never looks past the edge of the castle
+	main.add_camera_zone(Geo.CASTLE_AREA)
 	_lights(main)
 	_people(main)
 
 
-static func _sprite(sh: Shader, mode: int) -> Sprite2D:
+static func _chunk(sh: Shader, col: Texture2D, dep: Texture2D, origin: Vector2, mode: int) -> Sprite2D:
 	var s := Sprite2D.new()
-	s.texture = REF
+	s.texture = col
 	s.centered = false
-	s.position = Geo.CASTLE_O
-	s.scale = Vector2(S, S)
+	s.position = Geo.CASTLE_O + origin
 	s.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var mat := ShaderMaterial.new()
 	mat.shader = sh
-	mat.set_shader_parameter("depth_tex", DEPTH)
+	mat.set_shader_parameter("depth_tex", dep)
 	mat.set_shader_parameter("mode", mode)
+	mat.set_shader_parameter("origin", origin)
 	s.material = mat
 	return s
-
-
-## Crisp buildings and towers from the castle kit, over the map's own copy of each
-## (tools/castle_sprites5.py). Each is y-sorted at its base, so Kael walks behind it.
-static func _sprites() -> void:
-	var list = JSON.parse_string(FileAccess.get_file_as_string("res://art/castle5/sprites.json"))
-	for e in list:
-		var tex: Texture2D = load("res://art/castle5/%s.png" % e["tex"])
-		var sp := Sprite2D.new()
-		sp.texture = tex
-		sp.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		sp.scale = Vector2(2, 2)
-		sp.centered = false
-		sp.offset = Vector2(-tex.get_width() / 2.0, -tex.get_height())
-		var holder := Node2D.new()
-		holder.position = Vector2(e["x"], e["y"])
-		holder.add_child(sp)
-		layer.add_child(holder)
 
 
 static func _collision() -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = 1
 	body.collision_mask = 0
-	var boxes = JSON.parse_string(FileAccess.get_file_as_string("res://art/castle4/ref_collision.json"))
+	var boxes = JSON.parse_string(FileAccess.get_file_as_string(DIR + "collision.json"))
 	for b in boxes:
 		var cs := CollisionShape2D.new()
 		var r := RectangleShape2D.new()
-		r.size = Vector2(b[2], b[3]) * S
+		r.size = Vector2(b[2], b[3])
 		cs.shape = r
-		cs.position = Geo.CASTLE_O + (Vector2(b[0], b[1]) + Vector2(b[2], b[3]) / 2.0) * S
+		cs.position = Geo.CASTLE_O + Vector2(b[0], b[1]) + Vector2(b[2], b[3]) / 2.0
 		body.add_child(cs)
 	layer.add_child(body)
 
 
 static func _lights(main) -> void:
-	# torches along the causeway and braziers in the gardens, where the map has them
-	for y in [633, 676, 715, 787, 835]:
-		for x in [406, 458]:
-			main.lights.add(Geo.rp(x, y) - Vector2(0, 30), "torch")
-	for p in [[388, 430], [476, 430], [400, 300], [464, 300]]:
-		main.lights.add(Geo.rp(p[0], p[1]), "brazier")
+	var list = JSON.parse_string(FileAccess.get_file_as_string(DIR + "lights.json"))
+	for l in list:
+		main.lights.add(Geo.CASTLE_O + Vector2(l[0], l[1]) + Vector2(0, 20), l[2])
 
 
 static func _people(main) -> void:
-	main._npc("guard", Geo.rp(424, 850), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(440, 850), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(410, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
-	main._npc("guard", Geo.rp(454, 218), "Palace guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(418, 822), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(446, 822), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(414, 276), "Palace guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(450, 276), "Palace guard", Story.CASTLE_NORTH_GUARD)
 
 
 static func _town_square() -> void:
@@ -162,15 +143,15 @@ static func _town_square() -> void:
 		layer.add_child(s)
 
 
-## Keeps the occluder's shader told where Kael's feet are.
+## Keeps the occluders told where Kael's feet are.
 class _Follow extends Node:
 	const Geo = preload("res://scripts/geo.gd")
-	const S := 5.0
 	var main
-	var sprite: Sprite2D
+	var occ := []
 
 	func _process(_delta: float) -> void:
 		if main == null or main.player == null:
 			return
-		var p: Vector2 = (main.player.global_position - Geo.CASTLE_O) / S
-		(sprite.material as ShaderMaterial).set_shader_parameter("player", p)
+		var p: Vector2 = main.player.global_position - Geo.CASTLE_O
+		for o in occ:
+			(o.material as ShaderMaterial).set_shader_parameter("player", p)

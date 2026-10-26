@@ -72,18 +72,19 @@ static func trect(x0: float, y0: float, x1: float, y1: float) -> Rect2:
 # The city centre is now a town square (the castle moved to its own lake, stage 13).
 const TOWN_SQUARE := Rect2(-640, -640, 1280, 1280)
 
-# The Royal Castle stands on its own lake south of the city (castle_outer.gd). It is the
-# castle map art/castle4/castle_map.png (864 x 864, cleaned from the 1728 px original by
-# tools/castle_mask4.py) shown at CASTLE_S world px per map px: map pixel (432, y) is
-# world x = 0, and the map's top edge is world y = CASTLE_O.y.
-const CASTLE_S := 5.0
+# The Royal Castle stands on its own lake south of the city (castle_outer.gd). It is one
+# 4572 x 4572 px image built from the castle6 sheets by tools/castle7_build.py, laid out on
+# the castle map (source_art/castle4/castle_map.png). Positions here are written in 864-px
+# castle-map coordinates: map pixel (432, y) is world x = 0, and the map's top edge is world
+# y = CASTLE_O.y. One 864-map px = CASTLE_S world px.
+const CASTLE_S := 4572.0 / 864.0
 const CASTLE_MAP := 864.0
-const CASTLE_O := Vector2(-2160, 5616)
-const CASTLE_AREA := Rect2(-2160, 5616, 4320, 4320)
+const CASTLE_O := Vector2(-2286, 5616)
+const CASTLE_AREA := Rect2(-2286, 5616, 4572, 4572)
 # the road from the city's south gate, down the cliffs, round the west of the lake to the
 # south end of the castle's causeway
 const SOUTH_ROAD := [Vector2(0, 2600 * K - 20), Vector2(0, 4300), Vector2(-1200, 5200), Vector2(-2500, 6200),
-		Vector2(-2500, 9300), Vector2(-1300, 10150), Vector2(0, 10150), Vector2(0, 9930)]
+		Vector2(-2500, 9300), Vector2(-2500, 10400), Vector2(0, 10400), Vector2(0, 10150)]
 
 
 ## World position of a point on the reference map.
