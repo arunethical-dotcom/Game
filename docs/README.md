@@ -22,8 +22,7 @@ the team can see what was decided, why, and where it lives in the code.
 | 13 | [Royal Castle from scratch: outer layer](stages/13-royal-castle-outer.md) | `571e9f3` | Castle on its own lake south of the city at real scale, walls, towers, barbican, bridges, waterfalls; city centre becomes a town square |
 | 14 | [The castle's whole outer shell, traced](stages/14-castle-shell-traced.md) | `747ed4b` | Castle traced from the reference at the kit's own scale: real outline with diagonal walls, every building, garden and tower in place; castle-only view |
 | 15 | [The castle matches the reference exactly](stages/15-castle-from-painting.md) | `3aee3a9` | Castle drawn from the reference painting; walkable areas, water, depth and collision generated from it; Kael walks behind towers and trees |
-| 16 | [Crisper castle from the high-quality kit](stages/16-castle-crisp-kit.md) | (see git log) | New 1728 px castle map cleaned into crisp pixel art; palace, cathedral, domed hall, manor, towers and statues replaced by crisp kit sprites placed by template matching |
-| 16 | [Crisper castle from the high-quality kit](stages/16-castle-crisp-kit.md) | (see git log) | New 1728 px castle map cleaned into crisp pixel art; palace, cathedral, domed hall, manor, 37 towers and statues replaced by crisp kit sprites placed by template matching |
+| 16 | [Crisper castle from the high-quality kit](stages/16-castle-crisp-kit.md) | `efdfafc` | New 1728 px castle map cleaned into crisp pixel art; palace, cathedral, domed hall, manor, towers and statues replaced by crisp kit sprites placed by template matching |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.
