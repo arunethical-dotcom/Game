@@ -23,7 +23,7 @@ the team can see what was decided, why, and where it lives in the code.
 | 14 | [The castle's whole outer shell, traced](stages/14-castle-shell-traced.md) | `747ed4b` | Castle traced from the reference at the kit's own scale: real outline with diagonal walls, every building, garden and tower in place; castle-only view |
 | 15 | [The castle matches the reference exactly](stages/15-castle-from-painting.md) | `3aee3a9` | Castle drawn from the reference painting; walkable areas, water, depth and collision generated from it; Kael walks behind towers and trees |
 | 16 | [Crisper castle from the high-quality kit](stages/16-castle-crisp-kit.md) | `efdfafc` | New 1728 px castle map cleaned into crisp pixel art; palace, cathedral, domed hall, manor, towers and statues replaced by crisp kit sprites placed by template matching |
-| 17 | [Castle built from the castle6 sheets](stages/17-castle-from-kit6.md) | (this commit) | Whole castle composited from the castle6 sheets into one seamless image at native pixels; depth-sorted pieces, wall runs, generated ground, footprint collision |
+| 17 | [Castle built from the castle6 sheets](stages/17-castle-from-kit6.md) | `71ab6ed` | Whole castle composited from the castle6 sheets into one seamless image at native pixels; depth-sorted pieces, wall runs, generated ground, footprint collision |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.
