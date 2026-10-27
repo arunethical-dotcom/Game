@@ -26,7 +26,8 @@ for Haldor the blacksmith in Kingdom B's capital. Part 1 has no magic.
 | `scripts/main.gd` | Builds the scene, runs the mission, camera zones, stairs/floors. `CASTLE_ONLY := true` shows only the castle |
 | `scripts/geo.gd` | Layout constants. Castle map origin `CASTLE_O`, scale `CASTLE_S`, `Geo.rp(x, y)` converts castle-map px to world px |
 | `scripts/castle_outer.gd` | The Royal Castle: loads the composited chunks (`art/castle8/out/`), occluder shader, collision, lights |
-| `tools/castle8_build.py` | Builds the castle from `source_art/castle8/` (reference + coworker assets) in reference px; the layout tables and the walkable polygons are at the top. Run `python3 castle8_build.py` in `tools/` |
+| `source_art/castle8/blueprint.json` | Exact outer-castle layout traced from the reference; `tools/castle9_build.py` builds from it (helpers in `castle8_build.py`) |
+| `tools/castle8_build.py` | Helpers and older layout: builds the castle from `source_art/castle8/` (reference + coworker assets) in reference px; the layout tables and the walkable polygons are at the top. Run `python3 castle8_build.py` in `tools/` |
 | `tools/import_castle*.py` | Magenta-sheet importers (background removal, cutting, scaling) |
 | `scripts/light_layer.gd`, `grade.gd` | Warm local lights and per-room colour grading |
 | `docs/` | Development log, one page per stage |
@@ -50,4 +51,4 @@ for Haldor the blacksmith in Kingdom B's capital. Part 1 has no magic.
   Use 2392×1080 for the phone (Nothing Phone 3a Pro).
 
 ## Current state
-Stage 18: the outer castle is rebuilt from `source_art/castle8/castle_ref.png`. Next: the inner layer (see `docs/stages/18-castle-rebuilt-outer.md`). Walking is defined only by the walkable polygons in `castle8_build.py`.
+Stage 19: the outer castle is built from `blueprint.json` by `tools/castle9_build.py`. Stage 18: the outer castle was rebuilt from `source_art/castle8/castle_ref.png`. Next: the inner layer (see `docs/stages/18-castle-rebuilt-outer.md`). Walking is defined only by the walkable polygons in `castle8_build.py`.

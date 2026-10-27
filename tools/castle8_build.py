@@ -576,12 +576,11 @@ def collision(walk, cell=8):
 
 def lights():
     out = []
-    for y in range(745, 1000, 52):
-        for x in (741, 795):
-            out.append([round(x * K), round(y * K), 'torch'])
-    for x in (750, 786):
+    for y in (745, 815, 880, 950):
+        for x in (733, 803):
+            out.append([round(x * K), round((y - 22) * K), 'torch'])
+    for x in (752, 784):
         out.append([round(x * K), round(690 * K), 'torch'])
-        out.append([round(x * K), round(980 * K), 'torch'])
     return out
 
 
