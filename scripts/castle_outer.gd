@@ -1,8 +1,8 @@
 extends RefCounted
-## The Royal Castle (stage 17): one seamless 4572 x 4572 px image at Kael's pixel size,
-## built from the castle6 sheets by tools/castle7_build.py and laid out on the castle map.
+## The Royal Castle (stage 18): one seamless picture built by tools/castle8_build.py from the
+## coworkers' assets, laid out on the castle reference (source_art/castle8/castle_ref.png).
 ##
-## art/castle7/out/ holds it in 6 x 6 chunks:
+## art/castle8/out/ holds it in chunks (meta.json gives the grid):
 ##   col_R_C.png  the picture (castle pieces drawn at whole-number scales, never resampled)
 ##   dep_R_C.png  per pixel: R,G = the y where the thing drawn there stands (its base line,
 ##                in castle px), B = what it is (0 ground, 32 flat floor, 128 water, 255 upright)
@@ -19,9 +19,7 @@ extends RefCounted
 const Geo = preload("res://scripts/geo.gd")
 const Spr = preload("res://scripts/cit_sprite.gd")
 const Story = preload("res://scripts/story.gd")
-const DIR := "res://art/castle7/out/"
-const CHUNK := 762
-const N := 6
+const DIR := "res://art/castle8/out/"
 
 const SHADER := """
 shader_type canvas_item;
@@ -65,8 +63,10 @@ static func build(main) -> void:
 	_town_square()
 	var sh := Shader.new()
 	sh.code = SHADER
-	for r in N:
-		for c in N:
+	var meta = JSON.parse_string(FileAccess.get_file_as_string(DIR + "meta.json"))
+	var CHUNK: int = int(meta["chunk"])
+	for r in int(meta["rows"]):
+		for c in int(meta["cols"]):
 			var col: Texture2D = load(DIR + "col_%d_%d.png" % [r, c])
 			var dep: Texture2D = load(DIR + "dep_%d_%d.png" % [r, c])
 			var origin := Vector2(c * CHUNK, r * CHUNK)
@@ -124,10 +124,10 @@ static func _lights(main) -> void:
 
 
 static func _people(main) -> void:
-	main._npc("guard", Geo.rp(418, 822), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(446, 822), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(414, 276), "Palace guard", Story.CASTLE_NORTH_GUARD)
-	main._npc("guard", Geo.rp(450, 276), "Palace guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(755, 1018), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(781, 1018), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(755, 628), "Castle guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(781, 628), "Castle guard", Story.CASTLE_NORTH_GUARD)
 
 
 static func _town_square() -> void:

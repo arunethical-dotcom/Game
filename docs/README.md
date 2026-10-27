@@ -24,6 +24,7 @@ the team can see what was decided, why, and where it lives in the code.
 | 15 | [The castle matches the reference exactly](stages/15-castle-from-painting.md) | `3aee3a9` | Castle drawn from the reference painting; walkable areas, water, depth and collision generated from it; Kael walks behind towers and trees |
 | 16 | [Crisper castle from the high-quality kit](stages/16-castle-crisp-kit.md) | `efdfafc` | New 1728 px castle map cleaned into crisp pixel art; palace, cathedral, domed hall, manor, towers and statues replaced by crisp kit sprites placed by template matching |
 | 17 | [Castle built from the castle6 sheets](stages/17-castle-from-kit6.md) | `71ab6ed` | Whole castle composited from the castle6 sheets into one seamless image at native pixels; depth-sorted pieces, wall runs, generated ground, footprint collision |
+| 18 | [Castle rebuilt from scratch: outer layer](stages/18-castle-rebuilt-outer.md) | (this commit) | Old castle data deleted; outer castle built from the new reference and the coworkers' assets; tilted walls straightened; walking defined explicitly (no invisible walls) |
 
 **Adding a stage:** copy [stages/TEMPLATE.md](stages/TEMPLATE.md) to the next number, fill
 it in, and add a row to the table above in the same commit as the work.
