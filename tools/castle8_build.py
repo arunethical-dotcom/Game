@@ -201,7 +201,33 @@ def walkway(width_ref):
 
 
 def gate(width_ref):
-    return P(('gate', width_ref), lambda: shrink(straighten(cut('gate'), 0.0, 0.0), tw=width_ref * K))
+    """The gatehouse, made exactly front-facing: the generator drew it turned (its right
+    side wall shows), so the straight left half is mirrored about the arch's centre."""
+    def make():
+        g = straighten(cut('gate'), 0.0, 0.0)
+        a = g[..., 3] > 0.5
+        c = g[..., :3].mean(2)
+        h = g.shape[0]
+        # the arch centre: the middle of the dark opening's widest rows
+        dark = (c < 70) & a
+        rows = dark[int(h * 0.6):int(h * 0.85)]
+        xs = np.nonzero(rows.sum(0) > rows.shape[0] * 0.5)[0]
+        cx = int(round((xs.min() + xs.max()) / 2))
+        # refine: the line about which the arch, shield and portcullis are most symmetric
+        band = g[int(h * 0.38):int(h * 0.9), :, :3].mean(2)
+        best = None
+        for cand in range(cx - 60, cx + 61):
+            r = min(cand, band.shape[1] - cand, 260)
+            d = np.abs(band[:, cand - r:cand] - band[:, cand:cand + r][:, ::-1]).mean()
+            if best is None or d < best[0]:
+                best = (d, cand)
+        cx = best[1]
+        left = g[:, :cx]
+        sym = np.concatenate([left, left[:, ::-1]], 1)
+        ys, xs2 = np.nonzero(sym[..., 3] > 0.5)
+        sym = sym[ys.min():ys.max() + 1, xs2.min():xs2.max() + 1]
+        return shrink(sym, tw=width_ref * K)
+    return P(('gate', width_ref), make)
 
 
 def waterfall():

@@ -26,6 +26,7 @@
 - **Assets:**
   - Each one is cut from its magenta sheet and shrunk by area averaging, with hard alpha.
   - **Tilt fix:** the generator tilted the "straight" wall (its foot dropped 0.40 per px) and the diagonal one (0.58 instead of 0.5). Each column is remapped so the front face becomes an exact rectangle at the right slope. Verticals stay vertical; nothing is rotated.
+  - **Gatehouse fix:** the generator drew the gatehouse turned (its right side wall shows) although the prompt asked for front-facing. The straight left half is mirrored about the arch's centre, found by testing which line makes the arch, shield and portcullis most symmetric, so the gate is exactly front-facing.
 - **Towers:** a body segment (with or without a banner), stacked taller with plain masonry where needed, plus the conical roof.
 - **Walking is explicit:**
   - Kael can walk only on the causeway strip (through both gate arches) and the inner enclosure polygon.
