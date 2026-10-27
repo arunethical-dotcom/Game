@@ -1,0 +1,56 @@
+{
+ "_about": "Outer castle blueprint, traced from castle_ref.png (1536x1024 ref px). West half only; everything is mirrored about x = 768. Towers: cx, base (y where the tower meets water/ground), w (width), top (y of the roof tip or crenel top), kind. Walls: from/to are the FOOT line (where the wall meets water/ground), top = y of the crenel top at each end. Bridges: deck line and arch. Walk: polygons Kael may walk on.",
+ "towers": [
+  {"id": "B1", "cx": 163, "base": 850, "w": 46, "top": 752, "kind": "turret", "layer": "barbican"},
+  {"id": "B2", "cx": 295, "base": 873, "w": 58, "top": 785, "kind": "turret", "layer": "barbican"},
+  {"id": "B3", "cx": 397, "base": 932, "w": 52, "top": 820, "kind": "turret", "layer": "barbican"},
+  {"id": "B4", "cx": 505, "base": 926, "w": 46, "top": 795, "kind": "turret_tall", "layer": "barbican"},
+  {"id": "B5", "cx": 639, "base": 948, "w": 62, "top": 765, "kind": "roof_flag", "layer": "barbican"},
+  {"id": "G1", "cx": 682, "base": 1000, "w": 40, "top": 930, "kind": "gate_post_lantern", "layer": "barbican"},
+  {"id": "M0", "cx": 278, "base": 690, "w": 44, "top": 575, "kind": "roof_banner", "layer": "main"},
+  {"id": "M1", "cx": 439, "base": 795, "w": 70, "top": 625, "kind": "roof_banner_big", "layer": "main"},
+  {"id": "M2", "cx": 603, "base": 722, "w": 40, "top": 587, "kind": "roof_banner", "layer": "main"},
+  {"id": "M3", "cx": 692, "base": 736, "w": 44, "top": 565, "kind": "roof_banner", "layer": "main"},
+  {"id": "W1", "cx": 200, "base": 548, "w": 38, "top": 410, "kind": "roof_banner_tall", "layer": "perimeter"},
+  {"id": "W2", "cx": 58, "base": 624, "w": 65, "top": 470, "kind": "roof_banner_big", "layer": "perimeter"},
+  {"id": "N1", "cx": 82, "base": 396, "w": 56, "top": 268, "kind": "roof_banner", "layer": "perimeter"},
+  {"id": "N2", "cx": 124, "base": 300, "w": 48, "top": 155, "kind": "roof_plain", "layer": "perimeter"},
+  {"id": "N3", "cx": 237, "base": 232, "w": 58, "top": 100, "kind": "roof_banner", "layer": "perimeter"},
+  {"id": "N4", "cx": 357, "base": 152, "w": 36, "top": 90, "kind": "roof_plain", "layer": "perimeter"},
+  {"id": "N5", "cx": 438, "base": 152, "w": 44, "top": 50, "kind": "roof_banner", "layer": "perimeter"}
+ ],
+ "walls": [
+  {"id": "b1", "from": [186, 850], "to": [266, 852], "top": [800, 802], "kind": "barbican_arches_waterfall"},
+  {"id": "b2", "from": [324, 872], "to": [372, 925], "top": [815, 845], "kind": "barbican"},
+  {"id": "b3", "from": [423, 930], "to": [482, 928], "top": [853, 853], "kind": "barbican"},
+  {"id": "b4", "from": [528, 926], "to": [608, 926], "top": [860, 860], "kind": "barbican"},
+  {"id": "b5", "from": [670, 900], "to": [728, 900], "top": [843, 843], "kind": "barbican_short"},
+  {"id": "m1", "from": [300, 700], "to": [404, 702], "top": [616, 618], "kind": "main"},
+  {"id": "m2", "from": [474, 706], "to": [583, 708], "top": [626, 626], "kind": "main"},
+  {"id": "m3", "from": [623, 714], "to": [670, 716], "top": [620, 620], "kind": "main"},
+  {"id": "m4", "from": [167, 607], "to": [257, 668], "top": [550, 590], "kind": "main_diagonal"},
+  {"id": "n1", "from": [148, 242], "to": [208, 240], "top": [190, 192], "kind": "aqueduct_waterfall"},
+  {"id": "n2", "from": [266, 215], "to": [339, 160], "top": [153, 127], "kind": "perimeter_diagonal"},
+  {"id": "n3", "from": [375, 150], "to": [416, 150], "top": [100, 100], "kind": "perimeter"},
+  {"id": "n4", "from": [460, 150], "to": [530, 150], "top": [100, 100], "kind": "perimeter"}
+ ],
+ "bridges": [
+  {"id": "br1", "from": [90, 560], "to": [165, 560], "deck": 525, "arch_bottom": 605},
+  {"id": "br2", "from": [110, 350], "to": [210, 350], "deck": 318, "arch_bottom": 365},
+  {"id": "br3", "from": [200, 600], "to": [200, 548], "deck": 0, "arch_bottom": 0, "note": "wall-walk joining W1 to the main wall"}
+ ],
+ "walkways": [
+  {"id": "ww1", "poly": [[68, 420], [178, 420], [178, 442], [95, 442], [95, 530], [68, 530]], "note": "raised wall-walk around the north-west pool"},
+  {"id": "ww2", "poly": [[128, 436], [142, 436], [142, 525], [128, 525]]}
+ ],
+ "causeway": {"x0": 730, "x1": 806, "y0": 715, "y1": 1024, "torches_x": [722, 814], "torches_y": [755, 820, 880, 950]},
+ "gates": [
+  {"id": "outer", "cx": 768, "base": 1004, "w": 96, "note": "between the two lantern posts and knight statues"},
+  {"id": "inner", "cx": 768, "base": 716, "w": 86, "note": "between towers M3 and its mirror"}
+ ],
+ "water": "everything inside the land outline that is not castle: moat between barbican and main wall, lake around the perimeter, pools",
+ "walk": {
+  "causeway": [[734, 1024], [802, 1024], [802, 640], [734, 640]],
+  "courtyard": [[768, 615], [300, 612], [262, 585], [178, 548], [176, 452], [228, 440], [230, 250], [272, 214], [345, 160], [768, 155]]
+ }
+}
