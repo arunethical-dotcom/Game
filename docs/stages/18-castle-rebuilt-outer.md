@@ -43,3 +43,15 @@
 
 ## Next
 - **Inner layer:** the palace, cathedral, domed hall, manor, market, training yard, gardens, fountain and terraces, each with its own walkable area.
+
+## Fixes after the first review
+- **Square around Kael:** the occluder (a copy of the castle drawn over Kael inside a box around him) is gone. Everything upright is now cut into strips by the line it stands on (12 px bands, `upright.json` plus `up_N.png` atlases). Each strip is a y-sorted sprite next to Kael and the NPCs, so everyone goes behind or in front of walls by their feet, with no box.
+- **Gaps between wall sections:** the generator drew an end face on each wall section. Only the front face is kept, so sections join seamlessly.
+- **Towers:** taller towers repeat their own middle rows instead of stacking a second segment, so there is no seam.
+- **Causeway:**
+  - pieces use only the rows where both parapets exist, and are made symmetric;
+  - it no longer runs behind the gatehouses.
+- **Gate passages:** the dark opening (one connected area) lies on the ground, so Kael is visible walking through the arch.
+- **Symmetry:** each wall run is built for the west and mirrored as a whole for the east.
+- **Guards:** they stand on the causeway in front of each gate, not on the gate's art.
+- **Courtyard edge:** the courtyard paving runs under the wall-walks, so no water shows between the courtyard and the walls.

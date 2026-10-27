@@ -154,40 +154,35 @@ def P(key, fn):
 
 
 def tower(width_ref, roof=True, banner=True, segs=1.0, flag=False):
-    """A round tower `width_ref` reference px wide: body segment(s), optional roof."""
+    """A round tower `width_ref` reference px wide: one body segment, made taller by
+    repeating its own middle rows (same outline, so no seams), optional roof."""
     def make():
         wpx = width_ref * K
         seg = cut('body', (990, 0, 1983, 793) if banner else (0, 0, 990, 793))
-        mid = cut('body', (0, 230, 990, 560))           # plain masonry band for taller towers
-        f = wpx / seg.shape[1]
-        body = shrink(seg, f=f)
+        body = shrink(seg, f=wpx / seg.shape[1])
         if segs > 1.0:
-            extra = shrink(mid, tw=body.shape[1])
-            extra = extra[:, :body.shape[1]]
-            n = int(round((segs - 1.0) * body.shape[0]))
-            reps = []
-            while sum(r.shape[0] for r in reps) < n:
-                reps.append(extra)
-            filler = np.concatenate(reps, 0)[:n] if reps else None
-            if filler is not None and filler.shape[0] > 0:
-                # insert the filler under the crenellated top third of the segment
-                cutp = int(body.shape[0] * 0.42)
-                body = np.concatenate([body[:cutp], filler, body[cutp:]], 0)
+            h = body.shape[0]
+            n = int(round((segs - 1.0) * h))
+            r0, r1 = int(h * 0.46), int(h * 0.58)
+            band = body[r0:r1]
+            reps = np.concatenate([band] * (n // band.shape[0] + 1), 0)[:n]
+            body = np.concatenate([body[:r1], reps, body[r1:]], 0)
         if not roof:
             return body
         r = shrink(cut('roof'), tw=wpx * 1.12)
-        # the roof's eave ring sits on the body's crenellated ring
-        return stack(r, body, overlap=int(body.shape[0] * 0.16 if segs <= 1 else body.shape[0] * 0.1))
+        return stack(r, body, overlap=int(wpx * 0.16))
     return P(('tower', width_ref, roof, banner, segs), make)
 
 
 def wall_tex(height_ref, slope):
     """A wall section `height_ref` ref px tall whose foot runs at `slope` (straightened)."""
     def make():
+        # keep only the front face: the generator drew an end face on the right of each
+        # section, which shows as a gap when sections are put side by side
         if abs(slope) < 0.2:
-            src = straighten(cut('wall_straight'), 0.0, 0.0)
+            src = straighten(cut('wall_straight'), 0.0, 0.0)[:, 46:860]
         else:
-            src = straighten(cut('wall_diag'), 0.5, 0.5)
+            src = straighten(cut('wall_diag'), 0.5, 0.5)[:, 25:1010]
         hh = src.shape[0] - abs(0.5 if abs(slope) >= 0.2 else 0) * src.shape[1]
         return shrink(src, f=height_ref * K / hh)
     return P(('wall', height_ref, abs(slope) >= 0.2), make)
@@ -195,7 +190,9 @@ def wall_tex(height_ref, slope):
 
 def walkway(width_ref):
     def make():
-        src = cut('bridge', (170, 0, 835, 915))
+        src = cut('bridge', (170, 40, 835, 900))
+        half = src[:, :src.shape[1] // 2]
+        src = np.concatenate([half, half[:, ::-1]], 1)
         return shrink(src, tw=width_ref * K)
     return P(('walkway', width_ref), make)
 
@@ -229,6 +226,30 @@ def gate(width_ref):
         return shrink(sym, tw=width_ref * K)
     return P(('gate', width_ref), make)
 
+
+def gate_flat(img):
+    """The open passage of a gate: the one connected dark area under the arch (portcullis
+    shadow and passage), and everything below it in its columns, lies on the ground."""
+    a = img[..., 3] > 0.5
+    c = img[..., :3].mean(2)
+    h, w = a.shape
+    dark = ndimage.binary_closing((c < 70) & a, iterations=2)
+    lab, _ = ndimage.label(dark)
+    seed = lab[int(h * 0.75), w // 2]
+    flat = np.zeros((h, w), bool)
+    if seed == 0:
+        return flat
+    comp = lab == seed
+    # columns: the central span where the opening is dark through its middle rows
+    mid = comp[int(h * 0.62):int(h * 0.8)].mean(0) > 0.9
+    x0 = x1 = w // 2
+    while x0 > 0 and mid[x0 - 1]:
+        x0 -= 1
+    while x1 < w - 1 and mid[x1 + 1]:
+        x1 += 1
+    for x in range(x0 + 2, x1 - 1):
+        flat[np.nonzero(comp[:, x])[0].min():, x] = True
+    return flat
 
 def waterfall():
     def make():
@@ -437,8 +458,13 @@ def ground():
     pav = tile(texture('flag', (60, 60, 1194, 1194), 0.25), HP, W)
     col = np.where((up == 1)[..., None], grs, np.where((up == 2)[..., None], rck, wat))
     walk = walk_mask()
-    col = np.where(walk[..., None], pav, col)
-    waterm = (up == 0) & ~walk
+    # the courtyard's paving runs on under the wall-walks (no water seen between the
+    # courtyard and the tops of the walls); not walkable, the walls stand on it
+    under = ndimage.binary_dilation(walk[::4, ::4], iterations=28).repeat(4, 0).repeat(4, 1)[:HP, :W]
+    under[int(700 * K):] = False
+    paved = walk | under
+    col = np.where(paved[..., None], pav, col)
+    waterm = (up == 0) & ~paved
     # no slivers of land or rock: anything thinner than ~40 px becomes water
     solid = ndimage.binary_opening(~waterm & ~walk, iterations=20) | walk
     col = np.where((~solid & ~waterm)[..., None], wat, col)
@@ -483,17 +509,22 @@ def build():
         if (mx(x), by) != (x, by):
             place(cv, img, mx(x), by, mirror=True)
     for pts, hgt in WALLS_W:
+        n0 = len(cv.items)
         wall_run(cv, pts, hgt)
-        wall_run(cv, [(mx(x), y) for x, y in pts], hgt)
+        for sort_y, img, X, Y, flat, base in cv.items[n0:]:
+            cv.items.append((sort_y, img[:, ::-1], W - X - img.shape[1], Y, flat, base))
     for x, y0, y1, w in WALKS_W:
         ns_walk(cv, x, y0, y1, w, False)
         ns_walk(cv, mx(x), y0, y1, w, False)
     # causeway (flat road with parapets) and the two gatehouses
-    ns_walk(cv, MID, 712, 1024, 96)
     g_in = gate(150)
-    place(cv, g_in, MID, 714)
+    place(cv, g_in, MID, 714, flat=gate_flat(g_in))
     g_out = gate(190)
-    place(cv, g_out, MID, 1004)
+    place(cv, g_out, MID, 1004, flat=gate_flat(g_out))
+    # the causeway runs between the gates and south of the outer one, never behind a gate
+    out_top = 1004 - g_out.shape[0] / K
+    ns_walk(cv, MID, 712, out_top + 40, 96)
+    ns_walk(cv, MID, 996, 1024, 96)
     # waterfalls under the outer wall
     fall, splash = waterfall()
     for x in (226, mx(226)):
@@ -554,6 +585,51 @@ def lights():
     return out
 
 
+BAND = 12
+
+
+def upright_sprites(cv):
+    """Cut everything upright into strips by the line it stands on (BAND px bands, per
+    chunk column) and pack them into atlases. In game each strip is a sprite y-sorted at
+    its band, so Kael and every NPC go behind or in front of walls exactly by their feet."""
+    up = cv.kind == KIND_UP
+    band = np.clip(cv.base, 0, None) // BAND
+    colk = np.broadcast_to((np.arange(W) // CHUNK)[None, :], up.shape)
+    lab = np.where(up, band * COLS + colk + 1, 0).astype(np.int32)
+    objs = ndimage.find_objects(lab)
+    pieces = []
+    for i, sl in enumerate(objs):
+        if sl is None:
+            continue
+        m = lab[sl] == i + 1
+        rgba = np.dstack([cv.col[sl], np.where(m, 255, 0)]).astype(np.uint8)
+        b = i // COLS
+        pieces.append((rgba, sl[1].start, sl[0].start, b * BAND + BAND // 2))
+    # shelf-pack into 4096 x 4096 atlases (tallest first)
+    pieces.sort(key=lambda p: -p[0].shape[0])
+    A = 4096
+    atlases, entries = [], []
+    cur = None
+    x = y = rowh = 0
+    for rgba, X, Y, sort_y in pieces:
+        h, w = rgba.shape[:2]
+        if cur is None or x + w > A:
+            x, y, rowh = 0, y + rowh + 1, 0
+        if cur is None or y + h > A:
+            cur = np.zeros((A, A, 4), np.uint8)
+            atlases.append(cur)
+            x = y = rowh = 0
+        cur[y:y + h, x:x + w] = rgba
+        entries.append([len(atlases) - 1, x, y, w, h, X, Y, sort_y])
+        x += w + 1
+        rowh = max(rowh, h)
+    for i, a in enumerate(atlases):
+        used = np.nonzero(a[..., 3].any(1))[0].max() + 1
+        Image.fromarray(a[:used]).save(OUT + 'up_%d.png' % i)
+    json.dump(entries, open(OUT + 'upright.json', 'w'))
+    return len(entries), len(atlases)
+
+
 def save(cv, walk):
     depth = np.zeros((HP, W, 3), np.uint8)
     b = np.clip(cv.base, 0, 65535)
@@ -568,6 +644,10 @@ def save(cv, walk):
     json.dump({'w': W, 'h': H, 'chunk': CHUNK, 'cols': COLS, 'rows': ROWS, 'k': K}, open(OUT + 'meta.json', 'w'))
     json.dump(collision(walk), open(OUT + 'collision.json', 'w'))
     json.dump(lights(), open(OUT + 'lights.json', 'w'))
+    for f in os.listdir(OUT):
+        if f.startswith('up_'):
+            os.remove(OUT + f)
+    print('upright strips %d in %d atlases' % upright_sprites(cv))
     Image.fromarray(cv.col[:H]).resize((W // 4, H // 4), Image.Resampling.BOX).save(OUT + 'preview.png')
     dbg = cv.col[:H:4, ::4].astype(float)
     wm = walk[:H:4, ::4]

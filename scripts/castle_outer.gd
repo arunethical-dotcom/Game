@@ -11,9 +11,8 @@ extends RefCounted
 ##
 ## In game:
 ##  - the picture is the ground layer (water pixels shimmer gently);
-##  - an occluder copy is drawn above the characters, showing only the upright pixels near
-##    Kael that stand south of his feet, so he walks behind towers, walls, statues and trees
-##    and in front of them;
+##  - everything upright is also cut into strips by the line it stands on (upright.json,
+##    up_N.png atlases) and y-sorted with the characters, so they go behind or in front;
 ##  - the collision boxes keep him on the paving, lawns, causeway and stairs.
 
 const Geo = preload("res://scripts/geo.gd")
@@ -53,13 +52,11 @@ void fragment() {
 
 static var main_ref
 static var layer: Node2D
-static var occluders := []
 
 
 static func build(main) -> void:
 	main_ref = main
 	layer = main.entity_layer
-	occluders = []
 	_town_square()
 	var sh := Shader.new()
 	sh.code = SHADER
@@ -69,22 +66,34 @@ static func build(main) -> void:
 		for c in int(meta["cols"]):
 			var col: Texture2D = load(DIR + "col_%d_%d.png" % [r, c])
 			var dep: Texture2D = load(DIR + "dep_%d_%d.png" % [r, c])
-			var origin := Vector2(c * CHUNK, r * CHUNK)
-			main.ground_layer.add_child(_chunk(sh, col, dep, origin, 0))
-			var occ := _chunk(sh, col, dep, origin, 1)
-			occ.z_index = 12
-			occ.z_as_relative = false
-			main.add_child(occ)
-			occluders.append(occ)
-	var follow := _Follow.new()
-	follow.main = main
-	follow.occ = occluders
-	main.add_child(follow)
+			main.ground_layer.add_child(_chunk(sh, col, dep, Vector2(c * CHUNK, r * CHUNK), 0))
+	_upright()
 	_collision()
 	# the camera never looks past the edge of the castle
 	main.add_camera_zone(Geo.CASTLE_AREA)
 	_lights(main)
 	_people(main)
+
+
+## Everything upright (walls, towers, gates, trees) as strips cut by the line they stand
+## on, y-sorted with Kael and the NPCs, so each goes behind or in front by its feet.
+static func _upright() -> void:
+	var list = JSON.parse_string(FileAccess.get_file_as_string(DIR + "upright.json"))
+	var atlases := {}
+	for e in list:
+		var ai := int(e[0])
+		if not atlases.has(ai):
+			atlases[ai] = load(DIR + "up_%d.png" % ai)
+		var at := AtlasTexture.new()
+		at.atlas = atlases[ai]
+		at.region = Rect2(e[1], e[2], e[3], e[4])
+		var sp := Sprite2D.new()
+		sp.texture = at
+		sp.centered = false
+		sp.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		sp.position = Geo.CASTLE_O + Vector2(e[5], e[7])
+		sp.offset = Vector2(0, float(e[6]) - float(e[7]))
+		layer.add_child(sp)
 
 
 static func _chunk(sh: Shader, col: Texture2D, dep: Texture2D, origin: Vector2, mode: int) -> Sprite2D:
@@ -124,10 +133,10 @@ static func _lights(main) -> void:
 
 
 static func _people(main) -> void:
-	main._npc("guard", Geo.rp(755, 1018), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(781, 1018), "Castle guard", Story.CASTLE_GATE_GUARD)
-	main._npc("guard", Geo.rp(755, 628), "Castle guard", Story.CASTLE_NORTH_GUARD)
-	main._npc("guard", Geo.rp(781, 628), "Castle guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(753, 1016), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(783, 1016), "Castle guard", Story.CASTLE_GATE_GUARD)
+	main._npc("guard", Geo.rp(753, 726), "Castle guard", Story.CASTLE_NORTH_GUARD)
+	main._npc("guard", Geo.rp(783, 726), "Castle guard", Story.CASTLE_NORTH_GUARD)
 
 
 static func _town_square() -> void:
@@ -143,15 +152,3 @@ static func _town_square() -> void:
 		layer.add_child(s)
 
 
-## Keeps the occluders told where Kael's feet are.
-class _Follow extends Node:
-	const Geo = preload("res://scripts/geo.gd")
-	var main
-	var occ := []
-
-	func _process(_delta: float) -> void:
-		if main == null or main.player == null:
-			return
-		var p: Vector2 = main.player.global_position - Geo.CASTLE_O
-		for o in occ:
-			(o.material as ShaderMaterial).set_shader_parameter("player", p)
